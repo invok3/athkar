@@ -1,5 +1,4 @@
 import 'package:athkar_app/pages/pager_view/carousel_page1.dart';
-import 'package:athkar_app/pages/splash_screen.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,10 +35,22 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       theme: ThemeData(
+        colorScheme: ColorScheme(
+            brightness: Brightness.light,
+            primary: Provider.of<ThemeProvider>(context).kPrimary,
+            onPrimary: Provider.of<ThemeProvider>(context).kPrimary,
+            secondary: Provider.of<ThemeProvider>(context).accentColor,
+            onSecondary: Provider.of<ThemeProvider>(context).kPrimary,
+            error: Provider.of<ThemeProvider>(context).kPrimary.shade700,
+            onError: Provider.of<ThemeProvider>(context).accentColor,
+            background: Colors.white,
+            onBackground: Provider.of<ThemeProvider>(context).kPrimary,
+            surface: Colors.white,
+            onSurface: Provider.of<ThemeProvider>(context).kPrimary),
         fontFamily: 'Cairo',
-        primarySwatch: Colors.brown,
+        primarySwatch: Provider.of<ThemeProvider>(context).kPrimary,
       ),
-      home: SplashScreen(),
+      home: CarouselPage1(),
     );
   }
 }

@@ -1,10 +1,8 @@
 import 'package:athkar_app/pages/components/pager_dot.dart';
 import 'package:athkar_app/pages/main_screen.dart';
-import 'package:athkar_app/pages/splash_screen.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class CarouselPageContent extends StatelessWidget {
@@ -41,8 +39,10 @@ class CarouselPageContent extends StatelessWidget {
             //pushreplacement main page
             SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
                 overlays: SystemUiOverlay.values);
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => MainScreen()));
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => MainScreen()),
+                (route) => route.toString() == "/MainScreen");
           } else {
             Navigator.push(context, MaterialPageRoute(builder: (_) => next!));
           }
@@ -96,8 +96,11 @@ class CarouselPageContent extends StatelessWidget {
                                   const EdgeInsets.symmetric(horizontal: 32.0),
                               child: Hero(
                                   tag: "WelcomeLogo",
-                                  child:
-                                      Image.asset("assets/images/logo.png"))),
+                                  child: Image.asset(
+                                    "assets/images/logo.png",
+                                    width:
+                                        MediaQuery.of(context).size.width * .42,
+                                  ))),
                           Spacer(flex: 2),
                           Padding(
                             padding:
