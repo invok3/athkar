@@ -33,11 +33,11 @@ class _MainScreenState extends State<MainScreen> {
                 stretchModes: [
                   StretchMode.fadeTitle,
                   StretchMode.zoomBackground,
-                  StretchMode.blurBackground
+                  StretchMode.blurBackground,
                 ],
                 expandedTitleScale: 1.2,
                 title: Padding(
-                  padding: const EdgeInsets.only(bottom: 28),
+                  padding: EdgeInsets.only(bottom: appBarHeight() * .7),
                   child: Text(
                     "6 رمضان 1443",
                     style: TextStyle(
@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 32),
+                              padding: EdgeInsets.only(bottom: appBarHeight()),
                               child: Image.asset(
                                 "assets/images/logo.png",
                                 width: _size.width * .22,

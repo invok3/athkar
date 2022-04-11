@@ -6,9 +6,9 @@ RoundedRectangleBorder customRoundedRectangleBorder = RoundedRectangleBorder(
 
 BorderRadius appBarBorderRadiusGeometry() {
   return BorderRadius.only(
-    bottomLeft: Radius.circular(appBarRadius()),
-    bottomRight: Radius.circular(appBarRadius()),
+    bottomLeft: Radius.circular(.33 * appBarHeight()),
+    bottomRight: Radius.circular(.33 * appBarHeight()),
   );
 }
 
-double appBarRadius() => .33 * AppBar().preferredSize.height;
+double appBarHeight() => AppBar().preferredSize.height;
