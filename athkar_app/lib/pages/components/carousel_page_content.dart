@@ -1,3 +1,4 @@
+import 'package:athkar_app/pages/components/custom_button.dart';
 import 'package:athkar_app/pages/components/pager_dot.dart';
 import 'package:athkar_app/pages/main_screen.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
@@ -26,7 +27,6 @@ class CarouselPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanEnd: (details) async {
-        debugPrint(details.velocity.pixelsPerSecond.dx.toString());
         double dx = details.velocity.pixelsPerSecond.dx;
         double dy = details.velocity.pixelsPerSecond.dy;
         if (dx == 0 || dy.abs() > dx.abs()) {
@@ -35,15 +35,7 @@ class CarouselPageContent extends StatelessWidget {
           //next
           debugPrint("Next");
           bool _isLast = index == length - 1 && next == null;
-          if (_isLast) {
-            //pushreplacement main page
-            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-                overlays: SystemUiOverlay.values);
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => MainScreen()),
-                (route) => route.toString() == "/MainScreen");
-          } else {
+          if (!_isLast) {
             Navigator.push(context, MaterialPageRoute(builder: (_) => next!));
           }
         } else {
@@ -160,7 +152,7 @@ class CarouselPageContent extends StatelessWidget {
                 ],
               ),
             ),
-            Spacer(flex: 3),
+            SizedBox(height: 32),
             Hero(
               tag: "WelcomeDot",
               child: Row(
@@ -170,10 +162,36 @@ class CarouselPageContent extends StatelessWidget {
                     .toList(),
               ),
             ),
-            Spacer(flex: 7),
+            SizedBox(
+              height: 24,
+            ),
+            index == length - 1
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 10),
+                    child: CustomOutlinedButton(
+                      filled: true,
+                      text: "متابعة",
+                      ontap: () => pushMain(context),
+                    ),
+                  )
+                : Container(),
+            Spacer(),
           ],
         ),
       ),
     );
+  }
+
+  void pushMain(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (_) => MainScreen(
+                  key: GlobalKey(),
+                )),
+        (route) => route.toString() == "/MainScreen");
   }
 }

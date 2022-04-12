@@ -1,90 +1,55 @@
-import 'package:athkar_app/consts.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:athkar_app/pages/components/custom_nav_bar.dart';
+import 'package:athkar_app/pages/tabs/bookmark_tab.dart';
+import 'package:athkar_app/pages/tabs/edit_tab.dart';
+import 'package:athkar_app/pages/tabs/main_tab.dart';
+import 'package:athkar_app/pages/tabs/share_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainScreen> createState() => MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    GlobalKey<State<BottomNavigationBar>> botNavBarKey = GlobalKey();
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
+      bottomNavigationBar: CustomNavBar(
+        botNavBarKey: botNavBarKey,
+        mainKey: widget.key as GlobalKey<State<MainScreen>>,
+      ),
       body: SafeArea(
-        child: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              stretch: true,
-              shape: customRoundedRectangleBorder,
-              backgroundColor: Provider.of<ThemeProvider>(context).appBarColor,
-              leading: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.settings_outlined),
-              ),
-              expandedHeight: (_size.width / 2) + 8,
-              flexibleSpace: FlexibleSpaceBar(
-                stretchModes: [
-                  StretchMode.fadeTitle,
-                  StretchMode.zoomBackground,
-                  StretchMode.blurBackground,
-                ],
-                expandedTitleScale: 1.2,
-                title: Padding(
-                  padding: EdgeInsets.only(bottom: appBarHeight() * .7),
-                  child: Text(
-                    "6 رمضان 1443",
-                    style: TextStyle(
-                        color: Provider.of<ThemeProvider>(context).kPrimary),
-                  ),
-                ),
-                centerTitle: true,
-                background: Container(
-                  color: Theme.of(context).canvasColor,
-                  child: Column(
-                    children: [
-                      Container(
-                          height: _size.width / 2,
-                          width: _size.width,
-                          decoration: BoxDecoration(
-                            color: Provider.of<ThemeProvider>(context)
-                                .appBarColor
-                                .withOpacity(.5),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(_size.width),
-                              bottomRight: Radius.circular(_size.width),
-                            ),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: appBarHeight()),
-                              child: Image.asset(
-                                "assets/images/logo.png",
-                                width: _size.width * .22,
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          )),
-                      SizedBox(height: 8)
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                height: 1000,
-              ),
-            ),
-          ],
-        ),
+        child: pageSelector(size: _size),
       ),
     );
+  }
+
+  void reAnimate(int x) {
+    setState(() {
+      _selectedIndex = x;
+    });
+  }
+
+  int selectedIndex() {
+    return _selectedIndex;
+  }
+
+  pageSelector({required Size size}) {
+    switch (_selectedIndex) {
+      case 1:
+        return EditTab();
+      case 2:
+        return ShareTab();
+      case 3:
+        return BookmarkTab();
+      default:
+        return MainTab(size: size);
+    }
   }
 }

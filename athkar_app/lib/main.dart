@@ -1,4 +1,4 @@
-import 'package:athkar_app/pages/pager_view/carousel_page1.dart';
+import 'package:athkar_app/pages/main_screen.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,7 +51,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Cairo',
         primarySwatch: Provider.of<ThemeProvider>(context).kPrimary,
       ),
-      home: CarouselPage1(),
+      home: MainScreen(
+        key: GlobalKey<State<MainScreen>>(),
+      ),
     );
   }
 }
