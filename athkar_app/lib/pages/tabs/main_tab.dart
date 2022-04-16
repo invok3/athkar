@@ -4,6 +4,7 @@ import 'package:athkar_app/pages/components/frequency_controller.dart';
 import 'package:athkar_app/pages/components/titled_box.dart';
 import 'package:athkar_app/pages/components/titled_box_body.dart';
 import 'package:athkar_app/pages/components/trycut.dart';
+import 'package:athkar_app/pages/settings_page.dart';
 import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,8 @@ class MainTab extends StatelessWidget {
           shape: customRoundedRectangleBorder,
           backgroundColor: Provider.of<ThemeProvider>(context).appBarColor,
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => SettingsPage())),
             icon: Icon(Icons.settings_outlined),
           ),
           expandedHeight: (_size.width / 2) + 8,

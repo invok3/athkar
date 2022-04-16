@@ -62,8 +62,8 @@ class CustomNavBar extends StatelessWidget {
                     mainScreenState.selectedIndex() == 0
                         ? "assets/icons/home_selected.png"
                         : "assets/icons/home_uns.png",
-                    height: 28,
-                    width: 28,
+                    height: 24,
+                    width: 24,
                   ),
                 ),
                 Spacer(flex: 2),
@@ -76,8 +76,8 @@ class CustomNavBar extends StatelessWidget {
                     mainScreenState.selectedIndex() == 1
                         ? "assets/icons/edit_selected.png"
                         : "assets/icons/edit_uns.png",
-                    height: 28,
-                    width: 28,
+                    height: 24,
+                    width: 24,
                   ),
                 ),
                 Spacer(flex: 2),
@@ -90,8 +90,8 @@ class CustomNavBar extends StatelessWidget {
                     mainScreenState.selectedIndex() == 2
                         ? "assets/icons/share_selected.png"
                         : "assets/icons/share_uns.png",
-                    height: 28,
-                    width: 28,
+                    height: 24,
+                    width: 24,
                   ),
                 ),
                 Spacer(flex: 2),
@@ -104,8 +104,8 @@ class CustomNavBar extends StatelessWidget {
                     mainScreenState.selectedIndex() == 3
                         ? "assets/icons/bookmark_selected.png"
                         : "assets/icons/bookmark_uns.png",
-                    height: 28,
-                    width: 28,
+                    height: 24,
+                    width: 24,
                   ),
                 ),
                 Spacer(),

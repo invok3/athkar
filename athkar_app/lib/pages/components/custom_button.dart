@@ -4,15 +4,22 @@ import 'package:provider/provider.dart';
 
 class CustomOutlinedButton extends StatelessWidget {
   final String text;
+  final String? subText;
   final Function() ontap;
   final bool filled;
   final Widget? icon;
+
+  final bool childCentered;
+  final FontWeight? boldness;
   const CustomOutlinedButton({
     Key? key,
     required this.text,
     required this.ontap,
     this.filled = false,
+    this.childCentered = true,
+    this.subText,
     this.icon,
+    this.boldness,
   }) : super(key: key);
 
   @override
@@ -36,21 +43,35 @@ class CustomOutlinedButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                text,
-                style: filled
-                    ? TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)
-                    : TextStyle(
-                        color: Provider.of<ThemeProvider>(context).kPrimary),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    text,
+                    style: filled
+                        ? TextStyle(
+                            color: Colors.white,
+                            fontWeight: boldness ?? FontWeight.bold)
+                        : TextStyle(
+                            color: Provider.of<ThemeProvider>(context).kPrimary,
+                            fontWeight: boldness),
+                  ),
+                  subText == null
+                      ? SizedBox()
+                      : Text(
+                          subText ?? "",
+                          textScaleFactor: .6,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                ],
               ),
-              SizedBox(width: icon == null ? 0 : 16),
+              childCentered ? SizedBox(width: icon == null ? 0 : 16) : Spacer(),
               icon == null
                   ? SizedBox()
                   : SizedBox(
                       child: icon!,
-                      height: 34,
-                      width: 34,
+                      height: childCentered ? 34 : null,
+                      width: childCentered ? 34 : null,
                     ),
             ],
           ),
