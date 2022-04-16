@@ -23,9 +23,7 @@ class TitledBoxBody extends StatelessWidget {
               ] +
               children +
               [
-                SizedBox(
-                  height: 24,
-                ),
+                // SizedBox(height: 24),
               ]),
     );
   }

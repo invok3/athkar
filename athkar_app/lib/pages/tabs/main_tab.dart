@@ -3,9 +3,11 @@ import 'package:athkar_app/pages/components/custom_button.dart';
 import 'package:athkar_app/pages/components/frequency_controller.dart';
 import 'package:athkar_app/pages/components/titled_box.dart';
 import 'package:athkar_app/pages/components/titled_box_body.dart';
+import 'package:athkar_app/pages/components/trycut.dart';
 import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class MainTab extends StatelessWidget {
@@ -104,7 +106,7 @@ class MainTab extends StatelessWidget {
                   text: "أذكار الصباح",
                   ontap: () {},
                   filled: true,
-                  icon: Icon(Icons.ac_unit),
+                  icon: Image.asset("assets/images/day.png"),
                 ),
               ),
               SizedBox(height: 24),
@@ -116,7 +118,7 @@ class MainTab extends StatelessWidget {
                     debugPrint("asd");
                   },
                   filled: true,
-                  icon: Icon(Icons.ac_unit),
+                  icon: Image.asset("assets/images/night.png"),
                 ),
               ),
               SizedBox(height: 24),
@@ -126,7 +128,7 @@ class MainTab extends StatelessWidget {
                   text: "أذكار متنوعة",
                   ontap: () {},
                   filled: true,
-                  icon: Icon(Icons.ac_unit),
+                  icon: Image.asset("assets/images/hands.png"),
                 ),
               ),
               SizedBox(height: 24),
@@ -139,14 +141,92 @@ class MainTab extends StatelessWidget {
                             //fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: Provider.of<ThemeProvider>(context)
-                                .accentColor))
+                                .accentColor)),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Row(
+                      children: [
+                        Spacer(),
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset("assets/icons/refresh.svg"),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset("assets/icons/goto.svg"),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
                   ],
                 ),
                 width: _size.width * .8,
                 title: "أسماء الله الحسنى",
               ),
               SizedBox(height: 24),
-              SizedBox(height: 500),
+              TitledBox(
+                child: TitledBoxBody(
+                  size: _size,
+                  children: [
+                    SizedBox(
+                      //color: Colors.red,
+                      width: _size.width / 3,
+                      height: _size.width / 3,
+                      child: Trycut(width: _size.width / 3),
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Row(
+                      children: [
+                        Spacer(),
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset("assets/icons/goto.svg"),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+                  ],
+                ),
+                width: _size.width * .8,
+                title: "التسبيح",
+              ),
+              SizedBox(height: 24),
+              TitledBox(
+                child: TitledBoxBody(
+                  size: _size,
+                  children: [
+                    Text(
+                      "أشكرك ربي على نعمة",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12
+                          // color: Provider.of<ThemeProvider>(context).accentColor,
+                          ),
+                    ),
+                    SizedBox(height: 12),
+                    Text("البصر",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Provider.of<ThemeProvider>(context)
+                                .accentColor)),
+                    SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Spacer(),
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset("assets/icons/refresh.svg"),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+                  ],
+                ),
+                width: _size.width * .8,
+                title: "الحمد و الشكر",
+              ),
+              SizedBox(height: 24),
             ],
           ),
         ),

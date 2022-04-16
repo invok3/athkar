@@ -190,7 +190,7 @@ class CarouselPageContent extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (_) => MainScreen(
-                  key: GlobalKey(),
+                  key: GlobalKey<State<MainScreen>>(),
                 )),
         (route) => route.toString() == "/MainScreen");
   }

@@ -45,7 +45,13 @@ class CustomOutlinedButton extends StatelessWidget {
                         color: Provider.of<ThemeProvider>(context).kPrimary),
               ),
               SizedBox(width: icon == null ? 0 : 16),
-              icon == null ? SizedBox() : icon!,
+              icon == null
+                  ? SizedBox()
+                  : SizedBox(
+                      child: icon!,
+                      height: 34,
+                      width: 34,
+                    ),
             ],
           ),
         ),

@@ -19,6 +19,7 @@ class CustomNavBar extends StatelessWidget {
     MainScreenState mainScreenState = mainKey.currentState as MainScreenState;
 
     return Container(
+      height: 52,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
@@ -42,17 +43,13 @@ class CustomNavBar extends StatelessWidget {
             selectedIconTheme: IconThemeData(color: Colors.white),
             unselectedIconTheme:
                 IconThemeData(color: Colors.white.withOpacity(.5)),
-            iconSize: 32,
             backgroundColor: Colors.transparent,
             elevation: 0,
             onTap: (x) {
               mainScreenState.reAnimate(x);
             },
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
+          Center(
             child: Row(
               children: [
                 Spacer(),
@@ -61,14 +58,12 @@ class CustomNavBar extends StatelessWidget {
                     (botNavBarKey.currentWidget! as BottomNavigationBar)
                         .onTap!(0);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: mainScreenState.selectedIndex() == 0
-                        ? Icon(Icons.home,
-                            size: appBarHeight() - 16, color: Colors.white)
-                        : Icon(Icons.home_outlined,
-                            size: appBarHeight() - 16,
-                            color: Colors.white.withOpacity(.5)),
+                  child: Image.asset(
+                    mainScreenState.selectedIndex() == 0
+                        ? "assets/icons/home_selected.png"
+                        : "assets/icons/home_uns.png",
+                    height: 28,
+                    width: 28,
                   ),
                 ),
                 Spacer(flex: 2),
@@ -77,14 +72,12 @@ class CustomNavBar extends StatelessWidget {
                     (botNavBarKey.currentWidget! as BottomNavigationBar)
                         .onTap!(1);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: mainScreenState.selectedIndex() == 1
-                        ? Icon(Icons.edit,
-                            size: appBarHeight() - 16, color: Colors.white)
-                        : Icon(Icons.edit_outlined,
-                            size: appBarHeight() - 16,
-                            color: Colors.white.withOpacity(.5)),
+                  child: Image.asset(
+                    mainScreenState.selectedIndex() == 1
+                        ? "assets/icons/edit_selected.png"
+                        : "assets/icons/edit_uns.png",
+                    height: 28,
+                    width: 28,
                   ),
                 ),
                 Spacer(flex: 2),
@@ -93,14 +86,12 @@ class CustomNavBar extends StatelessWidget {
                     (botNavBarKey.currentWidget! as BottomNavigationBar)
                         .onTap!(2);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: mainScreenState.selectedIndex() == 2
-                        ? Icon(Icons.share,
-                            size: appBarHeight() - 16, color: Colors.white)
-                        : Icon(Icons.share_outlined,
-                            size: appBarHeight() - 16,
-                            color: Colors.white.withOpacity(.5)),
+                  child: Image.asset(
+                    mainScreenState.selectedIndex() == 2
+                        ? "assets/icons/share_selected.png"
+                        : "assets/icons/share_uns.png",
+                    height: 28,
+                    width: 28,
                   ),
                 ),
                 Spacer(flex: 2),
@@ -109,14 +100,12 @@ class CustomNavBar extends StatelessWidget {
                     (botNavBarKey.currentWidget! as BottomNavigationBar)
                         .onTap!(3);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: mainScreenState.selectedIndex() == 3
-                        ? Icon(Icons.bookmark,
-                            size: appBarHeight() - 16, color: Colors.white)
-                        : Icon(Icons.bookmark_outlined,
-                            size: appBarHeight() - 16,
-                            color: Colors.white.withOpacity(.5)),
+                  child: Image.asset(
+                    mainScreenState.selectedIndex() == 3
+                        ? "assets/icons/bookmark_selected.png"
+                        : "assets/icons/bookmark_uns.png",
+                    height: 28,
+                    width: 28,
                   ),
                 ),
                 Spacer(),
