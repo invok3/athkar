@@ -12,3 +12,24 @@ BorderRadius appBarBorderRadiusGeometry() {
 }
 
 double appBarHeight() => AppBar().preferredSize.height;
+
+enum TimedAthkar { day, night }
+
+extension AthcarInfo on TimedAthkar {
+  String get name {
+    return ["أذكار الصباح", "أذكار المساء"][index];
+  }
+
+  List<Map<String, String>> get list {
+    return [
+      [
+        {"text": "a", "repeat": "10"},
+        {"text": "a", "repeat": "10"},
+      ],
+      [
+        {"text": "a", "repeat": "10"},
+        {"text": "a", "repeat": "10"},
+      ],
+    ][index];
+  }
+}

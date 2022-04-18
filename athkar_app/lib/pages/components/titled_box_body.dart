@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TitledBoxBody extends StatelessWidget {
+  final bool inverted;
   const TitledBoxBody({
     Key? key,
     required this.size,
     required this.children,
+    this.inverted = false,
   }) : super(key: key);
 
   final Size size;
@@ -17,12 +19,11 @@ class TitledBoxBody extends StatelessWidget {
       padding: EdgeInsets.all(16),
       child: Column(
           children: <Widget>[
-                SizedBox(
-                  height: 48,
-                ),
+                inverted ? SizedBox() : SizedBox(height: 48),
               ] +
               children +
               [
+                inverted ? SizedBox(height: 48) : SizedBox(),
                 // SizedBox(height: 24),
               ]),
     );

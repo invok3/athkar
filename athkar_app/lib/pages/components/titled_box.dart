@@ -6,9 +6,13 @@ class TitledBox extends StatelessWidget {
   final String? title;
   final Widget child;
   final double width;
+  final bool inverted;
+  final bool titleContained;
   const TitledBox({
     Key? key,
     this.title,
+    this.inverted = false,
+    this.titleContained = false,
     required this.child,
     required this.width,
   }) : super(key: key);
@@ -26,18 +30,21 @@ class TitledBox extends StatelessWidget {
       ),
       child: Stack(
         children: [
+          inverted ? child : SizedBox(),
           title == null
-              ? Container()
+              ? SizedBox()
               : Positioned(
-                  top: -1,
+                  top: inverted ? null : -1,
                   left: -1,
                   right: -1,
+                  bottom: inverted ? -1 : null,
                   child: BoxTitle(
+                    contained: titleContained,
                     title: title!,
                     width: width,
                   ),
                 ),
-          child
+          inverted ? SizedBox() : child,
         ],
       ),
     );
@@ -47,7 +54,12 @@ class TitledBox extends StatelessWidget {
 class BoxTitle extends StatelessWidget {
   final String title;
   final double width;
-  const BoxTitle({Key? key, required this.title, required this.width})
+  final bool contained;
+  const BoxTitle(
+      {Key? key,
+      required this.title,
+      required this.width,
+      this.contained = false})
       : super(key: key);
 
   @override
@@ -65,11 +77,26 @@ class BoxTitle extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Provider.of<ThemeProvider>(context).kPrimary,
-                fontWeight: FontWeight.bold,
+            child: Container(
+              padding: contained ? EdgeInsets.all(8) : null,
+              decoration: contained
+                  ? BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 1,
+                            color:
+                                Provider.of<ThemeProvider>(context).accentColor)
+                      ],
+                      color: Colors.white,
+                    )
+                  : null,
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Provider.of<ThemeProvider>(context).kPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           )

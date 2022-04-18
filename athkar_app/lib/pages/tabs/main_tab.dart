@@ -4,10 +4,13 @@ import 'package:athkar_app/pages/components/frequency_controller.dart';
 import 'package:athkar_app/pages/components/titled_box.dart';
 import 'package:athkar_app/pages/components/titled_box_body.dart';
 import 'package:athkar_app/pages/components/trycut.dart';
+import 'package:athkar_app/pages/general_athkar_page.dart';
 import 'package:athkar_app/pages/settings_page.dart';
+import 'package:athkar_app/pages/timed_athkar_page.dart';
 import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +29,7 @@ class MainTab extends StatelessWidget {
       physics: BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
+          systemOverlayStyle: SystemUiOverlayStyle.light,
           pinned: true,
           stretch: true,
           shape: customRoundedRectangleBorder,
@@ -106,7 +110,13 @@ class MainTab extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: _size.width / 10),
                 child: CustomOutlinedButton(
                   text: "أذكار الصباح",
-                  ontap: () {},
+                  ontap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => TimedAthkarPage(
+                          timedAthkar: TimedAthkar.day,
+                        ),
+                      )),
                   filled: true,
                   icon: Image.asset("assets/images/day.png"),
                 ),
@@ -116,9 +126,13 @@ class MainTab extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: _size.width / 10),
                 child: CustomOutlinedButton(
                   text: "أذكار المساء",
-                  ontap: () {
-                    debugPrint("asd");
-                  },
+                  ontap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => TimedAthkarPage(
+                          timedAthkar: TimedAthkar.night,
+                        ),
+                      )),
                   filled: true,
                   icon: Image.asset("assets/images/night.png"),
                 ),
@@ -128,7 +142,11 @@ class MainTab extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: _size.width / 10),
                 child: CustomOutlinedButton(
                   text: "أذكار متنوعة",
-                  ontap: () {},
+                  ontap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => GeneralAthkarPage(),
+                      )),
                   filled: true,
                   icon: Image.asset("assets/images/hands.png"),
                 ),

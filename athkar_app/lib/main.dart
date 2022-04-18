@@ -8,9 +8,11 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.brown, statusBarIconBrightness: Brightness.light));
+      statusBarColor: Colors.brown,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light));
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
@@ -52,10 +54,10 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Cairo',
         primarySwatch: Provider.of<ThemeProvider>(context).kPrimary,
       ),
-      // home: MainScreen(
-      //   key: GlobalKey<State<MainScreen>>(),
-      // ),
-      home: CarouselPage1(),
+      home: MainScreen(
+        key: GlobalKey<State<MainScreen>>(),
+      ),
+      //home: CarouselPage1(),
     );
   }
 }

@@ -20,9 +20,6 @@ class MainScreenState extends State<MainScreen> {
   void initState() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.brown,
-        statusBarIconBrightness: Brightness.light));
     // TODO: implement initState
     super.initState();
   }

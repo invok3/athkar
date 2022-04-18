@@ -5,5 +5,6 @@ class ThemeProvider extends ChangeNotifier {
   Color accentColor = Color(0xFFEEC373);
   Color textColor = Color(0xFF282018);
   Color appBarColor = Color(0xFFF4DFBA);
+  Color elevationColor = Color(0xFFCA965C);
   ThemeProvider() {}
 }
