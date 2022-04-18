@@ -42,6 +42,8 @@ dependencies:
   shared_preferences: ^2.0.13
   firebase_messaging: ^11.2.11
   flutter_svg: ^1.0.3
+  #syncfusion_flutter_datepicker: ^20.1.48
+  syncfusion_flutter_core: ^20.1.48
 
 dev_dependencies:
   flutter_test:

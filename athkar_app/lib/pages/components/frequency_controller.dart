@@ -7,8 +7,13 @@ import 'package:provider/provider.dart';
 class FrequencyController extends StatelessWidget {
   final double width;
   final double paddingTop;
-  const FrequencyController(
-      {Key? key, required this.width, required this.paddingTop})
+
+  final List<String> frequencyLabel = [
+    "من 5 إلى 10 يومياً",
+    "من 10 إلى 18 يومياً ",
+    "20 فأكثر يومياً"
+  ];
+  FrequencyController({Key? key, required this.width, required this.paddingTop})
       : super(key: key);
 
   @override
@@ -22,7 +27,8 @@ class FrequencyController extends StatelessWidget {
             height: paddingTop,
           ),
           Text(
-            "20 فأكثر يومياً",
+            frequencyLabel[Provider.of<SettingsProvider>(context).frequency],
+            maxLines: 1,
             style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,

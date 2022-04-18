@@ -29,14 +29,14 @@ class _TimedAthkarPageState extends State<TimedAthkarPage> {
             onPressed: () => debugPrint("asd"), icon: Icon(Icons.more_vert)),
         title: Text(
           widget.timedAthkar.name,
-          overflow: TextOverflow.visible,
+          // overflow: TextOverflow.visible,
         ),
         centerTitle: false,
         titleSpacing: 0,
         leadingWidth: 32,
         actions: [
           //mod - + not
-          SizedBox(width: 32),
+          //SizedBox(width: 32),
           IconButton(
               onPressed: () {},
               icon: Icon(Icons.mode_night),
@@ -53,7 +53,7 @@ class _TimedAthkarPageState extends State<TimedAthkarPage> {
               onPressed: () {},
               icon: Icon(Icons.notifications),
               visualDensity: VisualDensity.compact),
-          SizedBox(width: 32),
+          // SizedBox(width: 32),
           IconButton(
               onPressed: () => Navigator.pop(context),
               icon: Icon(Icons.arrow_forward),

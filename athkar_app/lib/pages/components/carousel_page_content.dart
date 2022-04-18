@@ -78,70 +78,64 @@ class CarouselPageContent extends StatelessWidget {
                           BorderRadius.only(bottomRight: Radius.circular(75)),
                     ),
                     height: MediaQuery.of(context).size.height * .73,
-                    child: Container(
-                      //color: Colors.red,
-                      child: Column(
-                        children: [
-                          Spacer(flex: 3),
-                          Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 32.0),
-                              child: Hero(
-                                  tag: "WelcomeLogo",
-                                  child: Image.asset(
-                                    "assets/images/logo.png",
-                                    width:
-                                        MediaQuery.of(context).size.width * .42,
-                                  ))),
-                          Spacer(flex: 2),
-                          Padding(
+                    child: Column(
+                      children: [
+                        Spacer(flex: 3),
+                        Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 32.0),
-                            child: Text(
-                              text1,
-                              maxLines: 3,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Provider.of<ThemeProvider>(context)
-                                      .textColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            child: Hero(
+                                tag: "WelcomeLogo",
+                                child: Image.asset(
+                                  "assets/images/logo.png",
+                                  width:
+                                      MediaQuery.of(context).size.width * .42,
+                                ))),
+                        Spacer(flex: 2),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                          child: Text(
+                            text1,
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Provider.of<ThemeProvider>(context)
+                                    .textColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
-                          Spacer(flex: 2),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 32.0),
-                            child: Text(
-                              text2,
-                              maxLines: 3,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Provider.of<ThemeProvider>(context)
-                                      .textColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                        ),
+                        Spacer(flex: 2),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                          child: Text(
+                            text2,
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Provider.of<ThemeProvider>(context)
+                                    .textColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
-                          Spacer(flex: 2),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 32.0),
-                            child: Text(
-                              text3,
-                              maxLines: 3,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Provider.of<ThemeProvider>(context)
-                                      .textColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                        ),
+                        Spacer(flex: 2),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                          child: Text(
+                            text3,
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Provider.of<ThemeProvider>(context)
+                                    .textColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
-                          Spacer(flex: 3),
-                          Row(),
-                        ],
-                      ),
+                        ),
+                        Spacer(flex: 3),
+                        Row(),
+                      ],
                     ),
                   ),
                   Container(

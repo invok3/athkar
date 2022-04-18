@@ -1,7 +1,5 @@
 import 'package:athkar_app/consts.dart';
 import 'package:athkar_app/pages/components/custom_button.dart';
-import 'package:athkar_app/pages/components/titled_box.dart';
-import 'package:athkar_app/pages/components/titled_box_body.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,12 +20,13 @@ class _GeneralAthkarPageState extends State<GeneralAthkarPage> {
       appBar: AppBar(
         shape: customRoundedRectangleBorder,
         backgroundColor: Provider.of<ThemeProvider>(context).appBarColor,
+        leading: SizedBox(
+            //width: 32,
+            ),
         automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () => debugPrint("asd"), icon: Icon(Icons.more_vert)),
         title: Text(
           "أذكار متنوعة",
-          overflow: TextOverflow.visible,
+          // overflow: TextOverflow.visible,
         ),
         centerTitle: false,
         titleSpacing: 0,

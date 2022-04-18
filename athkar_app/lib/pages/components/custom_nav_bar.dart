@@ -1,4 +1,3 @@
-import 'package:athkar_app/consts.dart';
 import 'package:athkar_app/pages/main_screen.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';

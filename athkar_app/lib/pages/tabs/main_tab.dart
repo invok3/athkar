@@ -1,4 +1,6 @@
 import 'package:athkar_app/consts.dart';
+import 'package:athkar_app/controllers/hijri.dart';
+import 'package:athkar_app/pages/components/asmaa_box.dart';
 import 'package:athkar_app/pages/components/custom_button.dart';
 import 'package:athkar_app/pages/components/frequency_controller.dart';
 import 'package:athkar_app/pages/components/titled_box.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_core/core.dart';
 
 class MainTab extends StatelessWidget {
   const MainTab({
@@ -50,7 +53,8 @@ class MainTab extends StatelessWidget {
             title: Padding(
               padding: EdgeInsets.only(bottom: appBarHeight() * .7),
               child: Text(
-                "6 رمضان 1443",
+                //"6 رمضان 1443",
+                Hijri().formatter(HijriDateTime.now()),
                 style: TextStyle(
                     color: Provider.of<ThemeProvider>(context).kPrimary),
               ),
@@ -152,37 +156,8 @@ class MainTab extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 24),
-              TitledBox(
-                child: TitledBoxBody(
-                  size: _size,
-                  children: [
-                    Text("الودود",
-                        style: TextStyle(
-                            //fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Provider.of<ThemeProvider>(context)
-                                .accentColor)),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      children: [
-                        Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset("assets/icons/refresh.svg"),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset("assets/icons/goto.svg"),
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                  ],
-                ),
-                width: _size.width * .8,
-                title: "أسماء الله الحسنى",
+              AsmaaBox(
+                size: _size,
               ),
               SizedBox(height: 24),
               TitledBox(

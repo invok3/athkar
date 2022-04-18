@@ -8,9 +8,14 @@ class TitledBox extends StatelessWidget {
   final double width;
   final bool inverted;
   final bool titleContained;
+  final bool filled;
+  final Color? color;
+
   const TitledBox({
     Key? key,
     this.title,
+    this.color,
+    this.filled = false,
     this.inverted = false,
     this.titleContained = false,
     required this.child,
@@ -24,7 +29,8 @@ class TitledBox extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         border: Border.all(
-            width: 1, color: Provider.of<ThemeProvider>(context).kPrimary),
+            width: 1,
+            color: color ?? Provider.of<ThemeProvider>(context).kPrimary),
         borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(50), topLeft: Radius.circular(50)),
       ),
@@ -39,8 +45,10 @@ class TitledBox extends StatelessWidget {
                   right: -1,
                   bottom: inverted ? -1 : null,
                   child: BoxTitle(
+                    color: color,
                     contained: titleContained,
                     title: title!,
+                    filled: filled,
                     width: width,
                   ),
                 ),
@@ -55,20 +63,28 @@ class BoxTitle extends StatelessWidget {
   final String title;
   final double width;
   final bool contained;
-  const BoxTitle(
-      {Key? key,
-      required this.title,
-      required this.width,
-      this.contained = false})
-      : super(key: key);
+  final bool filled;
+  final Color? color;
+  const BoxTitle({
+    Key? key,
+    required this.title,
+    required this.width,
+    this.contained = false,
+    this.filled = false,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
       decoration: BoxDecoration(
+        color: filled
+            ? color ?? Provider.of<ThemeProvider>(context).kPrimary
+            : null,
         border: Border.all(
-            width: 1, color: Provider.of<ThemeProvider>(context).kPrimary),
+            width: 1,
+            color: color ?? Provider.of<ThemeProvider>(context).kPrimary),
         borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(50), topLeft: Radius.circular(50)),
       ),
@@ -85,7 +101,7 @@ class BoxTitle extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                             blurRadius: 1,
-                            color:
+                            color: color ??
                                 Provider.of<ThemeProvider>(context).accentColor)
                       ],
                       color: Colors.white,
@@ -94,7 +110,9 @@ class BoxTitle extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: Provider.of<ThemeProvider>(context).kPrimary,
+                  color: filled
+                      ? Colors.white
+                      : color ?? Provider.of<ThemeProvider>(context).kPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
