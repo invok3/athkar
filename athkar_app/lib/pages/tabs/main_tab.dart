@@ -3,17 +3,14 @@ import 'package:athkar_app/controllers/hijri.dart';
 import 'package:athkar_app/pages/components/asmaa_box.dart';
 import 'package:athkar_app/pages/components/custom_button.dart';
 import 'package:athkar_app/pages/components/frequency_controller.dart';
-import 'package:athkar_app/pages/components/titled_box.dart';
-import 'package:athkar_app/pages/components/titled_box_body.dart';
-import 'package:athkar_app/pages/components/trycut.dart';
+import 'package:athkar_app/pages/components/niam_box.dart';
+import 'package:athkar_app/pages/components/tasbih_box.dart';
 import 'package:athkar_app/pages/general_athkar_page.dart';
 import 'package:athkar_app/pages/settings_page.dart';
 import 'package:athkar_app/pages/timed_athkar_page.dart';
-import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 
@@ -98,17 +95,7 @@ class MainTab extends StatelessWidget {
               SizedBox(
                 height: 16,
               ),
-              TitledBox(
-                width: _size.width * .8,
-                title: "معدل ظهور الأذكار على الشاشه",
-                child: ChangeNotifierProvider<SettingsProvider>(
-                  create: (_) => SettingsProvider(),
-                  child: FrequencyController(
-                    width: _size.width * .8,
-                    paddingTop: 48,
-                  ),
-                ),
-              ),
+              FrequencyBox(size: _size),
               SizedBox(height: 24),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _size.width / 10),
@@ -160,67 +147,9 @@ class MainTab extends StatelessWidget {
                 size: _size,
               ),
               SizedBox(height: 24),
-              TitledBox(
-                child: TitledBoxBody(
-                  size: _size,
-                  children: [
-                    SizedBox(
-                      //color: Colors.red,
-                      width: _size.width / 3,
-                      height: _size.width / 3,
-                      child: Trycut(width: _size.width / 3),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      children: [
-                        Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset("assets/icons/goto.svg"),
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                  ],
-                ),
-                width: _size.width * .8,
-                title: "التسبيح",
-              ),
+              TasbihBox(size: _size),
               SizedBox(height: 24),
-              TitledBox(
-                child: TitledBoxBody(
-                  size: _size,
-                  children: [
-                    Text(
-                      "أشكرك ربي على نعمة",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12
-                          // color: Provider.of<ThemeProvider>(context).accentColor,
-                          ),
-                    ),
-                    SizedBox(height: 12),
-                    Text("البصر",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Provider.of<ThemeProvider>(context)
-                                .accentColor)),
-                    SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset("assets/icons/refresh.svg"),
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                  ],
-                ),
-                width: _size.width * .8,
-                title: "الحمد و الشكر",
-              ),
+              NiamBox(size: _size),
               SizedBox(height: 24),
             ],
           ),

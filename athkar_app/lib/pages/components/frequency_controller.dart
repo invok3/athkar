@@ -1,4 +1,5 @@
 import 'package:athkar_app/pages/components/custom_button.dart';
+import 'package:athkar_app/pages/components/titled_box.dart';
 import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,31 @@ class FrequencyController extends StatelessWidget {
             height: paddingTop / 4,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FrequencyBox extends StatefulWidget {
+  final Size size;
+  const FrequencyBox({Key? key, required this.size}) : super(key: key);
+
+  @override
+  State<FrequencyBox> createState() => _FrequencyBoxState();
+}
+
+class _FrequencyBoxState extends State<FrequencyBox> {
+  @override
+  Widget build(BuildContext context) {
+    return TitledBox(
+      width: widget.size.width * .8,
+      title: "معدل ظهور الأذكار على الشاشه",
+      child: ChangeNotifierProvider<SettingsProvider>(
+        create: (_) => SettingsProvider(),
+        child: FrequencyController(
+          width: widget.size.width * .8,
+          paddingTop: 48,
+        ),
       ),
     );
   }
