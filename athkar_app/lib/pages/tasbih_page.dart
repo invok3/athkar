@@ -1,6 +1,6 @@
 import 'package:athkar_app/consts.dart';
 import 'package:athkar_app/pages/components/custom_button.dart';
-import 'package:athkar_app/pages/components/trycut.dart';
+import 'package:athkar_app/pages/components/cuts.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -87,14 +87,12 @@ class _TasbihPageState extends State<TasbihPage> {
                 //color: Colors.red,
                 width: _width * .7,
                 height: _width * .7,
-                child: Trycut(
-                    child: Text(
-                      "أستغفر الله",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    width: _width * .7,
-                    color: Provider.of<ThemeProvider>(context).elevationColor,
-                    thickness: 2.5),
+                child: BiCut(
+                  width: _width * .7,
+                  child: Center(
+                    child: Text("ASD"),
+                  ),
+                ),
               ),
               Text("مجموع التسبيحات",
                   style: Theme.of(context).textTheme.headline6),

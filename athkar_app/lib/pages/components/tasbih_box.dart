@@ -1,6 +1,6 @@
 import 'package:athkar_app/pages/components/titled_box.dart';
 import 'package:athkar_app/pages/components/titled_box_body.dart';
-import 'package:athkar_app/pages/components/trycut.dart';
+import 'package:athkar_app/pages/components/cuts.dart';
 import 'package:athkar_app/pages/tasbih_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -89,3 +89,91 @@ class Trycut extends StatelessWidget {
     );
   }
 }
+
+class TriCut extends StatelessWidget {
+  final double _width;
+  final Widget _child;
+
+  const TriCut({Key? key, required double width, required Widget child})
+      : _width = width,
+        _child = child,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: _width,
+      width: _width,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Transform.rotate(
+            angle: math.pi * .01,
+            child: CircularProgressIndicator(
+              strokeWidth: 20,
+              color: Provider.of<ThemeProvider>(context).accentColor,
+              value: .32,
+            ),
+          ),
+          Transform.rotate(
+            angle: .678 * math.pi,
+            child: CircularProgressIndicator(
+              strokeWidth: 20,
+              color: Provider.of<ThemeProvider>(context).accentColor,
+              value: .32,
+            ),
+          ),
+          Transform.rotate(
+            angle: -math.pi * .658,
+            child: CircularProgressIndicator(
+              strokeWidth: 20,
+              color: Provider.of<ThemeProvider>(context).accentColor,
+              value: .32,
+            ),
+          ),
+          Center(child: _child),
+        ],
+      ),
+    );
+  }
+}
+
+class BiCut extends StatelessWidget {
+  final double _width;
+  final Widget _child;
+
+  const BiCut({Key? key, required double width, required Widget child})
+      : _width = width,
+        _child = child,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: _width,
+      width: _width,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Transform.rotate(
+            angle: 0.01,
+            child: CircularProgressIndicator(
+              strokeWidth: 20,
+              color: Provider.of<ThemeProvider>(context).accentColor,
+              value: .49,
+            ),
+          ),
+          Transform.rotate(
+            angle: 1.005 * math.pi,
+            child: CircularProgressIndicator(
+              strokeWidth: 20,
+              color: Provider.of<ThemeProvider>(context).accentColor,
+              value: .49,
+            ),
+          ),
+          Center(child: _child),
+        ],
+      ),
+    );
+  }
+}
