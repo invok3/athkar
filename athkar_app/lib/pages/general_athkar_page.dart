@@ -3,6 +3,7 @@ import 'package:athkar_app/pages/components/custom_button.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class GeneralAthkarPage extends StatefulWidget {
@@ -36,7 +37,10 @@ class _GeneralAthkarPageState extends State<GeneralAthkarPage> {
           SizedBox(width: 32),
           IconButton(
               onPressed: () {},
-              icon: Icon(Icons.mode_night),
+              icon: SvgPicture.asset(
+                "assets/icons/moon.svg",
+                color: Provider.of<ThemeProvider>(context).kPrimary,
+              ),
               visualDensity: VisualDensity.compact),
           IconButton(
               onPressed: () {},

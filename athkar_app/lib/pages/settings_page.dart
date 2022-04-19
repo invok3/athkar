@@ -2,6 +2,7 @@ import 'package:athkar_app/consts.dart';
 import 'package:athkar_app/pages/components/custom_button.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         shape: customRoundedRectangleBorder,
         backgroundColor: Provider.of<ThemeProvider>(context).appBarColor,
         automaticallyImplyLeading: false,

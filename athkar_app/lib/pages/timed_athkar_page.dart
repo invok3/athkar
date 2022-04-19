@@ -4,6 +4,7 @@ import 'package:athkar_app/pages/components/titled_box_body.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class TimedAthkarPage extends StatefulWidget {
@@ -39,7 +40,10 @@ class _TimedAthkarPageState extends State<TimedAthkarPage> {
           //SizedBox(width: 32),
           IconButton(
               onPressed: () {},
-              icon: Icon(Icons.mode_night),
+              icon: SvgPicture.asset(
+                "assets/icons/moon.svg",
+                color: Provider.of<ThemeProvider>(context).kPrimary,
+              ),
               visualDensity: VisualDensity.compact),
           IconButton(
               onPressed: () {},
@@ -51,7 +55,10 @@ class _TimedAthkarPageState extends State<TimedAthkarPage> {
               visualDensity: VisualDensity.compact),
           IconButton(
               onPressed: () {},
-              icon: Icon(Icons.notifications),
+              icon: SvgPicture.asset(
+                "assets/icons/notifications.svg",
+                color: Provider.of<ThemeProvider>(context).kPrimary,
+              ),
               visualDensity: VisualDensity.compact),
           // SizedBox(width: 32),
           IconButton(

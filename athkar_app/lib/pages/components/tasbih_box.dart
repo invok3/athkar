@@ -24,7 +24,10 @@ class _TasbihBoxState extends State<TasbihBox> {
             //color: Colors.red,
             width: widget.size.width / 3,
             height: widget.size.width / 3,
-            child: Trycut(width: widget.size.width / 3),
+            child: Trycut(
+                child: Text("أستغفر الله",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                width: widget.size.width / 3),
           ),
           SizedBox(
             height: 24,
