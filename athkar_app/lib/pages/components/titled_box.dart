@@ -11,6 +11,7 @@ class TitledBox extends StatelessWidget {
   final bool filled;
   final Color? color;
   final Color? fillColor;
+  final double? fontSize;
 
   const TitledBox({
     Key? key,
@@ -22,6 +23,7 @@ class TitledBox extends StatelessWidget {
     required this.child,
     required this.width,
     this.fillColor,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -51,6 +53,7 @@ class TitledBox extends StatelessWidget {
                     color: color,
                     contained: titleContained,
                     title: title!,
+                    fontSize: fontSize,
                     filled: filled,
                     width: width,
                   ),
@@ -68,6 +71,7 @@ class BoxTitle extends StatelessWidget {
   final bool contained;
   final bool filled;
   final Color? color;
+  final double? fontSize;
   const BoxTitle({
     Key? key,
     required this.title,
@@ -75,6 +79,7 @@ class BoxTitle extends StatelessWidget {
     this.contained = false,
     this.filled = false,
     this.color,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -113,6 +118,7 @@ class BoxTitle extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
+                  fontSize: fontSize,
                   color: filled
                       ? Colors.white
                       : color ?? Provider.of<ThemeProvider>(context).kPrimary,

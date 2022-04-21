@@ -5,15 +5,14 @@ class SettingsProvider extends ChangeNotifier {
   int frequency = 2;
   bool vibrateOnTap = true;
   bool soundOnTap = true;
-
   String dayAthkarTime = "5:00";
-
   String nightAthkarTime = "16:00";
   bool canShowOverlay = true;
   bool autoHide = true;
   bool canShowNotifications = true;
   bool vibrateOnReading = true;
   bool selfReading = true;
+  String overlayFont = "Cairo";
 
   SettingsProvider() {
     _loadSettings();
@@ -121,4 +120,10 @@ class SettingsProvider extends ChangeNotifier {
     save ? sharedPreferences?.setBool("selfReading", loadedSelfReading) : null;
     notifyListeners();
   }
+
+  void setOverlayFont(String? selectedFont) {}
+
+  void setOverlayFontScale(double? selectedFontScale) {}
+
+  void setOverlayColor(int? selectedOverlayColor) {}
 }

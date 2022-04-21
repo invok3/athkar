@@ -10,6 +10,7 @@ class CustomOutlinedButton extends StatelessWidget {
   final Widget? icon;
   final Color? fillColor;
   final Color? color;
+  final String? fontFamily;
 
   final bool childCentered;
   final FontWeight? boldness;
@@ -24,6 +25,7 @@ class CustomOutlinedButton extends StatelessWidget {
     this.boldness,
     this.fillColor,
     this.color,
+    this.fontFamily,
   }) : super(key: key);
 
   @override
@@ -63,9 +65,11 @@ class CustomOutlinedButton extends StatelessWidget {
                       text,
                       style: filled
                           ? TextStyle(
+                              fontFamily: fontFamily,
                               color: Colors.white,
                               fontWeight: boldness ?? FontWeight.bold)
                           : TextStyle(
+                              fontFamily: fontFamily,
                               color: color ??
                                   Provider.of<ThemeProvider>(context).kPrimary,
                               fontWeight: boldness),
@@ -75,7 +79,10 @@ class CustomOutlinedButton extends StatelessWidget {
                         : Text(
                             subText ?? "",
                             textScaleFactor: .6,
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: fontFamily,
+                            ),
                           ),
                   ],
                 ),
@@ -101,9 +108,14 @@ class CustomOutlinedButton extends StatelessWidget {
 class CustomElevatedButton extends StatelessWidget {
   final String text;
   final Color? color;
+  final String? fontFamily;
   final Function() ontap;
   const CustomElevatedButton(
-      {Key? key, required this.text, required this.ontap, this.color})
+      {Key? key,
+      required this.text,
+      required this.ontap,
+      this.color,
+      this.fontFamily})
       : super(key: key);
 
   @override
@@ -127,7 +139,10 @@ class CustomElevatedButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 6),
           child: Text(
             text,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: fontFamily,
+            ),
           ),
         ),
       ),

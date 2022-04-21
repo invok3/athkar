@@ -1,6 +1,8 @@
 import 'package:athkar_app/consts.dart';
 import 'package:athkar_app/pages/color_select_page.dart';
 import 'package:athkar_app/pages/components/custom_button.dart';
+import 'package:athkar_app/pages/components/titled_box.dart';
+import 'package:athkar_app/pages/components/titled_box_body.dart';
 import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -182,7 +184,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "تغيير نوع الخط",
-                  ontap: () {},
+                  ontap: _selectFont,
                   childCentered: false,
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -197,7 +199,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "تغيير حجم الخط",
-                  ontap: () {},
+                  ontap: _selectFontSize,
                   childCentered: false,
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -212,7 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "تغيير لون الأذكار الظاهرة على الشاشة",
-                  ontap: () {},
+                  ontap: _selectOverlayColor,
                   childCentered: false,
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -338,5 +340,178 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _toggleSelfReading(bool value) {
     Provider.of<SettingsProvider>(context, listen: false).setSelfReading(value);
+  }
+
+  _selectFont() async {
+    String? selectedFont = await showDialog(
+        barrierColor: Colors.transparent,
+        context: context,
+        builder: (_) => AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.1),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TitledBox(
+                      filled: true,
+                      fillColor: Colors.white,
+                      title: "تغيير نوع الخط للأذكار الظاهرة على الشاشة",
+                      fontSize: 11,
+                      width: MediaQuery.of(context).size.width * .7,
+                      child: TitledBoxBody(
+                        size: MediaQuery.of(context).size,
+                        children: [
+                          CustomOutlinedButton(
+                              text: "سبحان الله و بحمده",
+                              boldness: FontWeight.bold,
+                              fontFamily: "Dubai",
+                              ontap: () => Navigator.of(context).pop("Dubai")),
+                          SizedBox(height: 16),
+                          CustomOutlinedButton(
+                              text: "سبحان الله و بحمده",
+                              boldness: FontWeight.bold,
+                              fontFamily: "Cairo",
+                              ontap: () => Navigator.of(context).pop("Cairo")),
+                          SizedBox(height: 16),
+                          CustomOutlinedButton(
+                              text: "سبحان الله و بحمده",
+                              boldness: FontWeight.bold,
+                              fontFamily: "Kufi",
+                              ontap: () => Navigator.of(context).pop("Kufi")),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ));
+    if (String == null) {
+      return;
+    } else {
+      Provider.of<SettingsProvider>(context, listen: false)
+          .setOverlayFont(selectedFont);
+    }
+  }
+
+  _selectFontSize() async {
+    double? selectedFontScale = await showDialog(
+        barrierColor: Colors.transparent,
+        context: context,
+        builder: (_) => AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TitledBox(
+                    filled: true,
+                    fillColor: Colors.white,
+                    title: "تغيير حجم الأذكار الظاهرة على الشاشة",
+                    fontSize: 16,
+                    width: MediaQuery.of(context).size.width * .7,
+                    child: TitledBoxBody(
+                      size: MediaQuery.of(context).size,
+                      children: [
+                        CustomOutlinedButton(
+                            text: "سبحان الله و بحمده",
+                            boldness: FontWeight.bold,
+                            fontFamily: Provider.of<SettingsProvider>(context,
+                                    listen: false)
+                                .overlayFont,
+                            ontap: () => Navigator.of(context).pop(1)),
+                        SizedBox(height: 16),
+                        MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.2),
+                          child: CustomOutlinedButton(
+                              text: "سبحان الله و بحمده",
+                              boldness: FontWeight.bold,
+                              fontFamily: Provider.of<SettingsProvider>(context,
+                                      listen: false)
+                                  .overlayFont,
+                              ontap: () => Navigator.of(context).pop(1.2)),
+                        ),
+                        SizedBox(height: 16),
+                        MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.5),
+                          child: CustomOutlinedButton(
+                              text: "سبحان الله و بحمده",
+                              boldness: FontWeight.bold,
+                              fontFamily: Provider.of<SettingsProvider>(context,
+                                      listen: false)
+                                  .overlayFont,
+                              ontap: () => Navigator.of(context).pop(1.5)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ));
+    if (String == null) {
+      return;
+    } else {
+      Provider.of<SettingsProvider>(context, listen: false)
+          .setOverlayFontScale(selectedFontScale);
+    }
+  }
+
+  _selectOverlayColor() async {
+    int? selectedOverlayColor = await showDialog(
+        barrierColor: Colors.transparent,
+        context: context,
+        builder: (_) => AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TitledBox(
+                    filled: true,
+                    fillColor: Colors.white,
+                    title: "تغيير لون الأذكار الظاهرة على الشاشة",
+                    fontSize: 16,
+                    width: MediaQuery.of(context).size.width * .7,
+                    child: TitledBoxBody(
+                      size: MediaQuery.of(context).size,
+                      children: [
+                        CustomOutlinedButton(
+                            color: Color(0xFF255B43),
+                            text: "سبحان الله و بحمده",
+                            boldness: FontWeight.bold,
+                            fontFamily: Provider.of<SettingsProvider>(context,
+                                    listen: false)
+                                .overlayFont,
+                            ontap: () => Navigator.of(context).pop(0x255B43)),
+                        SizedBox(height: 16),
+                        CustomOutlinedButton(
+                            color: Color(0xFF876445),
+                            text: "سبحان الله و بحمده",
+                            boldness: FontWeight.bold,
+                            fontFamily: Provider.of<SettingsProvider>(context,
+                                    listen: false)
+                                .overlayFont,
+                            ontap: () => Navigator.of(context).pop(0x876445)),
+                        SizedBox(height: 16),
+                        CustomOutlinedButton(
+                            color: Color(0xFFF79E1B),
+                            text: "سبحان الله و بحمده",
+                            boldness: FontWeight.bold,
+                            fontFamily: Provider.of<SettingsProvider>(context,
+                                    listen: false)
+                                .overlayFont,
+                            ontap: () => Navigator.of(context).pop(0xF79E1B)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ));
+    if (String == null) {
+      return;
+    } else {
+      Provider.of<SettingsProvider>(context, listen: false)
+          .setOverlayColor(selectedOverlayColor);
+    }
   }
 }
