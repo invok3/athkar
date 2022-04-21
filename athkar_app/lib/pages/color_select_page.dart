@@ -123,66 +123,121 @@ class _ColorSelectPageState extends State<ColorSelectPage> {
                     ],
                   ),
                 ),
-                TitledBox(
-                    color: _themes[_showingTheme]["_kPrimary"],
-                    fillColor: Theme.of(context).canvasColor,
-                    title: "      ",
-                    child: TitledBoxBody(
-                      size: MediaQuery.of(context).size,
-                      children: [
-                        SizedBox(
-                          height: 28,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomElevatedButton(
-                                color: _themes[_showingTheme]["_accentColor"],
-                                text: "            ",
-                                ontap: () {}),
-                            CustomOutlinedButton(
-                              color: _themes[_showingTheme]["_kPrimary"],
-                              text: "            ",
-                              ontap: () {},
-                            ),
-                            CustomOutlinedButton(
-                                color: _themes[_showingTheme]["_kPrimary"],
-                                text: "            ",
-                                ontap: () {}),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 28,
-                        ),
-                      ],
-                    ),
-                    width: _width * .7)
               ],
             ),
-            Padding(
-              padding: EdgeInsets.all(_width * .15),
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+            Center(
+              child: Container(
+                constraints: BoxConstraints(
+                    maxWidth: _width * .7,
+                    maxHeight: MediaQuery.of(context).size.height * .57),
+                child: Stack(
                   children: [
-                    SizedBox(height: _width * .15),
-                    CustomOutlinedButton(
-                        text: "",
-                        ontap: () {},
-                        filled: true,
-                        color: _themes[_showingTheme]["_kPrimary"]),
-                    SizedBox(height: _width * .05),
-                    CustomOutlinedButton(
-                        text: "",
-                        ontap: () {},
-                        filled: true,
-                        color: _themes[_showingTheme]["_kPrimary"]),
-                    SizedBox(height: _width * .05),
-                    CustomOutlinedButton(
-                        text: "",
-                        ontap: () {},
-                        filled: true,
-                        color: _themes[_showingTheme]["_kPrimary"]),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Column(
+                        children: [
+                          TitledBox(
+                              color: _themes[_showingTheme]["_kPrimary"],
+                              fillColor: Theme.of(context).canvasColor,
+                              title: "      ",
+                              child: TitledBoxBody(
+                                size: MediaQuery.of(context).size,
+                                children: [
+                                  SizedBox(
+                                    height: 28,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomElevatedButton(
+                                          color: _themes[_showingTheme]
+                                              ["_accentColor"],
+                                          text: "            ",
+                                          ontap: () {}),
+                                      CustomOutlinedButton(
+                                        color: _themes[_showingTheme]
+                                            ["_kPrimary"],
+                                        text: "            ",
+                                        ontap: () {},
+                                      ),
+                                      CustomOutlinedButton(
+                                          color: _themes[_showingTheme]
+                                              ["_kPrimary"],
+                                          text: "            ",
+                                          ontap: () {}),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 28,
+                                  ),
+                                ],
+                              ),
+                              width: _width * .7),
+                        ],
+                      ),
+                    ),
+                    Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          //SizedBox(height: _width * .15),
+                          CustomOutlinedButton(
+                              text: "",
+                              ontap: () {},
+                              filled: true,
+                              color: _themes[_showingTheme]["_kPrimary"]),
+                          SizedBox(height: 16),
+                          CustomOutlinedButton(
+                              text: "",
+                              ontap: () {},
+                              filled: true,
+                              color: _themes[_showingTheme]["_kPrimary"]),
+                          SizedBox(height: 16),
+                          CustomOutlinedButton(
+                              text: "",
+                              ontap: () {},
+                              filled: true,
+                              color: _themes[_showingTheme]["_kPrimary"]),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                      child: TitledBox(
+                          color: _themes[_showingTheme]["_kPrimary"],
+                          fillColor: Theme.of(context).canvasColor,
+                          title: "      ",
+                          child: TitledBoxBody(
+                            size: MediaQuery.of(context).size,
+                            children: [
+                              SizedBox(
+                                height: _width * .1,
+                              ),
+                              Row(
+                                children: [
+                                  Spacer(flex: 5),
+                                  SvgPicture.asset("assets/icons/refresh.svg",
+                                      color: _themes[_showingTheme]
+                                          ["_kPrimary"]),
+                                  Spacer(flex: 1),
+                                  SvgPicture.asset("assets/icons/goto.svg",
+                                      color: _themes[_showingTheme]
+                                          ["_kPrimary"]),
+                                  Spacer(flex: 5),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                            ],
+                          ),
+                          width: _width * .7),
+                    ),
                   ],
                 ),
               ),
@@ -193,36 +248,6 @@ class _ColorSelectPageState extends State<ColorSelectPage> {
               bottom: 0,
               child: Column(
                 children: [
-                  TitledBox(
-                      color: _themes[_showingTheme]["_kPrimary"],
-                      fillColor: Theme.of(context).canvasColor,
-                      title: "      ",
-                      child: TitledBoxBody(
-                        size: MediaQuery.of(context).size,
-                        children: [
-                          SizedBox(
-                            height: _width * .1,
-                          ),
-                          Row(
-                            children: [
-                              Spacer(flex: 5),
-                              SvgPicture.asset("assets/icons/refresh.svg",
-                                  color: _themes[_showingTheme]["_kPrimary"]),
-                              Spacer(flex: 1),
-                              SvgPicture.asset("assets/icons/goto.svg",
-                                  color: _themes[_showingTheme]["_kPrimary"]),
-                              Spacer(flex: 5),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                        ],
-                      ),
-                      width: _width * .7),
-                  SizedBox(
-                    height: 16,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
