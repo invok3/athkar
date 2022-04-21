@@ -9,6 +9,7 @@ class CustomOutlinedButton extends StatelessWidget {
   final bool filled;
   final Widget? icon;
   final Color? fillColor;
+  final Color? color;
 
   final bool childCentered;
   final FontWeight? boldness;
@@ -22,6 +23,7 @@ class CustomOutlinedButton extends StatelessWidget {
     this.icon,
     this.boldness,
     this.fillColor,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -30,11 +32,13 @@ class CustomOutlinedButton extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: filled
-            ? fillColor ?? Provider.of<ThemeProvider>(context).kPrimary
+            ? fillColor ?? color ?? Provider.of<ThemeProvider>(context).kPrimary
             : null,
         border: Border.all(
             width: 1,
-            color: fillColor ?? Provider.of<ThemeProvider>(context).kPrimary),
+            color: fillColor ??
+                color ??
+                Provider.of<ThemeProvider>(context).kPrimary),
         borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(32), topLeft: Radius.circular(32)),
       ),
@@ -62,7 +66,7 @@ class CustomOutlinedButton extends StatelessWidget {
                               color: Colors.white,
                               fontWeight: boldness ?? FontWeight.bold)
                           : TextStyle(
-                              color:
+                              color: color ??
                                   Provider.of<ThemeProvider>(context).kPrimary,
                               fontWeight: boldness),
                     ),
@@ -96,20 +100,20 @@ class CustomOutlinedButton extends StatelessWidget {
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
+  final Color? color;
   final Function() ontap;
-  const CustomElevatedButton({
-    Key? key,
-    required this.text,
-    required this.ontap,
-  }) : super(key: key);
+  const CustomElevatedButton(
+      {Key? key, required this.text, required this.ontap, this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Provider.of<ThemeProvider>(context).accentColor,
+        color: color ?? Provider.of<ThemeProvider>(context).accentColor,
         border: Border.all(
-            width: 1, color: Provider.of<ThemeProvider>(context).accentColor),
+            width: 1,
+            color: color ?? Provider.of<ThemeProvider>(context).accentColor),
         borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(32), topLeft: Radius.circular(32)),
       ),

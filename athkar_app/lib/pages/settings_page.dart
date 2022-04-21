@@ -1,5 +1,7 @@
 import 'package:athkar_app/consts.dart';
+import 'package:athkar_app/pages/color_select_page.dart';
 import 'package:athkar_app/pages/components/custom_button.dart';
+import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,14 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    bool _canShowOverlay =
+        Provider.of<SettingsProvider>(context).canShowOverlay;
+    bool _autoHide = Provider.of<SettingsProvider>(context).autoHide;
+    bool _canShowNotifications =
+        Provider.of<SettingsProvider>(context).canShowNotifications;
+    bool _vibrateOnReading =
+        Provider.of<SettingsProvider>(context).vibrateOnReading;
+    bool _selfReading = Provider.of<SettingsProvider>(context).selfReading;
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle.light,
@@ -37,14 +47,15 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 CustomOutlinedButton(
                   text: "موعد التنبيهات لأذكار الصباح",
-                  ontap: () {},
+                  ontap: _setDayAthkarTime,
                   childCentered: false,
                   icon: Row(
                     children: [
                       Column(
                         children: [
                           Text(
-                            "5:00",
+                            Provider.of<SettingsProvider>(context)
+                                .dayAthkarTime,
                             textScaleFactor: .8,
                             style: TextStyle(
                                 color: Provider.of<ThemeProvider>(context)
@@ -58,7 +69,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 8),
-                        child: SvgPicture.asset("assets/icons/goto.svg"),
+                        child: SvgPicture.asset(
+                          "assets/icons/goto.svg",
+                          color: Provider.of<ThemeProvider>(context).kPrimary,
+                        ),
                       )
                     ],
                   ),
@@ -67,14 +81,15 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "موعد التنبيهات لأذكار المساء",
-                  ontap: () {},
+                  ontap: _setNightAthkarTime,
                   childCentered: false,
                   icon: Row(
                     children: [
                       Column(
                         children: [
                           Text(
-                            "18:00",
+                            Provider.of<SettingsProvider>(context)
+                                .nightAthkarTime,
                             textScaleFactor: .8,
                             style: TextStyle(
                                 color: Provider.of<ThemeProvider>(context)
@@ -88,7 +103,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 8),
-                        child: SvgPicture.asset("assets/icons/goto.svg"),
+                        child: SvgPicture.asset(
+                          "assets/icons/goto.svg",
+                          color: Provider.of<ThemeProvider>(context).kPrimary,
+                        ),
                       )
                     ],
                   ),
@@ -97,54 +115,67 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "إيقاف الأذكار الظاهرة على الشاشة",
-                  ontap: () {},
+                  ontap: () => _toggleCanShowOverlay(!_canShowOverlay),
                   childCentered: false,
-                  icon: Switch(value: false, onChanged: null),
+                  icon: Switch(
+                    value: _canShowOverlay,
+                    onChanged: _toggleCanShowOverlay,
+                  ),
                   boldness: FontWeight.bold,
                 ),
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "الإختفاء التلقائي",
                   subText: "تختفي الأذكار تلقائياً بعج 15 ثانية",
-                  ontap: () {},
+                  ontap: () => _toggleAutoHide(!_autoHide),
                   childCentered: false,
-                  icon: Switch(value: false, onChanged: null),
+                  icon: Switch(value: _autoHide, onChanged: _toggleAutoHide),
                   boldness: FontWeight.bold,
                 ),
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "تفعيل التنبيهات",
-                  ontap: () {},
+                  ontap: () =>
+                      _toggleCanShowNotifications(!_canShowNotifications),
                   childCentered: false,
-                  icon: Switch(value: false, onChanged: null),
+                  icon: Switch(
+                      value: _canShowNotifications,
+                      onChanged: _toggleCanShowNotifications),
                   boldness: FontWeight.bold,
                 ),
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "تفعيل الإهتزاز عند القراءة",
-                  ontap: () {},
+                  ontap: () => _toggleVibrateOnReading(!_vibrateOnReading),
                   childCentered: false,
-                  icon: Switch(value: false, onChanged: null),
+                  icon: Switch(
+                      value: _vibrateOnReading,
+                      onChanged: _toggleVibrateOnReading),
                   boldness: FontWeight.bold,
                 ),
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "تفعيل القراءة الذاتية",
                   subText: "إظهار لون أحمر عند ظهور الأذكار",
-                  ontap: () {},
+                  ontap: () => _toggleSelfReading(!_selfReading),
                   childCentered: false,
-                  icon: Switch(value: false, onChanged: null),
+                  icon: Switch(
+                      value: _selfReading, onChanged: _toggleSelfReading),
                   boldness: FontWeight.bold,
                 ),
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "تغيير لون التطبيق",
-                  ontap: () {},
+                  ontap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => ColorSelectPage())),
                   childCentered: false,
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 8),
-                    child: SvgPicture.asset("assets/icons/goto.svg"),
+                    child: SvgPicture.asset(
+                      "assets/icons/goto.svg",
+                      color: Provider.of<ThemeProvider>(context).kPrimary,
+                    ),
                   ),
                   boldness: FontWeight.bold,
                 ),
@@ -156,7 +187,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 8),
-                    child: SvgPicture.asset("assets/icons/goto.svg"),
+                    child: SvgPicture.asset(
+                      "assets/icons/goto.svg",
+                      color: Provider.of<ThemeProvider>(context).kPrimary,
+                    ),
                   ),
                   boldness: FontWeight.bold,
                 ),
@@ -168,7 +202,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 8),
-                    child: SvgPicture.asset("assets/icons/goto.svg"),
+                    child: SvgPicture.asset(
+                      "assets/icons/goto.svg",
+                      color: Provider.of<ThemeProvider>(context).kPrimary,
+                    ),
                   ),
                   boldness: FontWeight.bold,
                 ),
@@ -180,7 +217,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 8),
-                    child: SvgPicture.asset("assets/icons/goto.svg"),
+                    child: SvgPicture.asset(
+                      "assets/icons/goto.svg",
+                      color: Provider.of<ThemeProvider>(context).kPrimary,
+                    ),
                   ),
                   boldness: FontWeight.bold,
                 ),
@@ -192,7 +232,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 8),
-                    child: SvgPicture.asset("assets/icons/goto.svg"),
+                    child: SvgPicture.asset(
+                      "assets/icons/goto.svg",
+                      color: Provider.of<ThemeProvider>(context).kPrimary,
+                    ),
                   ),
                   boldness: FontWeight.bold,
                 ),
@@ -204,7 +247,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 8),
-                    child: SvgPicture.asset("assets/icons/goto.svg"),
+                    child: SvgPicture.asset(
+                      "assets/icons/goto.svg",
+                      color: Provider.of<ThemeProvider>(context).kPrimary,
+                    ),
                   ),
                   boldness: FontWeight.bold,
                 ),
@@ -216,7 +262,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 8),
-                    child: SvgPicture.asset("assets/icons/goto.svg"),
+                    child: SvgPicture.asset(
+                      "assets/icons/goto.svg",
+                      color: Provider.of<ThemeProvider>(context).kPrimary,
+                    ),
                   ),
                   boldness: FontWeight.bold,
                 ),
@@ -226,5 +275,68 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
     );
+  }
+
+  _setDayAthkarTime() async {
+    TimeOfDay? selectedDayTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay(
+            hour: int.parse(
+                Provider.of<SettingsProvider>(context, listen: false)
+                    .dayAthkarTime
+                    .split(":")
+                    .first),
+            minute: int.parse(
+                Provider.of<SettingsProvider>(context, listen: false)
+                    .dayAthkarTime
+                    .split(":")
+                    .last)));
+    selectedDayTime != null
+        ? Provider.of<SettingsProvider>(context, listen: false).setDayAthkarTime(
+            "${selectedDayTime.hour}:${selectedDayTime.minute > 9 ? selectedDayTime.minute : '0' + selectedDayTime.minute.toString()}")
+        : null;
+  }
+
+  _setNightAthkarTime() async {
+    TimeOfDay? selectedNightTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay(
+            hour: int.parse(
+                Provider.of<SettingsProvider>(context, listen: false)
+                    .nightAthkarTime
+                    .split(":")
+                    .first),
+            minute: int.parse(
+                Provider.of<SettingsProvider>(context, listen: false)
+                    .nightAthkarTime
+                    .split(":")
+                    .last)));
+    selectedNightTime != null
+        ? Provider.of<SettingsProvider>(context, listen: false).setNightAthkarTime(
+            "${selectedNightTime.hour}:${selectedNightTime.minute > 9 ? selectedNightTime.minute : '0' + selectedNightTime.minute.toString()}")
+        : null;
+  }
+
+  void _toggleCanShowOverlay(bool value) {
+    Provider.of<SettingsProvider>(context, listen: false)
+        .setCanShowOverlay(value);
+  }
+
+  void _toggleAutoHide(bool value) {
+    Provider.of<SettingsProvider>(context, listen: false).setAutoHide(value);
+  }
+
+  void _toggleCanShowNotifications(bool value) {
+    Provider.of<SettingsProvider>(context, listen: false)
+        .setCanShowNotifications(value);
+  }
+
+  void _toggleVibrateOnReading(bool value) {
+    Provider.of<SettingsProvider>(context, listen: false)
+        .setVibrateOnReading(value);
+  }
+
+  void _toggleSelfReading(bool value) {
+    Provider.of<SettingsProvider>(context, listen: false).setSelfReading(value);
   }
 }

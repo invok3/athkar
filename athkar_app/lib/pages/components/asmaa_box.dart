@@ -41,7 +41,10 @@ class _AsmaaBoxState extends State<AsmaaBox> {
                 onPressed: () => setState(() {
                   index = Random().nextInt(98);
                 }),
-                icon: SvgPicture.asset("assets/icons/refresh.svg"),
+                icon: SvgPicture.asset(
+                  "assets/icons/refresh.svg",
+                  color: Provider.of<ThemeProvider>(context).kPrimary,
+                ),
               ),
               IconButton(
                 onPressed: () => Navigator.push(
@@ -51,7 +54,10 @@ class _AsmaaBoxState extends State<AsmaaBox> {
                     .then((value) => setState(() {
                           index = value;
                         })),
-                icon: SvgPicture.asset("assets/icons/goto.svg"),
+                icon: SvgPicture.asset(
+                  "assets/icons/goto.svg",
+                  color: Provider.of<ThemeProvider>(context).kPrimary,
+                ),
               ),
               Spacer(),
             ],

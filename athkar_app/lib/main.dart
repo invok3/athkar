@@ -1,4 +1,3 @@
-import 'package:athkar_app/pages/main_screen.dart';
 import 'package:athkar_app/pages/pager_view/carousel_page1.dart';
 import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
@@ -45,25 +44,36 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       theme: ThemeData(
+        // colorSchemeSeed: Provider.of<ThemeProvider>(context).kPrimary,
         colorScheme: ColorScheme(
             brightness: Brightness.light,
             primary: Provider.of<ThemeProvider>(context).kPrimary,
             onPrimary: Provider.of<ThemeProvider>(context).kPrimary,
             secondary: Provider.of<ThemeProvider>(context).accentColor,
             onSecondary: Provider.of<ThemeProvider>(context).kPrimary,
-            error: Provider.of<ThemeProvider>(context).kPrimary.shade700,
+            error: Provider.of<ThemeProvider>(context).kPrimary,
             onError: Provider.of<ThemeProvider>(context).accentColor,
             background: Colors.white,
             onBackground: Provider.of<ThemeProvider>(context).kPrimary,
             surface: Colors.white,
             onSurface: Provider.of<ThemeProvider>(context).kPrimary),
         fontFamily: 'Cairo',
-        primarySwatch: Provider.of<ThemeProvider>(context).kPrimary,
+        primarySwatch:
+            MaterialColor(Provider.of<ThemeProvider>(context).kPrimary.value, {
+          50: Provider.of<ThemeProvider>(context).kPrimary,
+          100: Provider.of<ThemeProvider>(context).kPrimary,
+          200: Provider.of<ThemeProvider>(context).kPrimary,
+          300: Provider.of<ThemeProvider>(context).kPrimary,
+          400: Provider.of<ThemeProvider>(context).kPrimary,
+          500: Provider.of<ThemeProvider>(context).kPrimary,
+          600: Provider.of<ThemeProvider>(context).kPrimary,
+          700: Provider.of<ThemeProvider>(context).kPrimary,
+          800: Provider.of<ThemeProvider>(context).kPrimary,
+          900: Provider.of<ThemeProvider>(context).kPrimary,
+        }),
       ),
-      home: MainScreen(
-        key: GlobalKey<State<MainScreen>>(),
-      ),
-      //home: CarouselPage1(),
+      // home: MainScreen(key: GlobalKey<State<MainScreen>>()),
+      home: CarouselPage1(),
     );
   }
 }

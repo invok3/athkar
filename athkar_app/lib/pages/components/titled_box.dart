@@ -10,6 +10,7 @@ class TitledBox extends StatelessWidget {
   final bool titleContained;
   final bool filled;
   final Color? color;
+  final Color? fillColor;
 
   const TitledBox({
     Key? key,
@@ -20,6 +21,7 @@ class TitledBox extends StatelessWidget {
     this.titleContained = false,
     required this.child,
     required this.width,
+    this.fillColor,
   }) : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class TitledBox extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       width: width,
       decoration: BoxDecoration(
+        color: fillColor,
         border: Border.all(
             width: 1,
             color: color ?? Provider.of<ThemeProvider>(context).kPrimary),

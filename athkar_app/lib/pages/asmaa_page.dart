@@ -45,7 +45,10 @@ class _AsmaaPageState extends State<AsmaaPage> {
               _refreshed = true;
               index = Random().nextInt(98);
             }),
-            icon: SvgPicture.asset("assets/icons/refresh.svg"),
+            icon: SvgPicture.asset(
+              "assets/icons/refresh.svg",
+              color: Provider.of<ThemeProvider>(context).kPrimary,
+            ),
           ),
 
           SizedBox(width: 32),

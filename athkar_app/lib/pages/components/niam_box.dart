@@ -43,7 +43,10 @@ class _NiamBoxState extends State<NiamBox> {
                 onPressed: () => setState(() {
                   index = Random().nextInt(20);
                 }),
-                icon: SvgPicture.asset("assets/icons/refresh.svg"),
+                icon: SvgPicture.asset(
+                  "assets/icons/refresh.svg",
+                  color: Provider.of<ThemeProvider>(context).kPrimary,
+                ),
               ),
               Spacer(),
             ],

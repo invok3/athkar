@@ -2,8 +2,10 @@ import 'package:athkar_app/pages/components/titled_box.dart';
 import 'package:athkar_app/pages/components/titled_box_body.dart';
 import 'package:athkar_app/pages/components/cuts.dart';
 import 'package:athkar_app/pages/tasbih_page.dart';
+import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class TasbihBox extends StatefulWidget {
   final Size size;
@@ -38,7 +40,10 @@ class _TasbihBoxState extends State<TasbihBox> {
               IconButton(
                 onPressed: () => Navigator.push(
                     context, MaterialPageRoute(builder: (_) => TasbihPage())),
-                icon: SvgPicture.asset("assets/icons/goto.svg"),
+                icon: SvgPicture.asset(
+                  "assets/icons/goto.svg",
+                  color: Provider.of<ThemeProvider>(context).kPrimary,
+                ),
               ),
               Spacer(),
             ],

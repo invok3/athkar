@@ -117,7 +117,7 @@ class TriCut extends StatelessWidget {
                       Provider.of<ThemeProvider>(context).kPrimary)
                   : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).elevationColor,
+              color: Provider.of<ThemeProvider>(context).appBarColor,
               value: .32,
             ),
           ),
@@ -129,7 +129,7 @@ class TriCut extends StatelessWidget {
                       Provider.of<ThemeProvider>(context).kPrimary)
                   : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).elevationColor,
+              color: Provider.of<ThemeProvider>(context).appBarColor,
               value: .32,
             ),
           ),
@@ -141,7 +141,7 @@ class TriCut extends StatelessWidget {
                       Provider.of<ThemeProvider>(context).kPrimary)
                   : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).elevationColor,
+              color: Provider.of<ThemeProvider>(context).appBarColor,
               value: .32,
             ),
           ),
@@ -184,7 +184,7 @@ class BiCut extends StatelessWidget {
                       Provider.of<ThemeProvider>(context).kPrimary)
                   : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).elevationColor,
+              color: Provider.of<ThemeProvider>(context).appBarColor,
               value: .49,
             ),
           ),
@@ -196,7 +196,7 @@ class BiCut extends StatelessWidget {
                       Provider.of<ThemeProvider>(context).kPrimary)
                   : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).elevationColor,
+              color: Provider.of<ThemeProvider>(context).appBarColor,
               value: .49,
             ),
           ),
@@ -237,7 +237,7 @@ class SingleCut extends StatelessWidget {
                       Provider.of<ThemeProvider>(context).kPrimary)
                   : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).elevationColor,
+              color: Provider.of<ThemeProvider>(context).appBarColor,
               value: .99,
             ),
           ),
