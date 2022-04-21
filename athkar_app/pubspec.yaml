@@ -44,6 +44,8 @@ dependencies:
   flutter_svg: ^1.0.3
   #syncfusion_flutter_datepicker: ^20.1.48
   syncfusion_flutter_core: ^20.1.48
+  better_sound_effect: ^0.0.3
+  #flutter_ringtone_player: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +77,7 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/icons/
+    - assets/sounds/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

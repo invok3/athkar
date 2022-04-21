@@ -1,5 +1,6 @@
 import 'package:athkar_app/pages/main_screen.dart';
 import 'package:athkar_app/pages/pager_view/carousel_page1.dart';
+import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences? sharedPreferences;
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -20,6 +20,8 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+      ChangeNotifierProvider<SettingsProvider>(
+          create: (_) => SettingsProvider())
     ],
     child: MyApp(),
   ));

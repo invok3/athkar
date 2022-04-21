@@ -108,12 +108,9 @@ class _FrequencyBoxState extends State<FrequencyBox> {
     return TitledBox(
       width: widget.size.width * .8,
       title: "معدل ظهور الأذكار على الشاشه",
-      child: ChangeNotifierProvider<SettingsProvider>(
-        create: (_) => SettingsProvider(),
-        child: FrequencyController(
-          width: widget.size.width * .8,
-          paddingTop: 48,
-        ),
+      child: FrequencyController(
+        width: widget.size.width * .8,
+        paddingTop: 48,
       ),
     );
   }

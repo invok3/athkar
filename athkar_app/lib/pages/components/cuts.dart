@@ -93,8 +93,10 @@ class Trycut extends StatelessWidget {
 class TriCut extends StatelessWidget {
   final double _width;
   final Widget _child;
+  final int val;
 
-  const TriCut({Key? key, required double width, required Widget child})
+  const TriCut(
+      {Key? key, required double width, required Widget child, this.val = 0})
       : _width = width,
         _child = child,
         super(key: key);
@@ -110,24 +112,36 @@ class TriCut extends StatelessWidget {
           Transform.rotate(
             angle: math.pi * .01,
             child: CircularProgressIndicator(
+              valueColor: val > 0
+                  ? AlwaysStoppedAnimation<Color>(
+                      Provider.of<ThemeProvider>(context).kPrimary)
+                  : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).accentColor,
+              color: Provider.of<ThemeProvider>(context).elevationColor,
               value: .32,
             ),
           ),
           Transform.rotate(
             angle: .678 * math.pi,
             child: CircularProgressIndicator(
+              valueColor: val > 1
+                  ? AlwaysStoppedAnimation<Color>(
+                      Provider.of<ThemeProvider>(context).kPrimary)
+                  : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).accentColor,
+              color: Provider.of<ThemeProvider>(context).elevationColor,
               value: .32,
             ),
           ),
           Transform.rotate(
             angle: -math.pi * .658,
             child: CircularProgressIndicator(
+              valueColor: val > 2
+                  ? AlwaysStoppedAnimation<Color>(
+                      Provider.of<ThemeProvider>(context).kPrimary)
+                  : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).accentColor,
+              color: Provider.of<ThemeProvider>(context).elevationColor,
               value: .32,
             ),
           ),
@@ -141,10 +155,70 @@ class TriCut extends StatelessWidget {
 class BiCut extends StatelessWidget {
   final double _width;
   final Widget _child;
+  final List<bool> vals;
 
-  const BiCut({Key? key, required double width, required Widget child})
+  const BiCut(
+      {Key? key,
+      required double width,
+      required Widget child,
+      required this.vals})
       : _width = width,
         _child = child,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    bool v1 = vals.first;
+    bool v2 = vals.last;
+    return SizedBox(
+      height: _width,
+      width: _width,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Transform.rotate(
+            angle: 0.01,
+            child: CircularProgressIndicator(
+              valueColor: v1
+                  ? AlwaysStoppedAnimation<Color>(
+                      Provider.of<ThemeProvider>(context).kPrimary)
+                  : null,
+              strokeWidth: 20,
+              color: Provider.of<ThemeProvider>(context).elevationColor,
+              value: .49,
+            ),
+          ),
+          Transform.rotate(
+            angle: 1.005 * math.pi,
+            child: CircularProgressIndicator(
+              valueColor: v2
+                  ? AlwaysStoppedAnimation<Color>(
+                      Provider.of<ThemeProvider>(context).kPrimary)
+                  : null,
+              strokeWidth: 20,
+              color: Provider.of<ThemeProvider>(context).elevationColor,
+              value: .49,
+            ),
+          ),
+          Center(child: _child),
+        ],
+      ),
+    );
+  }
+}
+
+class SingleCut extends StatelessWidget {
+  final double _width;
+  final Widget _child;
+  final bool _val;
+  const SingleCut(
+      {Key? key,
+      required double width,
+      required Widget child,
+      bool cVal = true})
+      : _width = width,
+        _child = child,
+        _val = cVal,
         super(key: key);
 
   @override
@@ -156,19 +230,15 @@ class BiCut extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Transform.rotate(
-            angle: 0.01,
+            angle: 1.01 * math.pi,
             child: CircularProgressIndicator(
+              valueColor: _val
+                  ? AlwaysStoppedAnimation<Color>(
+                      Provider.of<ThemeProvider>(context).kPrimary)
+                  : null,
               strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).accentColor,
-              value: .49,
-            ),
-          ),
-          Transform.rotate(
-            angle: 1.005 * math.pi,
-            child: CircularProgressIndicator(
-              strokeWidth: 20,
-              color: Provider.of<ThemeProvider>(context).accentColor,
-              value: .49,
+              color: Provider.of<ThemeProvider>(context).elevationColor,
+              value: .99,
             ),
           ),
           Center(child: _child),

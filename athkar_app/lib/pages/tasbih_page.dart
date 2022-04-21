@@ -1,7 +1,9 @@
 import 'package:athkar_app/consts.dart';
 import 'package:athkar_app/pages/components/custom_button.dart';
 import 'package:athkar_app/pages/components/cuts.dart';
+import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:better_sound_effect/better_sound_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,9 +17,42 @@ class TasbihPage extends StatefulWidget {
 }
 
 class _TasbihPageState extends State<TasbihPage> {
+  int tVar = 0;
+  int miniCount = 0;
+  int max = 100;
+  int count = 0;
+  List<String> tList = [
+    "سبحان الله",
+    "الحمد لله",
+    "لا إله إلا الله",
+    "الله أكبر",
+  ];
+  double _multi = 1;
+  double _sliderValue = 1;
+  late bool _vibrationOn;
+  late TextStyle? tStyle;
+  late bool _soundsOn;
+  int? soundID;
+  BetterSoundEffect soundEffect = BetterSoundEffect();
+
+  @override
+  void initState() {
+    Future.microtask(() async {
+      soundID = await soundEffect.loadAssetAudioFile("assets/sounds/click.mp3");
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+    tStyle = Theme.of(context).textTheme.headline6;
+    BoxShadow bShadow = BoxShadow(
+        blurRadius: 4, spreadRadius: 4, color: Colors.grey.withOpacity(.2));
+    _vibrationOn = Provider.of<SettingsProvider>(context).vibrateOnTap;
+    _soundsOn = Provider.of<SettingsProvider>(context).soundOnTap;
+
     return Scaffold(
       appBar: AppBar(
         shape: customRoundedRectangleBorder,
@@ -41,21 +76,29 @@ class _TasbihPageState extends State<TasbihPage> {
               ),
               visualDensity: VisualDensity.compact),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                tVar++;
+                if (tVar == 4) {
+                  tVar = 0;
+                }
+                count = 0;
+                miniCount = 0;
+                setState(() {});
+              },
               icon: SvgPicture.asset(
                 "assets/icons/toggle.svg",
                 color: Provider.of<ThemeProvider>(context).kPrimary,
               ),
               visualDensity: VisualDensity.compact),
           IconButton(
-              onPressed: () {},
+              onPressed: _toggleSound,
               icon: SvgPicture.asset(
                 "assets/icons/speaker.svg",
                 color: Provider.of<ThemeProvider>(context).kPrimary,
               ),
               visualDensity: VisualDensity.compact),
           IconButton(
-              onPressed: () {},
+              onPressed: _toggleVibration,
               icon: SvgPicture.asset(
                 "assets/icons/vibration.svg",
                 color: Provider.of<ThemeProvider>(context).kPrimary,
@@ -79,7 +122,12 @@ class _TasbihPageState extends State<TasbihPage> {
                 padding: EdgeInsets.symmetric(horizontal: _width / 6),
                 child: CustomOutlinedButton(
                   text: "إبدأ",
-                  ontap: () {},
+                  ontap: () {
+                    setState(() {
+                      count = 0;
+                      miniCount = 0;
+                    });
+                  },
                   boldness: FontWeight.bold,
                 ),
               ),
@@ -87,16 +135,115 @@ class _TasbihPageState extends State<TasbihPage> {
                 //color: Colors.red,
                 width: _width * .7,
                 height: _width * .7,
-                child: BiCut(
-                  width: _width * .7,
-                  child: Center(
-                    child: Text("ASD"),
-                  ),
-                ),
+                child: tVar == 0
+                    ? SingleCut(
+                        width: _width * .7,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("التكرار", style: tStyle),
+                            Text(max.toString(), style: tStyle),
+                          ],
+                        ),
+                      )
+                    : tVar == 1
+                        ? BiCut(
+                            vals: [
+                              miniCount.isEven && count > 0,
+                              miniCount.isOdd || count == max
+                            ],
+                            width: _width * .7,
+                            child: GestureDetector(
+                              onPanDown: _panDown,
+                              onTapUp: _tapUp,
+                              child: Container(
+                                width: _multi * _width / 2.3,
+                                height: _multi * _width / 2.3,
+                                decoration: BoxDecoration(
+                                  boxShadow: [bShadow],
+                                  borderRadius: BorderRadius.circular(_width),
+                                  color: Provider.of<ThemeProvider>(context)
+                                      .appBarColor,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    miniCount.isEven
+                                        ? "سبحان الله\nو بحمده"
+                                        : "سبحان الله\nالعظيم",
+                                    style: tStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : tVar == 2
+                            ? TriCut(
+                                val: count == max ? 3 : miniCount,
+                                width: _width * .7,
+                                child: GestureDetector(
+                                  onPanDown: _panDown,
+                                  onTapUp: _tapUp,
+                                  child: Container(
+                                    width: _multi * _width / 2.3,
+                                    height: _multi * _width / 2.3,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [bShadow],
+                                      borderRadius:
+                                          BorderRadius.circular(_width),
+                                      color: Provider.of<ThemeProvider>(context)
+                                          .appBarColor,
+                                    ),
+                                    child: Center(
+                                        child: Text(tList[miniCount],
+                                            style: tStyle)),
+                                  ),
+                                ),
+                              )
+                            : SingleCut(
+                                cVal: count == max,
+                                width: _width * .7,
+                                child: GestureDetector(
+                                  onPanDown: _panDown,
+                                  onTapUp: _tapUp,
+                                  child: Container(
+                                    width: _multi * _width / 2.3,
+                                    height: _multi * _width / 2.3,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [bShadow],
+                                      borderRadius:
+                                          BorderRadius.circular(_width),
+                                      color: Provider.of<ThemeProvider>(context)
+                                          .appBarColor,
+                                    ),
+                                    child: Center(
+                                      child: Text("أستغفر الله", style: tStyle),
+                                    ),
+                                  ),
+                                ),
+                              ),
               ),
-              Text("مجموع التسبيحات",
+              Text(tVar > 0 ? "مجموع التسبيحات" : "التكرار",
                   style: Theme.of(context).textTheme.headline6),
-              Text("0", style: Theme.of(context).textTheme.headline6),
+              tVar == 0
+                  ? Container()
+                  : Text((count).toString().split(".").first,
+                      style: Theme.of(context).textTheme.headline6),
+              tVar > 0
+                  ? Container()
+                  : Slider(
+                      value: _sliderValue * 100,
+                      max: 100,
+                      min: 1,
+                      divisions: 100,
+                      label: max.toString(),
+                      onChanged: (double value) {
+                        setState(() {
+                          max = value.round();
+                          _sliderValue = value / 100;
+                        });
+                      },
+                    ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width / 10),
                 child: CustomOutlinedButton(
@@ -110,5 +257,66 @@ class _TasbihPageState extends State<TasbihPage> {
         ),
       ),
     );
+  }
+
+  void _tasbih1Progress() {
+    if (tVar == 0 || count == max) {
+      return;
+    }
+
+    if (tVar == 1) {
+      if (miniCount.isOdd) {
+        miniCount = 0;
+        count++;
+      } else {
+        miniCount++;
+      }
+    } else if (tVar == 2) {
+      if (miniCount == 3) {
+        miniCount = 0;
+        count++;
+      } else {
+        miniCount++;
+      }
+    } else {
+      count++;
+    }
+    setState(() {});
+  }
+
+  void _panDown(DragDownDetails details) {
+    if (count == max) {
+      return;
+    }
+    _vibrationOn ? HapticFeedback.lightImpact() : null;
+    _soundsOn ? _playSound() : null;
+    setState(() {
+      _multi = 1.2;
+    });
+  }
+
+  void _tapUp(TapUpDetails details) {
+    if (count == max) {
+      return;
+    }
+    _tasbih1Progress();
+    setState(() {
+      _multi = 1;
+    });
+  }
+
+  void _toggleVibration() {
+    Provider.of<SettingsProvider>(context, listen: false)
+        .setVibrateOnTap(!_vibrationOn);
+  }
+
+  void _toggleSound() {
+    Provider.of<SettingsProvider>(context, listen: false)
+        .setSoundOnTap(!_soundsOn);
+  }
+
+  _playSound() async {
+    debugPrint("Play");
+    soundEffect.play(soundID!);
   }
 }
