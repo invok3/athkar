@@ -386,7 +386,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ));
-    if (String == null) {
+    if (selectedFont == null) {
       return;
     } else {
       Provider.of<SettingsProvider>(context, listen: false)
@@ -449,7 +449,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ));
-    if (String == null) {
+    if (selectedFontScale == null) {
       return;
     } else {
       Provider.of<SettingsProvider>(context, listen: false)
@@ -507,7 +507,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ));
-    if (String == null) {
+    if (selectedOverlayColor == null) {
       return;
     } else {
       Provider.of<SettingsProvider>(context, listen: false)

@@ -13,6 +13,8 @@ class SettingsProvider extends ChangeNotifier {
   bool vibrateOnReading = true;
   bool selfReading = true;
   String overlayFont = "Cairo";
+  double overlayFontScale = 1;
+  int OverlayColor = 0xFF876445;
 
   SettingsProvider() {
     _loadSettings();
@@ -121,9 +123,25 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setOverlayFont(String? selectedFont) {}
+  void setOverlayFont(String loadedOverlayFont, {bool save = true}) {
+    overlayFont = loadedOverlayFont;
+    save
+        ? sharedPreferences?.setString("overlayFont", loadedOverlayFont)
+        : null;
+    notifyListeners();
+  }
 
-  void setOverlayFontScale(double? selectedFontScale) {}
+  void setOverlayFontScale(double loadedOverlayFontScale, {bool save = true}) {
+    overlayFontScale = loadedOverlayFontScale;
+    save
+        ? sharedPreferences?.setDouble("selectedFont", loadedOverlayFontScale)
+        : null;
+    notifyListeners();
+  }
 
-  void setOverlayColor(int? selectedOverlayColor) {}
+  void setOverlayColor(int loadedOverlayColor, {bool save = true}) {
+    OverlayColor = loadedOverlayColor;
+    save ? sharedPreferences?.setInt("selectedFont", loadedOverlayColor) : null;
+    notifyListeners();
+  }
 }
