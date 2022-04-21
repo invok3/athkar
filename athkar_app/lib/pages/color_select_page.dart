@@ -14,7 +14,7 @@ class ColorSelectPage extends StatefulWidget {
 }
 
 class _ColorSelectPageState extends State<ColorSelectPage> {
-  List<Map<String, Color>> _themes = [
+  final List<Map<String, Color>> _themes = [
     {
       "_appBarColor": Color(0xFFE9E5D6),
       "_kPrimary": Color(0xFF464E2E),
