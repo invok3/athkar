@@ -1,8 +1,7 @@
-import 'dart:typed_data';
+import 'dart:convert';
 
-import 'package:file_picker/_internal/file_picker_web.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:athkar_cp/controllers/firebase_api.dart';
 import 'package:athkar_cp/pages/components/appbar.dart';
 import 'package:athkar_cp/pages/components/func.dart';
@@ -17,20 +16,24 @@ class EditStoryTab extends StatefulWidget {
 }
 
 class _EditStoryTabState extends State<EditStoryTab> {
+  late quill.QuillController qController;
+
   late bool isProtrait;
+
+  late DateTime _publishAt;
+  bool _delayed = false;
+  late bool _canDelay;
+  late TextEditingController _pdController;
   late TextEditingController _title;
   late TextEditingController _description;
   String? _error;
   late Map<String, String?> args;
-  late TextEditingController _imageController;
-  late TextEditingController _audioFileController;
-
-  String? _imageLink;
-  String? _audioFileLink;
 
   @override
   Widget build(BuildContext context) {
     isProtrait = isPortrait(context: context);
+
+//////////////////////
 
     try {
       args = ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
@@ -38,21 +41,33 @@ class _EditStoryTabState extends State<EditStoryTab> {
       debugPrint(e.toString());
       args = {};
     }
-    debugPrint("Resat");
 
     try {
+      _publishAt =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(args["id"] ?? ""));
+
+      _canDelay = false;
+
+      _pdController = TextEditingController(
+          text: "${_publishAt.year}/${_publishAt.month}/${_publishAt.day}");
+
       _title = TextEditingController(text: args["title"]);
+
       _description = TextEditingController(text: args["subtitle"]);
-      _imageController =
-          TextEditingController(text: _imageLink ?? args["imageLink"]);
-      _audioFileController =
-          TextEditingController(text: _audioFileLink ?? args["audioFileLink"]);
+
+      qController = quill.QuillController(
+          document: quill.Document.fromJson(jsonDecode(args["document"] ?? "")),
+          selection: TextSelection(baseOffset: 0, extentOffset: 0));
     } catch (e) {
       debugPrint(e.toString());
+      _publishAt = DateTime.now();
+      _canDelay = true;
+      _pdController = TextEditingController();
       _title = TextEditingController();
       _description = TextEditingController();
-      _imageController = TextEditingController(text: _imageLink);
-      _audioFileController = TextEditingController(text: _audioFileLink);
+      qController = quill.QuillController(
+          document: quill.Document(),
+          selection: TextSelection(baseOffset: 0, extentOffset: 0));
     }
 
 ////////////////
@@ -61,7 +76,7 @@ class _EditStoryTabState extends State<EditStoryTab> {
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "Edit Element",
+        title: "تحرير حلقة",
       ),
       body: SafeArea(
         child: args["catID"] == null || args["catID"] == ""
@@ -78,120 +93,163 @@ class _EditStoryTabState extends State<EditStoryTab> {
                   ],
                 ),
               )
-            : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 16,
-                          vertical: 8),
-                      child: Container(
-                        constraints: BoxConstraints(maxWidth: 500),
-                        child: TextField(
-                          controller: _imageController,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.amber, width: 2),
-                            ),
-                            labelText: "Image Link: ",
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            isDense: true,
-                            border: OutlineInputBorder(),
-                            suffixIcon: IconButton(
-                              color: Colors.amber,
-                              onPressed: () =>
-                                  selectFile(mFileType: FileType.image),
-                              icon: Icon(Icons.camera_alt),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 16,
-                          vertical: 8),
-                      child: Container(
-                        constraints: BoxConstraints(maxWidth: 500),
-                        child: TextField(
-                          controller: _audioFileController,
-                          decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.amber, width: 2)),
-                              labelText: "AudioFile Link: ",
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              isDense: true,
-                              border: OutlineInputBorder(),
-                              suffixIcon: IconButton(
-                                  color: Colors.amber,
-                                  onPressed: () =>
-                                      selectFile(mFileType: FileType.audio),
-                                  icon: Icon(Icons.audio_file))),
-                        ),
-                      ),
-                    ),
-                    Center(
+            : Column(
+                children: [
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: quill.QuillToolbar.basic(
+                        showVideoButton: false,
+                        showDividers: true,
+                        controller: qController,
+                        showAlignmentButtons: true),
+                  ),
+                  Expanded(
+                    child: Directionality(
+                      textDirection: TextDirection.ltr,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width / 16,
-                            vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Container(
-                          constraints: BoxConstraints(maxWidth: 500),
-                          child: TextField(
-                            controller: _title,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Title: ",
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always),
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: Colors.grey),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: quill.QuillEditor(
+                            embedBuilder:
+                                (context, controller, node, readOnly) {
+                              debugPrint(node.value.data.toString());
+                              //return ScaleableImage(src: node.value.data);
+                              return Image.network(
+                                node.value.data,
+                              );
+                            },
+                            controller: qController,
+                            focusNode: FocusNode(),
+                            scrollController: ScrollController(),
+                            scrollable: true,
+                            padding: EdgeInsets.zero,
+                            autoFocus: true,
+                            readOnly: false,
+                            expands: true,
+                            showCursor: true,
                           ),
                         ),
                       ),
                     ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width / 16,
-                            vertical: 8),
-                        child: Container(
-                          constraints: BoxConstraints(maxWidth: 500),
-                          child: TextField(
-                            controller: _description,
-                            maxLines: 5,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Description: ",
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always),
-                          ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: TextField(
+                                controller: _title,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "العنوان: ",
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always),
+                              ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Checkbox(
+                                    value: _delayed,
+                                    onChanged: (delayed) {
+                                      if (!_canDelay) {
+                                        return;
+                                      }
+                                      setState(() {
+                                        _delayed = delayed ?? false;
+                                        _pdController.text = _delayed
+                                            ? "${_publishAt.year}/${_publishAt.month}/${_publishAt.day}"
+                                            : "";
+                                      });
+                                    }),
+                                Text("جدولة"),
+                                SizedBox(width: 4),
+                                SizedBox(
+                                  width: 150,
+                                  child: TextField(
+                                    controller: _pdController,
+                                    readOnly: true,
+                                    enabled: _delayed,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(Icons.calendar_today),
+                                          onPressed: () async {
+                                            await showDatePicker(
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime.now()
+                                                        .subtract(Duration(
+                                                            days: 356)),
+                                                    lastDate: DateTime.now()
+                                                        .add(Duration(
+                                                            days: 3652)))
+                                                .then((value) {
+                                              if (value != null) {
+                                                setState(() {
+                                                  _publishAt = value;
+                                                  _pdController.text =
+                                                      "${_publishAt.year}/${_publishAt.month}/${_publishAt.day}";
+                                                });
+                                              }
+                                            });
+                                          },
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
+                        SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: TextField(
+                                controller: _description,
+                                maxLines: 2,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "الوصف: ",
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        _error != null
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                    Icon(
+                                      Icons.error_outline,
+                                      color: Colors.red[700],
+                                    ),
+                                    Text(
+                                      _error!,
+                                      style: TextStyle(color: Colors.red[700]),
+                                    )
+                                  ])
+                            : SizedBox(),
+                        SizedBox(height: 8),
+                        ElevatedButton(
+                            onPressed: () {
+                              editStory();
+                            },
+                            child: Text("نشر")),
+                      ],
                     ),
-                    _error == null
-                        ? Container()
-                        : Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.error_outline, color: Colors.red[700]),
-                              Text(_error ?? "Unknown Error!",
-                                  style: TextStyle(color: Colors.red[700]))
-                            ],
-                          ),
-                    ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _error = null;
-                          });
-                          editStory();
-                        },
-                        child: Text("Save")),
-                  ],
-                ),
+                  ),
+                ],
               ),
       ),
     );
@@ -200,7 +258,7 @@ class _EditStoryTabState extends State<EditStoryTab> {
   editStory() async {
     if (_title.text.isEmpty) {
       setState(() {
-        _error = "Title is required!";
+        _error = "العنوان مطلوب";
       });
       return;
     }
@@ -213,11 +271,11 @@ class _EditStoryTabState extends State<EditStoryTab> {
               elevation: 0,
               contentPadding: EdgeInsets.zero,
               content: FutureBuilder(
-                future: FirebaseAPI.editElement(
+                future: FirebaseAPI.editStory(
                     id: args["id"] ??
                         DateTime.now().millisecondsSinceEpoch.toString(),
-                    imageLink: _imageController.text,
-                    audioFileLink: _audioFileController.text,
+                    document:
+                        jsonEncode(qController.document.toDelta().toJson()),
                     title: _title.text,
                     description: _description.text,
                     catID: args["catID"] ?? ""),
@@ -233,82 +291,10 @@ class _EditStoryTabState extends State<EditStoryTab> {
             ));
     if (result != null) {
       setState(() {
-        _error = "An Error Occurred while connecting to database!";
+        _error = "حدث خطأ أثناء الإتصال بقاعدة البيانات";
       });
     } else {
       Navigator.pop(context);
-    }
-  }
-
-  selectFile({required FileType mFileType}) async {
-    FilePickerResult? mFilePickerResult = await FilePickerWeb.platform
-        .pickFiles(allowMultiple: false, type: mFileType);
-    if (mFilePickerResult == null) {
-      debugPrint("Aborted!");
-      return;
-    }
-    debugPrint(mFilePickerResult.files.first.name);
-    Uint8List? xBytes = mFilePickerResult.files.first.bytes;
-    if (xBytes == null) {
-      debugPrint("Error Reading File!");
-      return;
-    }
-    String? xLink = await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        contentPadding: EdgeInsets.zero,
-        content: FutureBuilder(
-          future: FirebaseAPI.uploadPhoto(
-              mFileType: mFileType,
-              fileName:
-                  "${DateTime.now().millisecondsSinceEpoch}.${mFilePickerResult.files.first.extension}",
-              fileData: xBytes),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.data.toString().contains("Error: ") == true) {
-              return Center(
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          snapshot.data.toString(),
-                          style: TextStyle(color: Colors.red[700]),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text("Back"))
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            } else {
-              Navigator.of(context).pop(snapshot.data);
-              return Container();
-            }
-          },
-        ),
-      ),
-    );
-    if (xLink != null) {
-      debugPrint(xLink);
-      setState(() {
-        mFileType == FileType.audio
-            ? _audioFileLink = xLink
-            : _imageLink = xLink;
-      });
     }
   }
 }

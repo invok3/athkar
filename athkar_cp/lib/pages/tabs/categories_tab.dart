@@ -61,7 +61,7 @@ class _CategoriesTabState extends State<CategoriesTab> {
                           Icons.add,
                           color: Colors.white,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           Navigator.pushNamed(
                                   context, EditCategoryTab.routeName)
                               .then((value) {
@@ -119,6 +119,7 @@ class _CategoriesTabState extends State<CategoriesTab> {
                       ));
                     } else {
                       var mList = snapshot.data as List<Map<String, String>>;
+
                       return mList.isEmpty
                           ? Center(
                               child: Text("No Categories Added"),
@@ -216,9 +217,8 @@ class _CategoriesTabState extends State<CategoriesTab> {
                 InkWell(
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(EditCategoryTab.routeName, arguments: id)
-                          .then((value) {
+                      Navigator.of(context).pushNamed(EditCategoryTab.routeName,
+                          arguments: {"catID": id}).then((value) {
                         setState(() {});
                       });
                     },

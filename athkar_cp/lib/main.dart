@@ -54,10 +54,10 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => StateManager(),
         CategoriesTab.routeName: (context) => CategoriesTab(),
+        StoriesTab.routeName: (context) => StoriesTab(),
         EditCategoryTab.routeName: (context) => EditCategoryTab(),
         EditStoryTab.routeName: (context) => EditStoryTab(),
         ProfileTab.routeName: (context) => ProfileTab(),
-        StoriesTab.routeName: (context) => StoriesTab(),
         PreviewPage.routeName: (context) => PreviewPage(),
         AboutTab.routeName: (context) => AboutTab(),
         MessagesTab.routeName: (context) => MessagesTab(),

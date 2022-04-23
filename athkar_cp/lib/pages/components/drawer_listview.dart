@@ -71,6 +71,7 @@ class _MyDrawerListViewState extends State<MyDrawerListView> {
         ListTile(
           onTap: () => {
             Provider.of<Reading>(context, listen: false).setCatID(null),
+            Provider.of<Reading>(context, listen: false).setStoryID(null),
             Navigator.pushReplacementNamed(context, StoriesTab.routeName)
           },
           textColor: drawer ? null : Colors.white,

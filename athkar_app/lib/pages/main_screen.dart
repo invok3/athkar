@@ -16,6 +16,8 @@ class MainScreen extends StatefulWidget {
 class MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
+  bool _canShowFloatingActBtn = false;
+
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -28,6 +30,13 @@ class MainScreenState extends State<MainScreen> {
     GlobalKey<State<BottomNavigationBar>> botNavBarKey = GlobalKey();
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: _selectedIndex == 1 && _canShowFloatingActBtn
+          ? FloatingActionButton(
+              onPressed: () {},
+              child: Icon(Icons.add),
+            )
+          : null,
       bottomNavigationBar: CustomNavBar(
         botNavBarKey: botNavBarKey,
         mainKey: widget.key as GlobalKey<State<MainScreen>>,
@@ -41,6 +50,7 @@ class MainScreenState extends State<MainScreen> {
   void reAnimate(int x) {
     setState(() {
       _selectedIndex = x;
+      _canShowFloatingActBtn = false;
     });
   }
 
@@ -51,7 +61,7 @@ class MainScreenState extends State<MainScreen> {
   pageSelector({required Size size}) {
     switch (_selectedIndex) {
       case 1:
-        return EditTab();
+        return EditTab(mainKey: widget.key as GlobalKey<State<MainScreen>>);
       case 2:
         return ShareTab();
       case 3:
@@ -59,5 +69,11 @@ class MainScreenState extends State<MainScreen> {
       default:
         return MainTab(size: size);
     }
+  }
+
+  void setShowFloatingActionBtn(bool can) {
+    setState(() {
+      _canShowFloatingActBtn = can;
+    });
   }
 }

@@ -1,8 +1,8 @@
+import 'package:athkar_cp/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:athkar_cp/pages/control_panel_page.dart';
 import 'package:athkar_cp/pages/login_page.dart';
-import 'package:athkar_cp/providers/user_provider.dart';
 
 class StateManager extends StatefulWidget {
   const StateManager({Key? key}) : super(key: key);

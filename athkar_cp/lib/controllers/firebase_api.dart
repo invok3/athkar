@@ -30,14 +30,17 @@ abstract class FirebaseAPI {
 
   static Future<String?> editCat(
       {required String id,
+      String? varID,
       String? image,
       String? title,
       String? description}) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("categories")
-          .doc(id)
-          .set({"image": image, "title": title, "description": description});
+      await FirebaseFirestore.instance.collection("categories").doc(id).set({
+        "varID": varID,
+        "image": image,
+        "title": title,
+        "description": description
+      });
       return null;
     } catch (e) {
       debugPrint(e.toString());
@@ -45,18 +48,16 @@ abstract class FirebaseAPI {
     }
   }
 
-  static editElement(
+  static editStory(
       {required String id,
       required String catID,
-      required String imageLink,
-      required String audioFileLink,
+      required String document,
       required String title,
       String? description}) async {
     try {
       await FirebaseFirestore.instance.collection("stories").doc(id).set({
         "catID": catID,
-        "imageLink": imageLink,
-        "audioFileLink": audioFileLink,
+        "document": document,
         "title": title,
         "description": description
       });
@@ -72,6 +73,7 @@ abstract class FirebaseAPI {
       return x.docs
           .map((e) => {
                 "id": e.id,
+                "varID": e["varID"].toString(),
                 "title": e["title"].toString(),
                 "image": e["image"].toString(),
                 "description": e["description"].toString()
@@ -91,6 +93,7 @@ abstract class FirebaseAPI {
           .map((e) => {
                 "id": e.id,
                 "title": e["title"].toString(),
+                "varID": e["varID"].toString(),
                 "catID": e["catID"].toString(),
                 "imageLink": e["imageLink"].toString(),
                 "audioFileLink": e["audioFileLink"].toString(),
@@ -110,6 +113,7 @@ abstract class FirebaseAPI {
           .doc(id)
           .get();
       return {
+        "varID": cat["varID"],
         "title": cat["title"],
         "image": cat["image"],
         "description": cat["description"],

@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:athkar_cp/controllers/firebase_api.dart';
 import 'package:athkar_cp/pages/components/appbar.dart';
 import 'package:athkar_cp/pages/components/drawer_listview.dart';
 import 'package:athkar_cp/pages/components/flex_sidebar.dart';
 import 'package:athkar_cp/pages/components/func.dart';
-import 'package:athkar_cp/pages/components/play_stop.dart';
 import 'package:athkar_cp/pages/tabs/edit_story_tab.dart';
-import 'package:athkar_cp/providers/reading_provider.dart';
+import 'package:athkar_cp/pages/tabs/preview_page.dart';
 
 class StoriesTab extends StatefulWidget {
   static String routeName = "/StoriesTab";
@@ -21,9 +19,6 @@ class StoriesTab extends StatefulWidget {
 
 class _StoriesTabState extends State<StoriesTab> {
   late bool isProtrait;
-
-  String _searchValue = "";
-
   @override
   Widget build(BuildContext context) {
     isProtrait = isPortrait(context: context);
@@ -39,7 +34,7 @@ class _StoriesTabState extends State<StoriesTab> {
           : null,
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "Elements",
+        title: "الحلقات",
       ),
       body: SafeArea(
         child: FlexSideBar(
@@ -49,53 +44,30 @@ class _StoriesTabState extends State<StoriesTab> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            padding: MaterialStateProperty.all(
-                                EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8))),
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                        onPressed: () async {
-                          String? catID = await selectCatID();
-                          if (catID == null) {
-                            return;
-                          }
-                          Navigator.pushNamed(context, EditStoryTab.routeName,
-                              arguments: {"catID": catID}).then((value) {
-                            setState(() {});
-                          });
-                        },
-                        label: Text(
-                          "Add",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        )),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18)),
-                          hintText: "Search",
-                          isDense: true,
-                          prefixIcon: Icon(Icons.search),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            _searchValue = value;
-                          });
-                        },
-                      ),
+                child: ElevatedButton.icon(
+                    style: ButtonStyle(
+                        padding: MaterialStateProperty.all(
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 8))),
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.white,
                     ),
-                  ],
-                ),
+                    onPressed: () async {
+                      String? catID = await selectCatID();
+                      if (catID == null) {
+                        return;
+                      }
+                      Navigator.pushNamed(context, EditStoryTab.routeName,
+                          arguments: {"catID": catID}).then((value) {setState(() {
+                            
+                          });});
+                    },
+                    label: Text(
+                      "إضافة",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )),
               ),
               Expanded(
                 child: FutureBuilder(
@@ -115,37 +87,29 @@ class _StoriesTabState extends State<StoriesTab> {
                             color: Colors.red[700],
                           ),
                           Text(
-                            "An Error Occurred while connecting to database!",
+                            "حدث خطأ اثناء التصال بقاعدة البيانات",
                             style: TextStyle(color: Colors.red[700]),
                           )
                         ],
                       ));
                     } else {
                       var mList = snapshot.data as List<Map<String, String>>;
-                      if (Provider.of<Reading>(context).catID != null) {
-                        mList.removeWhere((element) =>
-                            element["catID"] !=
-                            Provider.of<Reading>(context).catID);
-                      }
                       return mList.isEmpty
                           ? Center(
-                              child: Text("No Elementes!"),
+                              child: Text("لم تقم بأضافة حلقات"),
                             )
                           : SingleChildScrollView(
                               controller: ScrollController(),
                               padding: EdgeInsets.all(8),
                               child: Column(
                                   children: mList
-                                      .where((element) => element["title"]
-                                          .toString()
-                                          .contains(_searchValue))
                                       .map((e) => mCard(
                                             catID: e["catID"] ?? "",
                                             id: e["id"] ?? "",
                                             title: e["title"] ?? "",
                                             subtitle: e["description"],
-                                            imageLink: e["imageLink"],
-                                            audioFileLink: e["audioFileLink"],
+                                            image: e["image"],
+                                            document: e["document"],
                                             width: x,
                                             height: y,
                                           ))
@@ -167,8 +131,8 @@ class _StoriesTabState extends State<StoriesTab> {
       required String catID,
       required String title,
       String? subtitle,
-      String? imageLink,
-      String? audioFileLink,
+      String? image,
+      String? document,
       required double width,
       required double height}) {
     return Card(
@@ -177,7 +141,7 @@ class _StoriesTabState extends State<StoriesTab> {
       margin: EdgeInsets.all(8),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Image.network(
-          imageLink ?? "",
+          image ?? "",
           height: height,
           width: width,
           errorBuilder: (context, error, stackTrace) {
@@ -219,24 +183,22 @@ class _StoriesTabState extends State<StoriesTab> {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            PlayStopButton(
-              link: audioFileLink ?? "",
-              isProtrait: isProtrait,
-            ),
             InkWell(
                 borderRadius: BorderRadius.circular(100),
                 onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(EditStoryTab.routeName, arguments: {
-                    "id": id,
-                    "catID": catID,
-                    "title": title,
-                    "subtitle": subtitle,
-                    "audioFileLink": audioFileLink,
-                    "imageLink": imageLink
-                  }).then((value) {
-                    setState(() {});
-                  });
+                  Navigator.pushNamed(context, PreviewPage.routeName, arguments: document);
+                },
+                child: Padding(
+                  padding:
+                      isProtrait ? EdgeInsets.all(4.0) : EdgeInsets.all(8.0),
+                  child: Icon(Icons.phone_iphone, color: Colors.amber),
+                )),
+            InkWell(
+                borderRadius: BorderRadius.circular(100),
+                onTap: () {
+                  Navigator.of(context).pushNamed(EditStoryTab.routeName, arguments: {"id" : id, "catID" : catID,  "title" : title, "subtitle": subtitle, "document": document, "image": image}).then((value) {setState(() {
+                    
+                  });});
                 },
                 child: Padding(
                   padding:
@@ -244,39 +206,31 @@ class _StoriesTabState extends State<StoriesTab> {
                   child: Icon(Icons.edit, color: Colors.amber),
                 )),
             InkWell(
-              borderRadius: BorderRadius.circular(100),
-              onTap: () async {
-                bool? confirmation = await showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content:
-                        Text("Permanently Delete Element, Can't be undone!"),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        child: Text("Ok"),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text("Back"),
-                      ),
-                    ],
-                  ),
-                );
-                if (confirmation != true) {
-                  return;
-                }
-                await FirebaseFirestore.instance
-                    .collection("stories")
-                    .doc(id)
-                    .delete();
-                setState(() {});
-              },
-              child: Padding(
-                padding: isProtrait ? EdgeInsets.all(4.0) : EdgeInsets.all(8.0),
-                child: Icon(Icons.delete, color: Colors.amber),
-              ),
-            ),
+                borderRadius: BorderRadius.circular(100),
+                onTap: () async {
+                  bool? confirmation = await showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content: Text("حذف الحلقة, لا يمكن التراجع!"),
+                            actions: [
+                              TextButton(onPressed: () {Navigator.pop(context, true)}, child: Text("موافق")),
+                              TextButton(onPressed: () {Navigator.pop(context)}, child: Text("رجوع")),
+                            ],
+                          ));
+                          if(confirmation != true) {
+                            return;
+                          }
+                  await FirebaseFirestore.instance
+                      .collection("stories")
+                      .doc(id)
+                      .delete();
+                  setState(() {});
+                },
+                child: Padding(
+                  padding:
+                      isProtrait ? EdgeInsets.all(4.0) : EdgeInsets.all(8.0),
+                  child: Icon(Icons.delete, color: Colors.amber),
+                )),
           ],
         ),
       ]),
@@ -302,7 +256,7 @@ class _StoriesTabState extends State<StoriesTab> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Center(
-                    child: Text("No Categories Found!"),
+                    child: Text("لا يمكن العثور على أجزاء"),
                   ),
                 ],
               );
@@ -314,7 +268,7 @@ class _StoriesTabState extends State<StoriesTab> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Center(
-                          child: Text("No Categories Added"),
+                          child: Text("لم تقم بأضافة أجزاء بعد"),
                         ),
                       ],
                     )

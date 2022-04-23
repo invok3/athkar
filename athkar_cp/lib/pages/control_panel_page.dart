@@ -20,7 +20,6 @@ class ControlPanelPageState extends State<ControlPanelPage> {
   late bool isProtrait;
 
   int catsLengths = 0;
-
   int storiesLength = 0;
 
   bool loaded = false;
@@ -67,10 +66,15 @@ class ControlPanelPageState extends State<ControlPanelPage> {
                   return Column(
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: isProtrait
-                        ? _children(catsLengths, storiesLength)
+                        ? _children(
+                            catsLength: catsLengths,
+                            storiesLength: storiesLength)
                         : [
                             Row(
-                              children: _children(catsLengths, storiesLength),
+                              children: _children(catsLength: catsLengths),
+                            ),
+                            Row(
+                              children: _children(storiesLength: storiesLength),
                             )
                           ],
                   );
@@ -83,136 +87,145 @@ class ControlPanelPageState extends State<ControlPanelPage> {
     );
   }
 
-  List<Widget> _children(int _catsLength, int _storiesLength) {
+  List<Widget> _children({int? catsLength, int? storiesLength}) {
     return [
-      Card(
-        clipBehavior: Clip.hardEdge,
-        elevation: 10,
-        shadowColor: Colors.amber,
-        color: Colors.amber,
-        child: InkWell(
-          onTap: () => {
-            Provider.of<Reading>(context, listen: false).setCatID(null),
-            Navigator.pushReplacementNamed(context, CategoriesTab.routeName)
-          },
-          child: SizedBox(
-            width: 250,
-            height: 120,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+      catsLength == null
+          ? Container()
+          : Card(
+              clipBehavior: Clip.hardEdge,
+              elevation: 10,
+              shadowColor: Colors.amber,
+              color: Colors.amber,
+              child: InkWell(
+                onTap: () => {
+                  Provider.of<Reading>(context, listen: false).setCatID(null),
+                  Navigator.pushReplacementNamed(
+                      context, CategoriesTab.routeName)
+                },
+                child: SizedBox(
+                  width: 250,
+                  height: 120,
+                  child: Column(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            "Category Count",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          Text(
-                            _catsLength.toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                          )
-                        ],
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "Category Count",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                                Text(
+                                  catsLength.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 24),
+                                )
+                              ],
+                            ),
+                            Icon(
+                              Icons.list_alt,
+                              color: Colors.white.withOpacity(.3),
+                              size: 56,
+                            )
+                          ],
+                        ),
                       ),
-                      Icon(
-                        Icons.list_alt,
-                        color: Colors.white.withOpacity(.3),
-                        size: 56,
+                      Container(
+                        color: Colors.grey.withOpacity(.4),
+                        child: Row(
+                          children: [
+                            Spacer(flex: 1),
+                            Text(
+                              "Categories",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Spacer(flex: 8),
+                            Icon(
+                              Icons.navigate_next,
+                              color: Colors.white,
+                            ),
+                            Spacer(flex: 1)
+                          ],
+                        ),
                       )
                     ],
                   ),
                 ),
-                Container(
-                  color: Colors.grey.withOpacity(.4),
-                  child: Row(
-                    children: [
-                      Spacer(flex: 1),
-                      Text(
-                        "Categories",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Spacer(flex: 8),
-                      Icon(
-                        Icons.navigate_next,
-                        color: Colors.white,
-                      ),
-                      Spacer(flex: 1)
-                    ],
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-      Card(
-        clipBehavior: Clip.hardEdge,
-        elevation: 10,
-        shadowColor: Colors.orange,
-        color: Colors.orange,
-        child: InkWell(
-          onTap: () => {
-            Provider.of<Reading>(context, listen: false).setCatID(null),
-            Navigator.pushReplacementNamed(context, StoriesTab.routeName)
-          },
-          child: SizedBox(
-            width: 250,
-            height: 120,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+      storiesLength == null
+          ? Container()
+          : Card(
+              clipBehavior: Clip.hardEdge,
+              elevation: 10,
+              shadowColor: Colors.orange,
+              color: Colors.orange,
+              child: InkWell(
+                onTap: () => {
+                  Provider.of<Reading>(context, listen: false).setCatID(null),
+                  Navigator.pushReplacementNamed(context, StoriesTab.routeName)
+                },
+                child: SizedBox(
+                  width: 250,
+                  height: 120,
+                  child: Column(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            "Element Count",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          Text(
-                            _storiesLength.toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                          )
-                        ],
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "Element Count",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                                Text(
+                                  storiesLength.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 24),
+                                )
+                              ],
+                            ),
+                            Icon(
+                              Icons.list,
+                              color: Colors.white.withOpacity(.3),
+                              size: 56,
+                            )
+                          ],
+                        ),
                       ),
-                      Icon(
-                        Icons.list,
-                        color: Colors.white.withOpacity(.3),
-                        size: 56,
+                      Container(
+                        color: Colors.grey.withOpacity(.4),
+                        child: Row(
+                          children: [
+                            Spacer(flex: 1),
+                            Text(
+                              "Elements",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Spacer(flex: 8),
+                            Icon(
+                              Icons.navigate_next,
+                              color: Colors.white,
+                            ),
+                            Spacer(flex: 1)
+                          ],
+                        ),
                       )
                     ],
                   ),
                 ),
-                Container(
-                  color: Colors.grey.withOpacity(.4),
-                  child: Row(
-                    children: [
-                      Spacer(flex: 1),
-                      Text(
-                        "Elements",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Spacer(flex: 8),
-                      Icon(
-                        Icons.navigate_next,
-                        color: Colors.white,
-                      ),
-                      Spacer(flex: 1)
-                    ],
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     ];
   }
 

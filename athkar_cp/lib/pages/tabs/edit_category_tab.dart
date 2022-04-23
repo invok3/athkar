@@ -21,21 +21,32 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
   final TextEditingController _description = TextEditingController();
 
   String? _error;
-  late String catID;
+   String? catID;
+   String? varID;
   bool loaded = false;
 
   @override
   Widget build(BuildContext context) {
-    String? cCatID = ModalRoute.of(context)?.settings.arguments as String?;
-    catID = cCatID ?? DateTime.now().millisecondsSinceEpoch.toString();
+    if(varID == null){try {
+      varID = (ModalRoute.of(context)!.settings.arguments as Map<String, String>)["varID"]; 
+    } catch (e) {
+      debugPrint(e.toString());
+      varID=null;
+    }}
+    try {
+      catID = (ModalRoute.of(context)!.settings.arguments as Map<String, String>)["catID"]; 
+    } catch (e) {
+      debugPrint(e.toString());
+      catID=null;
+    }
     return Scaffold(
       appBar: MyAppBar(
         //appBar: AppBar(),
         title: "Edit Category",
       ),
       body: SafeArea(
-        child: FutureBuilder(
-          future: getCategory(cCatID),
+        child: varID==null && catID == null ? Center(child: Text("Error: No Variant nor Category's Selected!"),) : FutureBuilder(
+          future: getCategory(catID),
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               return Center(
@@ -172,7 +183,8 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
               contentPadding: EdgeInsets.zero,
               content: FutureBuilder(
                 future: FirebaseAPI.editCat(
-                    id: catID,
+                    id: catID ?? DateTime.now().millisecondsSinceEpoch.toString(),
+                    varID: varID,
                     image: _imageLink,
                     title: _title.text,
                     description: _description.text),
@@ -262,6 +274,7 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
       if (loaded == false) {
         setState(() {
           loaded = true;
+          varID = x?["varID"];
           _title.text = x?["title"] ?? "";
           _description.text = x?["description"] ?? "";
           _imageLink = x?["image"] ?? "";
