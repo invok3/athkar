@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.person),
                     border: OutlineInputBorder(),
-                    labelText: "Username",
+                    labelText: "المستخدم",
                   ),
                 ),
                 Spacer(),
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.lock),
                     border: OutlineInputBorder(),
-                    labelText: "Password",
+                    labelText: "كلمة المرور",
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
-                    child: Text("Login"),
+                    child: Text("دخول"),
                   ),
                 ),
                 Spacer(),

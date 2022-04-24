@@ -15,8 +15,12 @@ class PreviewPage extends StatefulWidget {
 
 class _PreviewPageState extends State<PreviewPage> {
   late String? doc;
+
+  late TextEditingController _mController;
   @override
   Widget build(BuildContext context) {
+    _mController = TextEditingController(
+        text: ModalRoute.of(context)?.settings.arguments as String);
     var maxHeight =
         MediaQuery.of(context).size.height - AppBar().preferredSize.height - 10;
     return Scaffold(
@@ -29,20 +33,9 @@ class _PreviewPageState extends State<PreviewPage> {
             constraints: isPortrait(context: context)
                 ? null
                 : BoxConstraints(maxHeight: maxHeight, maxWidth: maxHeight / 2),
-            child: quill.QuillEditor(
-              expands: true,
-              controller: quill.QuillController(
-                  document: quill.Document.fromJson(jsonDecode(
-                      ModalRoute.of(context)?.settings.arguments.toString() ??
-                          "")),
-                  selection: TextSelection(baseOffset: 0, extentOffset: 0)),
-              padding: EdgeInsets.zero,
-              readOnly: true,
-              focusNode: FocusNode(),
-              scrollable: true,
-              scrollController: ScrollController(),
-              autoFocus: true,
-              showCursor: false,
+            child: TextField(
+              maxLines: 100,
+              controller: _mController,
             ),
           ),
         ),

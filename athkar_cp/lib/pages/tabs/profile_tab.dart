@@ -35,7 +35,7 @@ class _ProfileTabState extends State<ProfileTab> {
           : null,
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "Admin Profile",
+        title: "الملف الشخصي",
       ),
       body: SafeArea(
         child: FlexSideBar(
@@ -74,7 +74,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       foregroundColor: MaterialStateProperty.all(Colors.white)),
                   onPressed: () => selectPhoto(),
                   icon: Icon(Icons.camera_alt),
-                  label: Text("Change Photo")),
+                  label: Text("تغيير الصورة")),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width / 4),
@@ -88,7 +88,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       decoration: InputDecoration(
                           isDense: true,
                           border: OutlineInputBorder(),
-                          labelText: "New Password: "),
+                          labelText: "كلمة مرور جديدة: "),
                     ),
                     SizedBox(
                       height: 16,
@@ -105,9 +105,9 @@ class _ProfileTabState extends State<ProfileTab> {
                             return;
                           }
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Password Changed.")));
+                              SnackBar(content: Text("تم تغيير كلمة المرور.")));
                         },
-                        child: Text("Change Password"))
+                        child: Text("تغيير كلمة المرور"))
                   ],
                 ),
               )

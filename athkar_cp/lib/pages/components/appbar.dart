@@ -59,7 +59,7 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
                 child: Row(
                   children: [
-                    Text("Admin Profile"),
+                    Text("الملف الشخصي"),
                     Spacer(),
                     Icon(
                       Icons.person,
@@ -71,7 +71,7 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
                 child: Row(
                   children: [
-                    Text("Logout"),
+                    Text("تسجيل خروج"),
                     Spacer(),
                     Icon(
                       Icons.logout,

@@ -38,7 +38,7 @@ class _AboutTabState extends State<AboutTab> {
     return Scaffold(
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "About Page",
+        title: "عن التطبيق",
       ),
       body: SafeArea(
         child: Column(

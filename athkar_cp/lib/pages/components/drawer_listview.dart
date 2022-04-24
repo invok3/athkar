@@ -56,7 +56,7 @@ class _MyDrawerListViewState extends State<MyDrawerListView> {
           textColor: drawer ? null : Colors.white,
           iconColor: drawer ? null : Colors.white,
           leading: Icon(Icons.computer),
-          title: Text("Dashboard"),
+          title: Text("الرئيسية"),
         ),
         ListTile(
           onTap: () => {
@@ -66,7 +66,7 @@ class _MyDrawerListViewState extends State<MyDrawerListView> {
           textColor: drawer ? null : Colors.white,
           iconColor: drawer ? null : Colors.white,
           leading: Icon(Icons.list_alt),
-          title: Text("Categories"),
+          title: Text("الأقسام"),
         ),
         ListTile(
           onTap: () => {
@@ -77,7 +77,7 @@ class _MyDrawerListViewState extends State<MyDrawerListView> {
           textColor: drawer ? null : Colors.white,
           iconColor: drawer ? null : Colors.white,
           leading: Icon(Icons.list),
-          title: Text("Elements"),
+          title: Text("العناصر"),
         ),
         ListTile(
           onTap: () => Navigator.pushReplacementNamed(
@@ -85,7 +85,7 @@ class _MyDrawerListViewState extends State<MyDrawerListView> {
           textColor: drawer ? null : Colors.white,
           iconColor: drawer ? null : Colors.white,
           leading: Icon(Icons.notifications),
-          title: Text("Send Notifications"),
+          title: Text("الإشعارات"),
         ),
         ListTile(
           onTap: () =>
@@ -93,7 +93,7 @@ class _MyDrawerListViewState extends State<MyDrawerListView> {
           textColor: drawer ? null : Colors.white,
           iconColor: drawer ? null : Colors.white,
           leading: Icon(Icons.mail),
-          title: Text("Suggestions"),
+          title: Text("الاقتراحات و الشكاوي"),
         ),
         ListTile(
           onTap: () async {
@@ -125,7 +125,7 @@ class _MyDrawerListViewState extends State<MyDrawerListView> {
           textColor: drawer ? null : Colors.white,
           iconColor: drawer ? null : Colors.white,
           leading: Icon(Icons.hail),
-          title: Text("About Page"),
+          title: Text("عن التطبيق"),
         ),
         ListTile(
           onTap: () =>
@@ -133,7 +133,7 @@ class _MyDrawerListViewState extends State<MyDrawerListView> {
           textColor: drawer ? null : Colors.white,
           iconColor: drawer ? null : Colors.white,
           leading: Icon(Icons.person),
-          title: Text("Admin Profile"),
+          title: Text("الملف الشخصي"),
         ),
       ],
     );

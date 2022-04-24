@@ -36,7 +36,7 @@ class ControlPanelPageState extends State<ControlPanelPage> {
           : null,
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "Admin Panel",
+        title: "لوحة التحكم",
       ),
       body: SafeArea(
         child: FlexSideBar(
@@ -116,7 +116,7 @@ class ControlPanelPageState extends State<ControlPanelPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  "Category Count",
+                                  "الأقسام",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
@@ -141,7 +141,7 @@ class ControlPanelPageState extends State<ControlPanelPage> {
                           children: [
                             Spacer(flex: 1),
                             Text(
-                              "Categories",
+                              "متابعة",
                               style: TextStyle(color: Colors.white),
                             ),
                             Spacer(flex: 8),
@@ -184,7 +184,7 @@ class ControlPanelPageState extends State<ControlPanelPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  "Element Count",
+                                  "العناصر",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
@@ -209,7 +209,7 @@ class ControlPanelPageState extends State<ControlPanelPage> {
                           children: [
                             Spacer(flex: 1),
                             Text(
-                              "Elements",
+                              "متابعة",
                               style: TextStyle(color: Colors.white),
                             ),
                             Spacer(flex: 8),

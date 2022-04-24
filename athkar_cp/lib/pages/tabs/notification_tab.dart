@@ -40,7 +40,7 @@ class _NotificationTabState extends State<NotificationTab> {
           : null,
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "Send Notifications",
+        title: "الإشعارات",
       ),
       body: SafeArea(
         child: FlexSideBar(
@@ -63,7 +63,7 @@ class _NotificationTabState extends State<NotificationTab> {
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.amber, width: 2)),
-                              labelText: "Title: ",
+                              labelText: "العنوان: ",
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               isDense: true,
@@ -77,7 +77,7 @@ class _NotificationTabState extends State<NotificationTab> {
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.amber, width: 2)),
-                                labelText: "Image Link: ",
+                                labelText: "رابط الصورة: ",
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
                                 isDense: true,
@@ -110,7 +110,7 @@ class _NotificationTabState extends State<NotificationTab> {
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.amber, width: 2)),
-                              labelText: "Text: ",
+                              labelText: "النص: ",
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               isDense: true,
@@ -121,7 +121,7 @@ class _NotificationTabState extends State<NotificationTab> {
                           ElevatedButton(
                             onPressed: () => sendNotification(),
                             child: Text(
-                              "Send",
+                              "إرسال",
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -183,11 +183,11 @@ class _NotificationTabState extends State<NotificationTab> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Error"),
-          content: Text("Title is Required!"),
+          title: Text("خطأ"),
+          content: Text("العنوان مطلوب!"),
           actions: [
             ElevatedButton(
-                onPressed: () => Navigator.pop(context), child: Text("Back"))
+                onPressed: () => Navigator.pop(context), child: Text("رجوع"))
           ],
           actionsAlignment: MainAxisAlignment.center,
         ),
@@ -227,12 +227,11 @@ class _NotificationTabState extends State<NotificationTab> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(result.contains("Error: ") ? "Error" : "Done"),
-        content:
-            Text(result.contains("Error: ") ? result : "Sent successfully."),
+        title: Text(result.contains("Error: ") ? "خطأ" : "تم"),
+        content: Text(result.contains("Error: ") ? result : "تم الارسال."),
         actions: [
           ElevatedButton(
-              onPressed: () => Navigator.pop(context), child: Text("Done"))
+              onPressed: () => Navigator.pop(context), child: Text("تم"))
         ],
         actionsAlignment: MainAxisAlignment.center,
       ),

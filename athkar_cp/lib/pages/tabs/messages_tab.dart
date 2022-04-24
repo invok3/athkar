@@ -35,7 +35,7 @@ class _MessagesTabState extends State<MessagesTab> {
           : null,
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "Suggestions",
+        title: "الإقتراحات و الشكاوي",
       ),
       body: SafeArea(
         child: FlexSideBar(
@@ -61,7 +61,7 @@ class _MessagesTabState extends State<MessagesTab> {
                             color: Colors.red[700],
                           ),
                           Text(
-                            "An Error Occurred while connecting to database",
+                            "حدث خطأ اثناء الاتصال بقاعدة البيانات",
                             style: TextStyle(color: Colors.red[700]),
                           )
                         ],
@@ -105,10 +105,10 @@ class _MessagesTabState extends State<MessagesTab> {
                                               setState(() {});
                                             }),
                                       ),
-                                      Center(child: Text("Name")),
-                                      Center(child: Text("Email")),
-                                      Center(child: Text("Subject")),
-                                      Center(child: Text("Text")),
+                                      Center(child: Text("الإسم")),
+                                      Center(child: Text("البريد")),
+                                      Center(child: Text("الموضوع")),
+                                      Center(child: Text("نص")),
                                     ],
                                   )
                                 ] +
@@ -153,8 +153,7 @@ class _MessagesTabState extends State<MessagesTab> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        onPressed: () => _deleteSelected(),
-                        child: Text("Delete"))
+                        onPressed: () => _deleteSelected(), child: Text("حذف"))
                   ],
                 ),
               )

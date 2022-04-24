@@ -21,31 +21,25 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
   final TextEditingController _description = TextEditingController();
 
   String? _error;
-   String? catID;
-   String? varID;
+  String? catID;
   bool loaded = false;
 
   @override
   Widget build(BuildContext context) {
-    if(varID == null){try {
-      varID = (ModalRoute.of(context)!.settings.arguments as Map<String, String>)["varID"]; 
-    } catch (e) {
-      debugPrint(e.toString());
-      varID=null;
-    }}
     try {
-      catID = (ModalRoute.of(context)!.settings.arguments as Map<String, String>)["catID"]; 
+      catID = (ModalRoute.of(context)!.settings.arguments
+          as Map<String, String>)["catID"];
     } catch (e) {
       debugPrint(e.toString());
-      catID=null;
+      catID = null;
     }
     return Scaffold(
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "Edit Category",
+        title: "تحرير قسم",
       ),
       body: SafeArea(
-        child: varID==null && catID == null ? Center(child: Text("Error: No Variant nor Category's Selected!"),) : FutureBuilder(
+        child: FutureBuilder(
           future: getCategory(catID),
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
@@ -100,7 +94,7 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
                     ),
                     ElevatedButton(
                         onPressed: () => selectPhoto(),
-                        child: Text("Pick an Image")),
+                        child: Text("اختر صورة")),
                     Center(
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -112,7 +106,7 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
                             controller: _title,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: "Title: ",
+                                labelText: "العنوان: ",
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always),
                           ),
@@ -131,7 +125,7 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
                             maxLines: 5,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: "Description: ",
+                                labelText: "الوصف: ",
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always),
                           ),
@@ -144,7 +138,7 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(Icons.error_outline, color: Colors.red[700]),
-                              Text(_error ?? "Unknown Error!",
+                              Text(_error ?? "خطأ غير معروف!",
                                   style: TextStyle(color: Colors.red[700]))
                             ],
                           ),
@@ -155,7 +149,7 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
                           });
                           editCat();
                         },
-                        child: Text("Save")),
+                        child: Text("حفظ")),
                   ],
                 ),
               );
@@ -170,7 +164,7 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
     //id: widget.catID, image: _imageLink, title: _title.text, desription: _description.text
     if (_title.text.isEmpty) {
       setState(() {
-        _error = "Title is required!";
+        _error = "العنوان مطلوب!";
       });
       return;
     }
@@ -183,8 +177,8 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
               contentPadding: EdgeInsets.zero,
               content: FutureBuilder(
                 future: FirebaseAPI.editCat(
-                    id: catID ?? DateTime.now().millisecondsSinceEpoch.toString(),
-                    varID: varID,
+                    id: catID ??
+                        DateTime.now().millisecondsSinceEpoch.toString(),
                     image: _imageLink,
                     title: _title.text,
                     description: _description.text),
@@ -200,7 +194,7 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
             ));
     if (result != null) {
       setState(() {
-        _error = "An Error Occurred while connecting to database!";
+        _error = "خطأ اثناء محاولة الاتصال بقاعدة البيانات!";
       });
     } else {
       Navigator.pop(context);
@@ -216,48 +210,56 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
     }
     debugPrint(xFile.name);
     Uint8List xBytes = await xFile.readAsBytes();
+
     String? xLink = await showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) => AlertDialog(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              contentPadding: EdgeInsets.zero,
-              content: FutureBuilder(
-                future: FirebaseAPI.uploadPhoto(
-                  mFileType: FileType.image,
-                    fileName:
-                        "${DateTime.now().millisecondsSinceEpoch}.${xFile.name.split('.').last}",
-                    fileData: xBytes),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.data.toString().contains("Error: ")) {
-                    return Center(
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(snapshot.data.toString(), style: TextStyle(color: Colors.red[700]),),
-                              SizedBox(height: 8,)
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text("Back"),
-                              )
-                            ],
-                          ),
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        contentPadding: EdgeInsets.zero,
+        content: FutureBuilder(
+          future: FirebaseAPI.uploadPhoto(
+              mFileType: FileType.image,
+              fileName:
+                  "${DateTime.now().millisecondsSinceEpoch}.${xFile.name.split('.').last}",
+              fileData: xBytes),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.data.toString().contains("Error: ")) {
+              return Center(
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          snapshot.data.toString(),
+                          style: TextStyle(color: Colors.red[700]),
                         ),
-                      ),
-                    );
-                  } else {
-                    Navigator.of(context).pop(snapshot.data);
-                    return Container();
-                  }
-                },
-              ),
-            ));
+                        SizedBox(
+                          height: 8,
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text("رجوع"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              Navigator.of(context).pop(snapshot.data);
+              return Container();
+            }
+          },
+        ),
+      ),
+    );
+
     if (xLink != null) {
       setState(() {
         _imageLink = xLink;
@@ -274,7 +276,6 @@ class _EditCategoryTabState extends State<EditCategoryTab> {
       if (loaded == false) {
         setState(() {
           loaded = true;
-          varID = x?["varID"];
           _title.text = x?["title"] ?? "";
           _description.text = x?["description"] ?? "";
           _imageLink = x?["image"] ?? "";

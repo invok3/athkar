@@ -39,7 +39,7 @@ class _CategoriesTabState extends State<CategoriesTab> {
           : null,
       appBar: MyAppBar(
         //appBar: AppBar(),
-        title: "Categories",
+        title: "الأقسام",
       ),
       body: SafeArea(
         child: FlexSideBar(
@@ -69,7 +69,7 @@ class _CategoriesTabState extends State<CategoriesTab> {
                           });
                         },
                         label: Text(
-                          "Add",
+                          "جديد",
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -80,7 +80,7 @@ class _CategoriesTabState extends State<CategoriesTab> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18)),
-                          hintText: "Search",
+                          hintText: "بحث",
                           isDense: true,
                           prefixIcon: Icon(Icons.search),
                         ),
@@ -122,7 +122,7 @@ class _CategoriesTabState extends State<CategoriesTab> {
 
                       return mList.isEmpty
                           ? Center(
-                              child: Text("No Categories Added"),
+                              child: Text("لم تقم بأضافة أقسام"),
                             )
                           : SingleChildScrollView(
                               controller: ScrollController(),
@@ -131,7 +131,8 @@ class _CategoriesTabState extends State<CategoriesTab> {
                                   children: mList
                                       .where((element) => element["title"]
                                           .toString()
-                                          .contains(_searchValue))
+                                          .toLowerCase()
+                                          .contains(_searchValue.toLowerCase()))
                                       .map((e) => mCard(
                                             id: e["id"] ?? "",
                                             title: e["title"] ?? "Unknown",
@@ -234,16 +235,15 @@ class _CategoriesTabState extends State<CategoriesTab> {
                       bool? confirmation = await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                                content: Text(
-                                    "Permanently Delete Category, This can't be Undone!"),
+                                content: Text("حذف القسم, لا يمكن التراجع!"),
                                 actions: [
                                   TextButton(
                                       onPressed: () =>
                                           Navigator.pop(context, true),
-                                      child: Text("Ok")),
+                                      child: Text("موافق")),
                                   TextButton(
                                       onPressed: () => Navigator.pop(context),
-                                      child: Text("Back")),
+                                      child: Text("رجوع")),
                                 ],
                               ));
                       if (confirmation != true) {

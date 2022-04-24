@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:athkar_cp/consts.dart';
 import 'package:athkar_cp/pages/tabs/about_tab.dart';
@@ -19,13 +20,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-        apiKey: "AIzaSyBtkZ-XuYLaslhtOm_RoqHZup6oIn5Wmq4",
-        authDomain: "talking-app-58e1d.firebaseapp.com",
-        projectId: "talking-app-58e1d",
-        storageBucket: "talking-app-58e1d.appspot.com",
-        messagingSenderId: "999825892199",
-        appId: "1:999825892199:web:a2e2d8f7b43b2376b605c2",
-        measurementId: "G-QT73HSD8ZY"),
+        apiKey: "AIzaSyClxoWlPYtwz6j3ao2Wx08TCynkqqU5RTQ",
+        authDomain: "athkar-app-e6430.firebaseapp.com",
+        projectId: "athkar-app-e6430",
+        storageBucket: "athkar-app-e6430.appspot.com",
+        messagingSenderId: "289097211816",
+        appId: "1:289097211816:web:5cac57f876a3858c67079d",
+        measurementId: "G-BMBPH2CXC1"),
   );
   runApp(MultiProvider(
     providers: [
@@ -42,9 +43,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: Locale('en', 'UK'),
+      locale: Locale('ar', 'SA'),
       supportedLocales: [
-        Locale('en', 'UK'),
+        Locale('ar', 'SA'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
       ],
       color: kPrimary,
       theme: ThemeData(primaryColor: kPrimary, primarySwatch: kPrimary),
