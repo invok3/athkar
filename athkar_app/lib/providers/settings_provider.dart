@@ -14,7 +14,8 @@ class SettingsProvider extends ChangeNotifier {
   bool selfReading = true;
   String overlayFont = "Cairo";
   double overlayFontScale = 1;
-  int OverlayColor = 0xFF876445;
+  int overlayColor = 0xFF876445;
+  List<String> myList = [];
 
   SettingsProvider() {
     _loadSettings();
@@ -37,6 +38,8 @@ class SettingsProvider extends ChangeNotifier {
     bool loadedVibrateOnReading =
         sharedPreferences?.getBool("vibrateOnReading") ?? true;
     bool loadedSelfReading = sharedPreferences?.getBool("selfReading") ?? true;
+    List<String> loadedMyList =
+        sharedPreferences?.getStringList("myList") ?? [];
     setFrequency(loadedFrequency, save: false);
     setVibrateOnTap(loadedVibrateOnTap, save: false);
     setSoundOnTap(loadedSoundOnTap, save: false);
@@ -47,6 +50,7 @@ class SettingsProvider extends ChangeNotifier {
     setCanShowNotifications(loadedCanShowNotifications, save: false);
     setVibrateOnReading(loadedVibrateOnReading, save: false);
     setSelfReading(loadedSelfReading, save: false);
+    setMyList(loadedMyList, save: false);
   }
 
   setFrequency(int loadedFrequency, {bool save = true}) {
@@ -140,8 +144,32 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   void setOverlayColor(int loadedOverlayColor, {bool save = true}) {
-    OverlayColor = loadedOverlayColor;
+    overlayColor = loadedOverlayColor;
     save ? sharedPreferences?.setInt("selectedFont", loadedOverlayColor) : null;
     notifyListeners();
+  }
+
+  void setMyList(List<String> loadedMyList, {bool save = true}) {
+    myList = loadedMyList;
+    save ? sharedPreferences?.setStringList("myList", myList) : null;
+    notifyListeners();
+  }
+
+  void addToMyList(String toAdd) {
+    if (myList.contains(toAdd)) {
+      return;
+    } else {
+      myList.add(toAdd);
+      setMyList(myList);
+    }
+  }
+
+  void removeFromMyList(String toRemove) {
+    if (!myList.contains(toRemove)) {
+      return;
+    } else {
+      myList.removeWhere((element) => element == toRemove);
+      setMyList(myList);
+    }
   }
 }

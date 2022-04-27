@@ -6,6 +6,7 @@ class CustomOutlinedButton extends StatelessWidget {
   final String text;
   final String? subText;
   final Function() ontap;
+  final Function()? onLongPress;
   final bool filled;
   final Widget? icon;
   final Color? fillColor;
@@ -26,6 +27,7 @@ class CustomOutlinedButton extends StatelessWidget {
     this.fillColor,
     this.color,
     this.fontFamily,
+    this.onLongPress,
   }) : super(key: key);
 
   @override
@@ -52,6 +54,7 @@ class CustomOutlinedButton extends StatelessWidget {
                 bottomRight: Radius.circular(32), topLeft: Radius.circular(32)),
           ),
           onTap: ontap,
+          onLongPress: onLongPress,
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: 18.0, vertical: icon == null && filled ? 12 : 6),
@@ -106,6 +109,8 @@ class CustomOutlinedButton extends StatelessWidget {
 }
 
 class CustomElevatedButton extends StatelessWidget {
+  final Widget? icon;
+  final double? leadingSpace;
   final String text;
   final Color? color;
   final String? fontFamily;
@@ -115,7 +120,9 @@ class CustomElevatedButton extends StatelessWidget {
       required this.text,
       required this.ontap,
       this.color,
-      this.fontFamily})
+      this.fontFamily,
+      this.icon,
+      this.leadingSpace})
       : super(key: key);
 
   @override
@@ -137,13 +144,28 @@ class CustomElevatedButton extends StatelessWidget {
         onTap: ontap,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 6),
-          child: Text(
-            text,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: fontFamily,
-            ),
-          ),
+          child: icon != null
+              ? Row(
+                  children: [
+                    SizedBox(width: leadingSpace ?? 48),
+                    icon ?? SizedBox(),
+                    SizedBox(width: (leadingSpace ?? 48) / 2),
+                    Text(
+                      text,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: fontFamily,
+                      ),
+                    ),
+                  ],
+                )
+              : Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: fontFamily,
+                  ),
+                ),
         ),
       ),
     );

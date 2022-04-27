@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class TimedAthkarPage extends StatefulWidget {
-  final TimedAthkar timedAthkar;
+  final GeneralAthkar timedAthkar;
 
   const TimedAthkarPage({Key? key, required this.timedAthkar})
       : super(key: key);

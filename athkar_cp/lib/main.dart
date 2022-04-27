@@ -20,13 +20,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-        apiKey: "AIzaSyClxoWlPYtwz6j3ao2Wx08TCynkqqU5RTQ",
-        authDomain: "athkar-app-e6430.firebaseapp.com",
-        projectId: "athkar-app-e6430",
-        storageBucket: "athkar-app-e6430.appspot.com",
-        messagingSenderId: "289097211816",
-        appId: "1:289097211816:web:5cac57f876a3858c67079d",
-        measurementId: "G-BMBPH2CXC1"),
+        apiKey: "AIzaSyBtPbkSriXvhe_zGKUQ8B15ckaaCl_Unl0",
+        authDomain: "wathakren-3b5fc.firebaseapp.com",
+        projectId: "wathakren-3b5fc",
+        storageBucket: "wathakren-3b5fc.appspot.com",
+        messagingSenderId: "1071538625621",
+        appId: "1:1071538625621:web:ea8128e53b907b6fc108dc",
+        measurementId: "G-T8YYJCT5BQ"),
   );
   runApp(MultiProvider(
     providers: [

@@ -1,10 +1,14 @@
+import 'package:athkar_app/consts.dart';
 import 'package:athkar_app/pages/components/custom_nav_bar.dart';
 import 'package:athkar_app/pages/tabs/bookmark_tab.dart';
 import 'package:athkar_app/pages/tabs/edit_tab.dart';
 import 'package:athkar_app/pages/tabs/main_tab.dart';
 import 'package:athkar_app/pages/tabs/share_tab.dart';
+import 'package:athkar_app/providers/settings_provider.dart';
+import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -30,13 +34,28 @@ class MainScreenState extends State<MainScreen> {
     GlobalKey<State<BottomNavigationBar>> botNavBarKey = GlobalKey();
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: _selectedIndex == 3
+          ? AppBar(
+              systemOverlayStyle: SystemUiOverlayStyle.light,
+              backgroundColor: Provider.of<ThemeProvider>(context).appBarColor,
+              title: Text("أذكاري اليومية"),
+              centerTitle: false,
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: _selectedIndex == 1 && _canShowFloatingActBtn
           ? FloatingActionButton(
               onPressed: () {},
               child: Icon(Icons.add),
             )
-          : null,
+          : _selectedIndex == 3
+              ? FloatingActionButton(
+                  onPressed: () {
+                    addToBookmark();
+                  },
+                  child: Icon(Icons.add),
+                )
+              : null,
       bottomNavigationBar: CustomNavBar(
         botNavBarKey: botNavBarKey,
         mainKey: widget.key as GlobalKey<State<MainScreen>>,
@@ -75,5 +94,72 @@ class MainScreenState extends State<MainScreen> {
     setState(() {
       _canShowFloatingActBtn = can;
     });
+  }
+
+  void addToBookmark() async {
+    var routes = [
+      GeneralAthkar.day,
+      GeneralAthkar.night,
+      GeneralAthkar.wake,
+      GeneralAthkar.sleep,
+      GeneralAthkar.azan,
+      GeneralAthkar.salat,
+      GeneralAthkar.afterSalat,
+      GeneralAthkar.masjid,
+      GeneralAthkar.wodoo,
+      GeneralAthkar.manzil,
+      GeneralAthkar.taam,
+    ];
+    if (routes
+        .where((element) =>
+            !Provider.of<SettingsProvider>(context, listen: false)
+                .myList
+                .contains(element.name))
+        .isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          content: Text(
+            "لقد قمت بإضافة كل الأذكار مسبقاً",
+            style: TextStyle(
+                color: Colors.red[700],
+                fontFamily: "Cairo",
+                fontSize: 21,
+                fontWeight: FontWeight.bold),
+          )));
+      return;
+    }
+    String? toAdd = await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: SizedBox(
+          height: MediaQuery.of(context).size.height / 2,
+          child: Scrollbar(
+            isAlwaysShown: true,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: routes
+                    .where((element) =>
+                        !Provider.of<SettingsProvider>(context, listen: false)
+                            .myList
+                            .contains(element.name))
+                    .map((e) => ListTile(
+                          title: Text(e.name),
+                          onTap: () => Navigator.pop(context, e.name),
+                        ))
+                    .toList(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    if (toAdd == null) {
+      return;
+    } else {
+      Provider.of<SettingsProvider>(context, listen: false).addToMyList(toAdd);
+    }
   }
 }

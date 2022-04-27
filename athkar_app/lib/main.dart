@@ -1,4 +1,8 @@
+import 'package:athkar_app/consts.dart';
+import 'package:athkar_app/pages/general_athkar_child_page.dart';
+import 'package:athkar_app/pages/general_athkar_page.dart';
 import 'package:athkar_app/pages/pager_view/carousel_page1.dart';
+import 'package:athkar_app/pages/timed_athkar_page.dart';
 import 'package:athkar_app/providers/settings_provider.dart';
 import 'package:athkar_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +78,30 @@ class MyApp extends StatelessWidget {
       ),
       // home: MainScreen(key: GlobalKey<State<MainScreen>>()),
       home: CarouselPage1(),
+      routes: {
+        GeneralAthkar.day.route: (context) =>
+            TimedAthkarPage(timedAthkar: GeneralAthkar.day),
+        GeneralAthkar.night.route: (context) =>
+            TimedAthkarPage(timedAthkar: GeneralAthkar.night),
+        GeneralAthkar.wake.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.wake),
+        GeneralAthkar.sleep.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.sleep),
+        GeneralAthkar.azan.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.azan),
+        GeneralAthkar.salat.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.salat),
+        GeneralAthkar.afterSalat.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.afterSalat),
+        GeneralAthkar.masjid.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.masjid),
+        GeneralAthkar.wodoo.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.wodoo),
+        GeneralAthkar.manzil.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.manzil),
+        GeneralAthkar.taam.route: (context) =>
+            GeneralAthkarChildPage(athkar: GeneralAthkar.taam),
+      },
     );
   }
 }

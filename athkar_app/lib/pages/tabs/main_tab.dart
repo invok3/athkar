@@ -105,7 +105,7 @@ class MainTab extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => TimedAthkarPage(
-                          timedAthkar: TimedAthkar.day,
+                          timedAthkar: GeneralAthkar.day,
                         ),
                       )),
                   filled: true,
@@ -121,7 +121,7 @@ class MainTab extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => TimedAthkarPage(
-                          timedAthkar: TimedAthkar.night,
+                          timedAthkar: GeneralAthkar.night,
                         ),
                       )),
                   filled: true,

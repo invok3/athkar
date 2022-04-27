@@ -1,11 +1,11 @@
 {
     "name": "athkar_cp",
-    "short_name": "athkar_cp",
+    "short_name": "Wathakren",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "athkar admin panel",
+    "description": "Wathakren admin panel",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
