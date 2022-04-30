@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:wathakren/consts.dart';
 import 'package:wathakren/pages/components/custom_nav_bar.dart';
 import 'package:wathakren/pages/tabs/bookmark_tab.dart';
@@ -35,6 +36,7 @@ class MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     GlobalKey<State<BottomNavigationBar>> botNavBarKey = GlobalKey();
     Size _size = MediaQuery.of(context).size;
+    checkPermession();
     return Scaffold(
       appBar: _selectedIndex == 3
           ? AppBar(
@@ -167,6 +169,13 @@ class MainScreenState extends State<MainScreen> {
       return;
     } else {
       Provider.of<SettingsProvider>(context, listen: false).addToMyList(toAdd);
+    }
+  }
+
+  void checkPermession() async {
+    var p = await AwesomeNotifications().isNotificationAllowed();
+    if (!p) {
+      await AwesomeNotifications().requestPermissionToSendNotifications();
     }
   }
 }

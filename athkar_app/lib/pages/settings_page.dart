@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:wathakren/consts.dart';
 import 'package:wathakren/pages/color_select_page.dart';
 import 'package:wathakren/pages/components/custom_button.dart';
@@ -229,7 +230,32 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "إزالة الإعلانات و دعم التطبيق",
-                  ontap: () {},
+                  ontap: () async {
+                    if (await AwesomeNotifications().isNotificationAllowed()) {
+                      Future.delayed(Duration(seconds: 2), () {
+                        AwesomeNotifications().createNotification(
+                          content: NotificationContent(
+                            id: 1337,
+                            channelKey: "Wathakren",
+                            title: "والذاكرين",
+                            autoDismissible: true,
+                            //body: "ورد الذكر",
+                            body:
+                                "اللهم صل على سيدنا محمد و على آل سيدنا محمد كمان صليت على سيدنا إبراهيم و على آل سيدنا إبراهيم و بارك على سيدنا محمد و على آل سيدنا محمد كما باركت على سيدنا إبراهيم و على آل سيدنا إبراهيم.",
+                            locked: false,
+                            category: NotificationCategory.Promo,
+                            notificationLayout: NotificationLayout.BigText,
+                            wakeUpScreen: true,
+                            fullScreenIntent: true,
+                            displayOnBackground: true,
+                            displayOnForeground: true,
+                            backgroundColor: Colors.white,
+                            color: Colors.brown,
+                          ),
+                        );
+                      });
+                    }
+                  },
                   childCentered: false,
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(

@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:wathakren/consts.dart';
 import 'package:wathakren/pages/general_athkar_child_page.dart';
 import 'package:wathakren/pages/pager_view/carousel_page1.dart';
@@ -9,16 +10,29 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 
 SharedPreferences? sharedPreferences;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  AwesomeNotifications().initialize(null, [
+    NotificationChannel(
+        channelKey: "Wathakren",
+        channelName: "Wathakren",
+        channelDescription: "Wathakren")
+  ]);
+  sharedPreferences = await SharedPreferences.getInstance();
+  int _freq = sharedPreferences!.getInt("frequency") ?? 2;
+  Workmanager().initialize(_callbackDispatcher);
+  Workmanager().registerPeriodicTask("athkarApp", "showAthkar",
+      frequency: Duration(
+        //minutes: 720 ~/ ((_freq + 1) * 10),
+        minutes: 15,
+      ));
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.brown,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.light));
-  sharedPreferences = await SharedPreferences.getInstance();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
@@ -103,4 +117,37 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+_callbackDispatcher() {
+  //720
+  // 24
+  // 48
+  // 72
+  Workmanager().executeTask((taskName, inputData) async {
+    debugPrint("showNotification");
+    if (await AwesomeNotifications().isNotificationAllowed()) {
+      AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: 1337,
+          channelKey: "Wathakren",
+          title: "والذاكرين",
+          autoDismissible: true,
+          //body: "ورد الذكر",
+          body:
+              "اللهم صل على سيدنا محمد و على آل سيدنا محمد كمان صليت على سيدنا إبراهيم و على آل سيدنا إبراهيم و بارك على سيدنا محمد و على آل سيدنا محمد كما باركت على سيدنا إبراهيم و على آل سيدنا إبراهيم.",
+          locked: false,
+          category: NotificationCategory.Promo,
+          notificationLayout: NotificationLayout.BigText,
+          wakeUpScreen: true,
+          fullScreenIntent: true,
+          displayOnBackground: true,
+          displayOnForeground: true,
+          backgroundColor: Colors.white,
+          color: Colors.brown,
+        ),
+      );
+    }
+    return true;
+  });
 }
