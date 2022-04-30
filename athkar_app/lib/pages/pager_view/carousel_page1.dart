@@ -1,5 +1,5 @@
-import 'package:athkar_app/pages/components/carousel_page_content.dart';
-import 'package:athkar_app/pages/pager_view/caroussel_page2.dart';
+import 'package:wathakren/pages/components/carousel_page_content.dart';
+import 'package:wathakren/pages/pager_view/caroussel_page2.dart';
 import 'package:flutter/material.dart';
 
 class CarouselPage1 extends StatefulWidget {

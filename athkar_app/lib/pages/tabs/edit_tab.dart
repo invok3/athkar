@@ -1,6 +1,8 @@
-import 'package:athkar_app/pages/components/custom_button.dart';
-import 'package:athkar_app/pages/main_screen.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:wathakren/main.dart';
+import 'package:wathakren/pages/components/custom_button.dart';
+import 'package:wathakren/pages/components/titled_box.dart';
+import 'package:wathakren/pages/main_screen.dart';
+import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,20 +11,14 @@ class EditTab extends StatefulWidget {
   const EditTab({Key? key, required this.mainKey}) : super(key: key);
 
   @override
-  State<EditTab> createState() => _EditTabState();
+  State<EditTab> createState() => EditTabState();
 }
 
-class _EditTabState extends State<EditTab> {
+class EditTabState extends State<EditTab> {
   int _selectedAthkar = 0;
 
-  var athkarList = [1, 2, 3, 4, 5];
-  var showingList = [
-    true,
-    true,
-    true,
-    true,
-    true,
-  ];
+  List<Map<String, String>>? athkarList;
+  List<String>? mAthkarList;
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +78,29 @@ class _EditTabState extends State<EditTab> {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: _selectedAthkar == 0
-                  ? _builtinAthkar(width: _size.width)
-                  : _customAthkar(width: _size.width),
-            ),
+          child: FutureBuilder(
+            future: _getSelectedAthkar(_selectedAthkar),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                    ]);
+              } else if (_selectedAthkarLength(_selectedAthkar) != 0) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: _selectedAthkar == 0
+                        ? _builtinAthkar(width: _size.width)
+                        : _customAthkar(width: _size.width),
+                  ),
+                );
+              } else {
+                return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Text("لم تقم بأضافة أذكار")]);
+              }
+            },
           ),
         ),
       ],
@@ -95,18 +108,51 @@ class _EditTabState extends State<EditTab> {
   }
 
   _builtinAthkar({required double width}) {
-    return athkarList
+    return athkarList!
         .map((e) => Padding(
               padding:
                   EdgeInsets.symmetric(horizontal: width * .1, vertical: 16),
-              child: CustomOutlinedButton(
-                  text: e.toString(), ontap: () => showingList[e] = false),
+              child: TitledBox(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: width / 10,
+                          height: width / 10,
+                        ),
+                        SizedBox(
+                          width: width / 2,
+                          child: Text(
+                            "data data data data data data data data data data data data data data ",
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(
+                          e["showing"] == "true"
+                              ? Icons.check_box
+                              : Icons.check_box_outline_blank,
+                          color: Provider.of<ThemeProvider>(context).kPrimary,
+                        ),
+                        SizedBox(
+                          width: width / 10,
+                          height: width / 10,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                width: width,
+                filled: e["showing"] == "true",
+              ),
             ))
         .toList();
   }
 
   _customAthkar({required double width}) {
-    return athkarList
+    return mAthkarList!
         .map((e) => Padding(
               padding:
                   EdgeInsets.symmetric(horizontal: width * .1, vertical: 16),
@@ -137,9 +183,17 @@ class _EditTabState extends State<EditTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           IconButton(
-                              onPressed: () {}, icon: Icon(Icons.more_vert)),
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: Provider.of<ThemeProvider>(context)
+                                    .kPrimary,
+                              )),
                           Spacer(flex: 2),
-                          Text("data\ndata\ndata\ndata\ndata\n"),
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(e),
+                          ),
                           Spacer(flex: 3)
                         ],
                       ),
@@ -150,11 +204,32 @@ class _EditTabState extends State<EditTab> {
                         children: [
                           Spacer(flex: 1),
                           IconButton(
-                              onPressed: () {}, icon: Icon(Icons.edit_note)),
+                              onPressed: () {
+                                addCustomAthkar(e);
+                              },
+                              icon: Icon(
+                                Icons.edit_note,
+                                color: Provider.of<ThemeProvider>(context)
+                                    .kPrimary,
+                              )),
                           Spacer(flex: 8),
                           IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.delete_outlined)),
+                              onPressed: () {
+                                var old = sharedPreferences!
+                                        .getStringList("customAthkar") ??
+                                    [];
+                                old.removeWhere((element) => element == e);
+                                sharedPreferences!
+                                    .setStringList("customAthkar", old);
+                                setState(() {
+                                  mAthkarList = null;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.delete_outlined,
+                                color: Provider.of<ThemeProvider>(context)
+                                    .kPrimary,
+                              )),
                           Spacer(flex: 1),
                         ],
                       ),
@@ -164,5 +239,51 @@ class _EditTabState extends State<EditTab> {
               ),
             ))
         .toList();
+  }
+
+  Future<void> _getSelectedAthkar(int selectedAthkar) async {
+    if (selectedAthkar == 0 && athkarList == null) {
+      athkarList = [];
+    } else if (selectedAthkar == 1 && mAthkarList == null) {
+      mAthkarList = sharedPreferences?.getStringList("customAthkar") ?? [];
+      setState(() {});
+    }
+    return;
+  }
+
+  addCustomAthkar([String? thekr]) async {
+    var thisController = TextEditingController(text: thekr);
+    String? singleThekr = await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              content: TextField(
+                decoration: InputDecoration(border: OutlineInputBorder()),
+                controller: thisController,
+                maxLength: 200,
+                minLines: 3,
+                maxLines: 3,
+              ),
+              actionsAlignment: MainAxisAlignment.spaceEvenly,
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text("رجوع")),
+                TextButton(
+                    onPressed: () =>
+                        Navigator.pop(context, thisController.text),
+                    child: Text("أضافة")),
+              ],
+            ));
+    if (singleThekr != null && singleThekr.isNotEmpty) {
+      mAthkarList!.removeWhere((element) => element == thekr);
+      mAthkarList!.add(singleThekr);
+      sharedPreferences?.setStringList("customAthkar", mAthkarList!);
+    }
+  }
+
+  _selectedAthkarLength(int selectedAthkar) {
+    return selectedAthkar == 0
+        ? (athkarList ?? []).length
+        : (mAthkarList ?? []).length;
   }
 }

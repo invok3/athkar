@@ -1,4 +1,4 @@
-package com.example.athkar_app
+package muslim.athkar.wathakren
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,11 +1,11 @@
-import 'package:athkar_app/consts.dart';
-import 'package:athkar_app/pages/components/custom_nav_bar.dart';
-import 'package:athkar_app/pages/tabs/bookmark_tab.dart';
-import 'package:athkar_app/pages/tabs/edit_tab.dart';
-import 'package:athkar_app/pages/tabs/main_tab.dart';
-import 'package:athkar_app/pages/tabs/share_tab.dart';
-import 'package:athkar_app/providers/settings_provider.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:wathakren/consts.dart';
+import 'package:wathakren/pages/components/custom_nav_bar.dart';
+import 'package:wathakren/pages/tabs/bookmark_tab.dart';
+import 'package:wathakren/pages/tabs/edit_tab.dart';
+import 'package:wathakren/pages/tabs/main_tab.dart';
+import 'package:wathakren/pages/tabs/share_tab.dart';
+import 'package:wathakren/providers/settings_provider.dart';
+import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +21,8 @@ class MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   bool _canShowFloatingActBtn = false;
+
+  GlobalKey<EditTabState> editTabKey = GlobalKey<EditTabState>();
 
   @override
   void initState() {
@@ -45,7 +47,9 @@ class MainScreenState extends State<MainScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: _selectedIndex == 1 && _canShowFloatingActBtn
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                editTabKey.currentState?.addCustomAthkar();
+              },
               child: Icon(Icons.add),
             )
           : _selectedIndex == 3
@@ -80,7 +84,10 @@ class MainScreenState extends State<MainScreen> {
   pageSelector({required Size size}) {
     switch (_selectedIndex) {
       case 1:
-        return EditTab(mainKey: widget.key as GlobalKey<State<MainScreen>>);
+        return EditTab(
+          mainKey: widget.key as GlobalKey<State<MainScreen>>,
+          key: editTabKey,
+        );
       case 2:
         return ShareTab();
       case 3:

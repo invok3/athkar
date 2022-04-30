@@ -1,10 +1,9 @@
-import 'package:athkar_app/consts.dart';
-import 'package:athkar_app/pages/general_athkar_child_page.dart';
-import 'package:athkar_app/pages/general_athkar_page.dart';
-import 'package:athkar_app/pages/pager_view/carousel_page1.dart';
-import 'package:athkar_app/pages/timed_athkar_page.dart';
-import 'package:athkar_app/providers/settings_provider.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:wathakren/consts.dart';
+import 'package:wathakren/pages/general_athkar_child_page.dart';
+import 'package:wathakren/pages/pager_view/carousel_page1.dart';
+import 'package:wathakren/pages/timed_athkar_page.dart';
+import 'package:wathakren/providers/settings_provider.dart';
+import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

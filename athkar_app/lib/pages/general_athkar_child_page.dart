@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wathakren/consts.dart';
 
 class GeneralAthkarChildPage extends StatefulWidget {
-  final athkar;
+  final GeneralAthkar athkar;
 
   const GeneralAthkarChildPage({Key? key, required this.athkar})
       : super(key: key);
@@ -13,6 +14,6 @@ class GeneralAthkarChildPage extends StatefulWidget {
 class _GeneralAthkarChildPageState extends State<GeneralAthkarChildPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Container());
+    return Container();
   }
 }

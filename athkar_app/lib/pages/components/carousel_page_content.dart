@@ -1,7 +1,7 @@
-import 'package:athkar_app/pages/components/custom_button.dart';
-import 'package:athkar_app/pages/components/pager_dot.dart';
-import 'package:athkar_app/pages/main_screen.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:wathakren/pages/components/custom_button.dart';
+import 'package:wathakren/pages/components/pager_dot.dart';
+import 'package:wathakren/pages/main_screen.dart';
+import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -32,15 +32,11 @@ class CarouselPageContent extends StatelessWidget {
         if (dx == 0 || dy.abs() > dx.abs()) {
           return;
         } else if (dx > 0) {
-          //next
-          debugPrint("Next");
           bool _isLast = index == length - 1 && next == null;
           if (!_isLast) {
             Navigator.push(context, MaterialPageRoute(builder: (_) => next!));
           }
         } else {
-          //back
-          debugPrint("Back");
           if (index > 0) {
             Navigator.pop(context);
           }

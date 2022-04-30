@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:athkar_app/consts.dart';
-import 'package:athkar_app/pages/components/custom_button.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:wathakren/consts.dart';
+import 'package:wathakren/pages/components/custom_button.dart';
+import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -89,7 +90,7 @@ class ShareTab extends StatelessWidget {
                     height: 24,
                     fit: BoxFit.fitHeight,
                   ),
-                  ontap: _whatsappShare,
+                  ontap: () => _whatsappShare(context),
                 ),
                 CustomElevatedButton(
                   leadingSpace: _appBarHeight / 2,
@@ -129,12 +130,13 @@ class ShareTab extends StatelessWidget {
     );
   }
 
-  _whatsappShare() async {
+  _whatsappShare(BuildContext context) async {
     var url = whatsappUrl();
     if (await canLaunchUrlString(url)) {
       launchUrlString(url);
     } else {
-      debugPrint("Cant Launch");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("لا يمكن العثور على التطبيق!")));
     }
   }
 
@@ -153,7 +155,7 @@ class ShareTab extends StatelessWidget {
     if (await canLaunchUrlString(tweet)) {
       launchUrlString(tweet);
     } else {
-      debugPrint("Cant Launch");
+      debugPrint(utf8.decode(base64.decode("Q2FuJ3QgTGF1bmNo")));
     }
   }
 

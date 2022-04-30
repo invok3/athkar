@@ -1,4 +1,4 @@
-import 'package:athkar_app/main.dart';
+import 'package:wathakren/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

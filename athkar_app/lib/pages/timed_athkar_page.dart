@@ -1,7 +1,7 @@
-import 'package:athkar_app/consts.dart';
-import 'package:athkar_app/pages/components/titled_box.dart';
-import 'package:athkar_app/pages/components/titled_box_body.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:wathakren/consts.dart';
+import 'package:wathakren/pages/components/titled_box.dart';
+import 'package:wathakren/pages/components/titled_box_body.dart';
+import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,8 +26,7 @@ class _TimedAthkarPageState extends State<TimedAthkarPage> {
         shape: customRoundedRectangleBorder,
         backgroundColor: Provider.of<ThemeProvider>(context).appBarColor,
         automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () => debugPrint("asd"), icon: Icon(Icons.more_vert)),
+        leading: IconButton(onPressed: null, icon: Icon(Icons.more_vert)),
         title: Text(
           widget.timedAthkar.name,
           // overflow: TextOverflow.visible,

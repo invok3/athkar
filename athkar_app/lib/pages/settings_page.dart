@@ -1,10 +1,10 @@
-import 'package:athkar_app/consts.dart';
-import 'package:athkar_app/pages/color_select_page.dart';
-import 'package:athkar_app/pages/components/custom_button.dart';
-import 'package:athkar_app/pages/components/titled_box.dart';
-import 'package:athkar_app/pages/components/titled_box_body.dart';
-import 'package:athkar_app/providers/settings_provider.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:wathakren/consts.dart';
+import 'package:wathakren/pages/color_select_page.dart';
+import 'package:wathakren/pages/components/custom_button.dart';
+import 'package:wathakren/pages/components/titled_box.dart';
+import 'package:wathakren/pages/components/titled_box_body.dart';
+import 'package:wathakren/providers/settings_provider.dart';
+import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';

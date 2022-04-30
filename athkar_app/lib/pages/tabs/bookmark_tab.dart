@@ -1,6 +1,6 @@
-import 'package:athkar_app/consts.dart';
-import 'package:athkar_app/pages/components/custom_button.dart';
-import 'package:athkar_app/providers/settings_provider.dart';
+import 'package:wathakren/consts.dart';
+import 'package:wathakren/pages/components/custom_button.dart';
+import 'package:wathakren/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +10,6 @@ class BookmarkTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
-    var _appbarHeight = AppBar().preferredSize.height;
     final routes = [
       GeneralAthkar.day,
       GeneralAthkar.night,

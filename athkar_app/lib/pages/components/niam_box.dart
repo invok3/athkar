@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:athkar_app/pages/components/titled_box.dart';
-import 'package:athkar_app/pages/components/titled_box_body.dart';
-import 'package:athkar_app/providers/theme_provider.dart';
+import 'package:wathakren/pages/components/titled_box.dart';
+import 'package:wathakren/pages/components/titled_box_body.dart';
+import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
