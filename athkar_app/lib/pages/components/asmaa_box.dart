@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'dart:math';
 
-import 'package:path_provider/path_provider.dart';
 import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/asmaa_page.dart';
 import 'package:wathakren/pages/components/titled_box.dart';

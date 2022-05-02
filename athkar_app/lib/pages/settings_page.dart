@@ -1,9 +1,10 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+//import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:wathakren/consts.dart';
 import 'package:wathakren/pages/color_select_page.dart';
 import 'package:wathakren/pages/components/custom_button.dart';
 import 'package:wathakren/pages/components/titled_box.dart';
 import 'package:wathakren/pages/components/titled_box_body.dart';
+import 'package:wathakren/pages/contact_us_page.dart';
 import 'package:wathakren/providers/settings_provider.dart';
 import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -231,29 +232,29 @@ class _SettingsPageState extends State<SettingsPage> {
                 CustomOutlinedButton(
                   text: "إزالة الإعلانات و دعم التطبيق",
                   ontap: () async {
-                    if (await AwesomeNotifications().isNotificationAllowed()) {
-                      Future.delayed(Duration(seconds: 2), () {
-                        AwesomeNotifications().createNotification(
-                          content: NotificationContent(
-                            id: 1337,
-                            channelKey: "Wathakren",
-                            title: "الورد اليومي",
-                            autoDismissible: true,
-                            body:
-                                "اللهم صل على سيدنا محمد و على آل سيدنا محمد كمان صليت على سيدنا إبراهيم و على آل سيدنا إبراهيم و بارك على سيدنا محمد و على آل سيدنا محمد كما باركت على سيدنا إبراهيم و على آل سيدنا إبراهيم.",
-                            locked: false,
-                            category: NotificationCategory.Reminder,
-                            notificationLayout: NotificationLayout.BigText,
-                            wakeUpScreen: true,
-                            fullScreenIntent: true,
-                            displayOnBackground: true,
-                            displayOnForeground: true,
-                            backgroundColor: Colors.white,
-                            color: Colors.brown,
-                          ),
-                        );
-                      });
-                    }
+                    // if (await AwesomeNotifications().isNotificationAllowed()) {
+                    //   Future.delayed(Duration(seconds: 2), () {
+                    //     AwesomeNotifications().createNotification(
+                    //       content: NotificationContent(
+                    //         id: 1337,
+                    //         channelKey: "Wathakren",
+                    //         title: "الورد اليومي",
+                    //         autoDismissible: true,
+                    //         body:
+                    //             "اللهم صل على سيدنا محمد و على آل سيدنا محمد كمان صليت على سيدنا إبراهيم و على آل سيدنا إبراهيم و بارك على سيدنا محمد و على آل سيدنا محمد كما باركت على سيدنا إبراهيم و على آل سيدنا إبراهيم.",
+                    //         locked: false,
+                    //         category: NotificationCategory.Reminder,
+                    //         notificationLayout: NotificationLayout.BigText,
+                    //         wakeUpScreen: true,
+                    //         fullScreenIntent: true,
+                    //         displayOnBackground: true,
+                    //         displayOnForeground: true,
+                    //         backgroundColor: Colors.white,
+                    //         color: Colors.brown,
+                    //       ),
+                    //     );
+                    //   });
+                    // }
                   },
                   childCentered: false,
                   icon: Padding(
@@ -284,7 +285,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 24),
                 CustomOutlinedButton(
                   text: "تواصل معنا",
-                  ontap: () {},
+                  ontap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => ContactUsPage())),
                   childCentered: false,
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(

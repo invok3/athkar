@@ -1,4 +1,3 @@
-import 'package:wathakren/consts.dart';
 import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/custom_button.dart';
 import 'package:wathakren/pages/specific_athkar_page.dart';

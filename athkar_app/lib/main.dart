@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:awesome_notifications/awesome_notifications.dart';
+//import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wathakren/consts.dart';
 import 'package:wathakren/pages/load_content_screen.dart';
 import 'package:wathakren/pages/general_athkar_child_page.dart';
@@ -21,6 +22,17 @@ var jsonData = jsonDecode("");
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+  Stream.periodic(Duration(minutes: 2), (x) {
+    InterstitialAd.load(
+        adUnitId: "ca-app-pub-3940256099942544/8691691433",
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (x) {
+          x.show();
+        }, onAdFailedToLoad: (e) {
+          debugPrint("Error Loading Ad: $e");
+        }));
+  }).listen((event) {});
   Firebase.initializeApp(
     options: FirebaseOptions(
         apiKey: "AIzaSyBtPbkSriXvhe_zGKUQ8B15ckaaCl_Unl0",
@@ -31,12 +43,12 @@ Future<void> main() async {
         appId: "1:1071538625621:web:ea8128e53b907b6fc108dc",
         measurementId: "G-T8YYJCT5BQ"),
   );
-  AwesomeNotifications().initialize(null, [
-    NotificationChannel(
-        channelKey: "Wathakren",
-        channelName: "Wathakren",
-        channelDescription: "Wathakren")
-  ]);
+  // AwesomeNotifications().initialize(null, [
+  //   NotificationChannel(
+  //       channelKey: "Wathakren",
+  //       channelName: "Wathakren",
+  //       channelDescription: "Wathakren")
+  // ]);
   sharedPreferences = await SharedPreferences.getInstance();
   int _freq = sharedPreferences!.getInt("frequency") ?? 2;
   Workmanager().initialize(_callbackDispatcher);
@@ -139,27 +151,27 @@ class MyApp extends StatelessWidget {
 _callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
     debugPrint("showNotification");
-    if (await AwesomeNotifications().isNotificationAllowed()) {
-      AwesomeNotifications().createNotification(
-        content: NotificationContent(
-          id: 1337,
-          channelKey: "Wathakren",
-          title: "الورد اليومي",
-          autoDismissible: true,
-          body:
-              "اللهم صل على سيدنا محمد و على آل سيدنا محمد كمان صليت على سيدنا إبراهيم و على آل سيدنا إبراهيم و بارك على سيدنا محمد و على آل سيدنا محمد كما باركت على سيدنا إبراهيم و على آل سيدنا إبراهيم.",
-          locked: false,
-          category: NotificationCategory.Reminder,
-          notificationLayout: NotificationLayout.BigText,
-          wakeUpScreen: true,
-          fullScreenIntent: true,
-          displayOnBackground: true,
-          displayOnForeground: true,
-          backgroundColor: Colors.white,
-          color: Colors.brown,
-        ),
-      );
-    }
+    // if (await AwesomeNotifications().isNotificationAllowed()) {
+    //   AwesomeNotifications().createNotification(
+    //     content: NotificationContent(
+    //       id: 1337,
+    //       channelKey: "Wathakren",
+    //       title: "الورد اليومي",
+    //       autoDismissible: true,
+    //       body:
+    //           "اللهم صل على سيدنا محمد و على آل سيدنا محمد كمان صليت على سيدنا إبراهيم و على آل سيدنا إبراهيم و بارك على سيدنا محمد و على آل سيدنا محمد كما باركت على سيدنا إبراهيم و على آل سيدنا إبراهيم.",
+    //       locked: false,
+    //       category: NotificationCategory.Reminder,
+    //       notificationLayout: NotificationLayout.BigText,
+    //       wakeUpScreen: true,
+    //       fullScreenIntent: true,
+    //       displayOnBackground: true,
+    //       displayOnForeground: true,
+    //       backgroundColor: Colors.white,
+    //       color: Colors.brown,
+    //     ),
+    //   );
+    // }
     return true;
   });
 }

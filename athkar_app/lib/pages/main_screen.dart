@@ -1,5 +1,5 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:wathakren/consts.dart';
+//import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/custom_nav_bar.dart';
 import 'package:wathakren/pages/tabs/bookmark_tab.dart';
@@ -68,7 +68,12 @@ class MainScreenState extends State<MainScreen> {
         mainKey: widget.key as GlobalKey<State<MainScreen>>,
       ),
       body: SafeArea(
-        child: pageSelector(size: _size),
+        child: Column(
+          children: [
+            Expanded(child: pageSelector(size: _size)),
+            adBanner(_size),
+          ],
+        ),
       ),
     );
   }
@@ -84,7 +89,7 @@ class MainScreenState extends State<MainScreen> {
     return _selectedIndex;
   }
 
-  pageSelector({required Size size}) {
+  Widget pageSelector({required Size size}) {
     switch (_selectedIndex) {
       case 1:
         return EditTab(
@@ -166,10 +171,10 @@ class MainScreenState extends State<MainScreen> {
   }
 
   void checkPermession() async {
-    var p = await AwesomeNotifications().isNotificationAllowed();
-    if (!p) {
-      await AwesomeNotifications().requestPermissionToSendNotifications();
-    }
+    // var p = await AwesomeNotifications().isNotificationAllowed();
+    // if (!p) {
+    //   await AwesomeNotifications().requestPermissionToSendNotifications();
+    // }
   }
 
   bool isAthkar(String title) {
@@ -177,5 +182,28 @@ class MainScreenState extends State<MainScreen> {
       return false;
     }
     return true;
+  }
+
+  Widget adBanner(Size _size) {
+    var mAdWidget = AdWidget(
+        ad: BannerAd(
+            size: AdSize(
+                width: _size.width.toInt(),
+                height: (_size.height * .1).toInt()),
+            adUnitId: "ca-app-pub-3940256099942544/6300978111",
+            listener: BannerAdListener(),
+            request: AdRequest()));
+    mAdWidget.ad.load();
+    return Container(
+      width: _size.width,
+      height: _size.height * .1,
+      child: FutureBuilder(
+          future: mAdWidget.ad.load(),
+          builder: (context, snapshot) {
+            return snapshot.connectionState == ConnectionState.done
+                ? mAdWidget
+                : CircularProgressIndicator();
+          }),
+    );
   }
 }
