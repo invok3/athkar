@@ -1,5 +1,7 @@
 import 'package:wathakren/consts.dart';
+import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/custom_button.dart';
+import 'package:wathakren/pages/specific_athkar_page.dart';
 import 'package:wathakren/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,20 +12,10 @@ class BookmarkTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
-    final routes = [
-      GeneralAthkar.day,
-      GeneralAthkar.night,
-      GeneralAthkar.wake,
-      GeneralAthkar.sleep,
-      GeneralAthkar.azan,
-      GeneralAthkar.salat,
-      GeneralAthkar.afterSalat,
-      GeneralAthkar.masjid,
-      GeneralAthkar.wodoo,
-      GeneralAthkar.manzil,
-      GeneralAthkar.taam,
-    ];
-
+    final athkarCats = (jsonData["categories"] as List<dynamic>)
+        .where((element) => isAthkar(element["data"]["title"] ?? "NaN"))
+        .map((e) => e)
+        .toList();
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 12),
       child: Column(
@@ -35,10 +27,12 @@ class BookmarkTab extends StatelessWidget {
                   child: CustomOutlinedButton(
                       filled: true,
                       text: e,
-                      ontap: () => Navigator.pushNamed(
+                      ontap: () => Navigator.push(
                           context,
-                          (routes.firstWhere((element) => element.name == e))
-                              .route),
+                          MaterialPageRoute(
+                              builder: (_) => SpecificAthkarPage(
+                                  category: athkarCats.firstWhere((element) =>
+                                      element["data"]["title"] == e)))),
                       onLongPress: () => _remove(e, context)),
                 ))
             .toList(),
@@ -48,5 +42,12 @@ class BookmarkTab extends StatelessWidget {
 
   _remove(String e, BuildContext context) {
     Provider.of<SettingsProvider>(context, listen: false).removeFromMyList(e);
+  }
+
+  bool isAthkar(String title) {
+    if (title == "أسماء الله الحسنى" || title == "النعم") {
+      return false;
+    }
+    return true;
   }
 }

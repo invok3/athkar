@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:wathakren/consts.dart';
+import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/custom_nav_bar.dart';
 import 'package:wathakren/pages/tabs/bookmark_tab.dart';
 import 'package:wathakren/pages/tabs/edit_tab.dart';
@@ -106,24 +107,15 @@ class MainScreenState extends State<MainScreen> {
   }
 
   void addToBookmark() async {
-    var routes = [
-      GeneralAthkar.day,
-      GeneralAthkar.night,
-      GeneralAthkar.wake,
-      GeneralAthkar.sleep,
-      GeneralAthkar.azan,
-      GeneralAthkar.salat,
-      GeneralAthkar.afterSalat,
-      GeneralAthkar.masjid,
-      GeneralAthkar.wodoo,
-      GeneralAthkar.manzil,
-      GeneralAthkar.taam,
-    ];
-    if (routes
+    final athkarCats = (jsonData["categories"] as List<dynamic>)
+        .where((element) => isAthkar(element["data"]["title"] ?? "NaN"))
+        .map((e) => e)
+        .toList();
+    if (athkarCats
         .where((element) =>
             !Provider.of<SettingsProvider>(context, listen: false)
                 .myList
-                .contains(element.name))
+                .contains(element["data"]["title"] ?? "NaN"))
         .isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           elevation: 0,
@@ -149,14 +141,15 @@ class MainScreenState extends State<MainScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: routes
+                children: athkarCats
                     .where((element) =>
                         !Provider.of<SettingsProvider>(context, listen: false)
                             .myList
-                            .contains(element.name))
+                            .contains(element["data"]["title"]))
                     .map((e) => ListTile(
-                          title: Text(e.name),
-                          onTap: () => Navigator.pop(context, e.name),
+                          title: Text(e["data"]["title"] ?? "NaN"),
+                          onTap: () =>
+                              Navigator.pop(context, e["data"]["title"]),
                         ))
                     .toList(),
               ),
@@ -177,5 +170,12 @@ class MainScreenState extends State<MainScreen> {
     if (!p) {
       await AwesomeNotifications().requestPermissionToSendNotifications();
     }
+  }
+
+  bool isAthkar(String title) {
+    if (title == "أسماء الله الحسنى" || title == "النعم") {
+      return false;
+    }
+    return true;
   }
 }

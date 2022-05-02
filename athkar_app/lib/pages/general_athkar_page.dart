@@ -1,5 +1,7 @@
 import 'package:wathakren/consts.dart';
+import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/custom_button.dart';
+import 'package:wathakren/pages/specific_athkar_page.dart';
 import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +19,12 @@ class _GeneralAthkarPageState extends State<GeneralAthkarPage> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
+    var athkarCats = (jsonData["categories"] as List<dynamic>)
+        .where((element) => isGeneralAthkar(element["data"]["title"] ?? "NaN"))
+        .map((e) => e)
+        .toList();
+    // var athkarCats = (jsonData["stories"] as List<dynamic>).where((element) =>
+    //     athkarCatIds.contains(element["data"]["catID"].toString()));
     return Scaffold(
       appBar: AppBar(
         shape: customRoundedRectangleBorder,
@@ -65,80 +73,33 @@ class _GeneralAthkarPageState extends State<GeneralAthkarPage> {
           padding: EdgeInsets.symmetric(
               vertical: _size.width / 10, horizontal: _size.width / 10),
           child: Column(
-            children: [
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار الإستيقاظ",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار النوم",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار الآذان",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار الصلاة",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار بعد الصلاة",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار المسجد",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار الوضوء",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار المنزل",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "أذكار الطعام",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-              SizedBox(height: 24),
-              CustomOutlinedButton(
-                filled: true,
-                text: "فضل الذكر",
-                fillColor: Provider.of<ThemeProvider>(context).kPrimary,
-                ontap: () {},
-              ),
-            ],
+            children: athkarCats
+                .map((e) => Padding(
+                      padding: const EdgeInsets.only(bottom: 24.0),
+                      child: CustomOutlinedButton(
+                        filled: true,
+                        text: e["data"]["title"],
+                        fillColor: Provider.of<ThemeProvider>(context).kPrimary,
+                        ontap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    SpecificAthkarPage(category: e))),
+                      ),
+                    ))
+                .toList(),
           ),
         ),
       ),
     );
+  }
+
+  bool isGeneralAthkar(String title) {
+    if (title == GeneralAthkar.day.name || title == GeneralAthkar.night.name) {
+      return false;
+    } else if (title == "أسماء الله الحسنى" || title == "النعم") {
+      return false;
+    }
+    return true;
   }
 }

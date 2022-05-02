@@ -54,6 +54,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   setFrequency(int loadedFrequency, {bool save = true}) {
+    //TODO ReInit Overlayer/Notification
     frequency = loadedFrequency;
     save ? sharedPreferences?.setInt("frequency", loadedFrequency) : null;
     notifyListeners();
