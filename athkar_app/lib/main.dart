@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:wathakren/consts.dart';
+import 'package:wathakren/pages/load_content_screen.dart';
 import 'package:wathakren/pages/general_athkar_child_page.dart';
 import 'package:wathakren/pages/pager_view/carousel_page1.dart';
 import 'package:wathakren/pages/timed_athkar_page.dart';
@@ -13,8 +17,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 SharedPreferences? sharedPreferences;
+var jsonData = jsonDecode("");
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp(
+    options: FirebaseOptions(
+        apiKey: "AIzaSyBtPbkSriXvhe_zGKUQ8B15ckaaCl_Unl0",
+        authDomain: "wathakren-3b5fc.firebaseapp.com",
+        projectId: "wathakren-3b5fc",
+        storageBucket: "wathakren-3b5fc.appspot.com",
+        messagingSenderId: "1071538625621",
+        appId: "1:1071538625621:web:ea8128e53b907b6fc108dc",
+        measurementId: "G-T8YYJCT5BQ"),
+  );
   AwesomeNotifications().initialize(null, [
     NotificationChannel(
         channelKey: "Wathakren",
@@ -26,18 +42,18 @@ Future<void> main() async {
   Workmanager().initialize(_callbackDispatcher);
   Workmanager().registerPeriodicTask("athkarApp", "showAthkar",
       frequency: Duration(
-        //minutes: 720 ~/ ((_freq + 1) * 10),
-        minutes: 15,
+        minutes: _freq == 2 ? 15 : 720 ~/ ((_freq + 1) * 10),
       ));
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.brown,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.light));
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
       ChangeNotifierProvider<SettingsProvider>(
-          create: (_) => SettingsProvider())
+          create: (_) => SettingsProvider()),
     ],
     child: MyApp(),
   ));
@@ -46,13 +62,12 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       color: Provider.of<ThemeProvider>(context).kPrimary,
-      title: 'Flutter Demo',
+      title: 'Wathakren',
       locale: Locale("ar", "UA"),
       supportedLocales: [Locale("ar", "UA")],
       localizationsDelegates: [
@@ -90,7 +105,9 @@ class MyApp extends StatelessWidget {
         }),
       ),
       // home: MainScreen(key: GlobalKey<State<MainScreen>>()),
-      home: CarouselPage1(),
+      home: !(sharedPreferences!.getBool("firstRunPassed") ?? false)
+          ? CarouselPage1()
+          : LoadContentScreen(),
       routes: {
         GeneralAthkar.day.route: (context) =>
             TimedAthkarPage(timedAthkar: GeneralAthkar.day),
@@ -120,10 +137,6 @@ class MyApp extends StatelessWidget {
 }
 
 _callbackDispatcher() {
-  //720
-  // 24
-  // 48
-  // 72
   Workmanager().executeTask((taskName, inputData) async {
     debugPrint("showNotification");
     if (await AwesomeNotifications().isNotificationAllowed()) {
@@ -131,13 +144,12 @@ _callbackDispatcher() {
         content: NotificationContent(
           id: 1337,
           channelKey: "Wathakren",
-          title: "والذاكرين",
+          title: "الورد اليومي",
           autoDismissible: true,
-          //body: "ورد الذكر",
           body:
               "اللهم صل على سيدنا محمد و على آل سيدنا محمد كمان صليت على سيدنا إبراهيم و على آل سيدنا إبراهيم و بارك على سيدنا محمد و على آل سيدنا محمد كما باركت على سيدنا إبراهيم و على آل سيدنا إبراهيم.",
           locked: false,
-          category: NotificationCategory.Promo,
+          category: NotificationCategory.Reminder,
           notificationLayout: NotificationLayout.BigText,
           wakeUpScreen: true,
           fullScreenIntent: true,

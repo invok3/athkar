@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:path_provider/path_provider.dart';
+import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/asmaa_page.dart';
 import 'package:wathakren/pages/components/titled_box.dart';
 import 'package:wathakren/pages/components/titled_box_body.dart';
@@ -21,12 +24,18 @@ class _AsmaaBoxState extends State<AsmaaBox> {
   int? index;
   @override
   Widget build(BuildContext context) {
-    index = index ?? Random().nextInt(98);
+    var asmaCatId = (jsonData["categories"] as List<dynamic>).firstWhere(
+            (element) => element["data"]["title"] == "أسماء الله الحسنى")["id"]
+        as String;
+    var asmaa = (jsonData["stories"] as List<dynamic>)
+        .where((element) => element["data"]["catID"] == asmaCatId);
+
+    index = index ?? Random().nextInt(asmaa.length - 1);
     return TitledBox(
       child: TitledBoxBody(
         size: widget.size,
         children: [
-          Text(index.toString(),
+          Text(asmaa.elementAt(index ?? 1)["data"]["title"] ?? "",
               style: TextStyle(
                   //fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -39,7 +48,7 @@ class _AsmaaBoxState extends State<AsmaaBox> {
               Spacer(),
               IconButton(
                 onPressed: () => setState(() {
-                  index = Random().nextInt(98);
+                  index = Random().nextInt(asmaa.length - 1);
                 }),
                 icon: SvgPicture.asset(
                   "assets/icons/refresh.svg",

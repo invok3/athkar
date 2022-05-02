@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:wathakren/consts.dart';
+import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/titled_box.dart';
 import 'package:wathakren/pages/components/titled_box_body.dart';
 import 'package:wathakren/providers/theme_provider.dart';
@@ -23,6 +24,11 @@ class _AsmaaPageState extends State<AsmaaPage> {
   bool _refreshed = false;
   @override
   Widget build(BuildContext context) {
+    var asmaCatId = (jsonData["categories"] as List<dynamic>).firstWhere(
+            (element) => element["data"]["title"] == "أسماء الله الحسنى")["id"]
+        as String;
+    var asmaa = (jsonData["stories"] as List<dynamic>)
+        .where((element) => element["data"]["catID"] == asmaCatId);
     index = _refreshed ? index : widget.ind;
     return Scaffold(
       appBar: AppBar(
@@ -65,13 +71,13 @@ class _AsmaaPageState extends State<AsmaaPage> {
           padding: EdgeInsets.all(32),
           child: Center(
             child: TitledBox(
-                title: index.toString(),
+                title: asmaa.elementAt(index)["data"]["title"] ?? "",
                 filled: true,
                 color: Provider.of<ThemeProvider>(context).accentColor,
                 child:
                     TitledBoxBody(size: MediaQuery.of(context).size, children: [
                   Text(
-                    "بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيمبسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم بسم الله الرحمن الرحيم",
+                    asmaa.elementAt(index)["data"]["content"] ?? "",
                     style: TextStyle(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),

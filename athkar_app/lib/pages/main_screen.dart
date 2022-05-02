@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({required Key key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => MainScreenState();

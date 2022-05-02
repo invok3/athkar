@@ -1,4 +1,5 @@
 import 'package:wathakren/consts.dart';
+import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/titled_box.dart';
 import 'package:wathakren/pages/components/titled_box_body.dart';
 import 'package:wathakren/providers/theme_provider.dart';
@@ -21,6 +22,12 @@ class _TimedAthkarPageState extends State<TimedAthkarPage> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
+    var athkarCatId = (jsonData["categories"] as List<dynamic>).firstWhere(
+            (element) =>
+                element["data"]["title"] == widget.timedAthkar.name)["id"]
+        as String;
+    var athkar = (jsonData["stories"] as List<dynamic>)
+        .where((element) => element["data"]["catID"] == athkarCatId);
     return Scaffold(
       appBar: AppBar(
         shape: customRoundedRectangleBorder,
@@ -72,27 +79,33 @@ class _TimedAthkarPageState extends State<TimedAthkarPage> {
           padding: EdgeInsets.symmetric(
               vertical: _size.width / 10, horizontal: _size.width / 10),
           child: Column(
-            children: [
-              TitledBox(
-                inverted: true,
-                titleContained: true,
-                child: TitledBoxBody(
-                  size: _size,
-                  children: [
-                    Text(
-                      "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ.",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Provider.of<ThemeProvider>(context).kPrimary),
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                  inverted: true,
-                ),
-                width: _size.width * .8,
-                title: "99",
-              ),
-            ],
+            children: athkar
+                .map(
+                  (e) => Padding(
+                    padding: EdgeInsets.only(bottom: _size.width * .1),
+                    child: TitledBox(
+                      inverted: true,
+                      titleContained: true,
+                      child: TitledBoxBody(
+                        size: _size,
+                        children: [
+                          Text(
+                            e["data"]["content"] ?? "",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Provider.of<ThemeProvider>(context)
+                                    .kPrimary),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                        inverted: true,
+                      ),
+                      width: _size.width * .8,
+                      title: e["data"]["repeat"],
+                    ),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),

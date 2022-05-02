@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/titled_box.dart';
 import 'package:wathakren/pages/components/titled_box_body.dart';
 import 'package:wathakren/providers/theme_provider.dart';
@@ -16,10 +17,14 @@ class NiamBox extends StatefulWidget {
 }
 
 class _NiamBoxState extends State<NiamBox> {
-  int index = Random().nextInt(20);
-
   @override
   Widget build(BuildContext context) {
+    var niamCatId = (jsonData["categories"] as List<dynamic>)
+            .firstWhere((element) => element["data"]["title"] == "النعم")["id"]
+        as String;
+    var niam = (jsonData["stories"] as List<dynamic>)
+        .where((element) => element["data"]["catID"] == niamCatId);
+    int index = Random().nextInt(niam.length - 1);
     return TitledBox(
       child: TitledBoxBody(
         size: widget.size,
@@ -31,7 +36,7 @@ class _NiamBoxState extends State<NiamBox> {
                 ),
           ),
           SizedBox(height: 12),
-          Text(index.toString(),
+          Text(niam.elementAt(index)["data"]["content"] ?? "",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Provider.of<ThemeProvider>(context).accentColor)),
@@ -41,7 +46,7 @@ class _NiamBoxState extends State<NiamBox> {
               Spacer(),
               IconButton(
                 onPressed: () => setState(() {
-                  index = Random().nextInt(20);
+                  index = Random().nextInt(niam.length - 1);
                 }),
                 icon: SvgPicture.asset(
                   "assets/icons/refresh.svg",

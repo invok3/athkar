@@ -237,13 +237,12 @@ class _SettingsPageState extends State<SettingsPage> {
                           content: NotificationContent(
                             id: 1337,
                             channelKey: "Wathakren",
-                            title: "والذاكرين",
+                            title: "الورد اليومي",
                             autoDismissible: true,
-                            //body: "ورد الذكر",
                             body:
                                 "اللهم صل على سيدنا محمد و على آل سيدنا محمد كمان صليت على سيدنا إبراهيم و على آل سيدنا إبراهيم و بارك على سيدنا محمد و على آل سيدنا محمد كما باركت على سيدنا إبراهيم و على آل سيدنا إبراهيم.",
                             locked: false,
-                            category: NotificationCategory.Promo,
+                            category: NotificationCategory.Reminder,
                             notificationLayout: NotificationLayout.BigText,
                             wakeUpScreen: true,
                             fullScreenIntent: true,

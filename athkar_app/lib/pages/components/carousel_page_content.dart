@@ -1,6 +1,7 @@
+import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/custom_button.dart';
+import 'package:wathakren/pages/load_content_screen.dart';
 import 'package:wathakren/pages/components/pager_dot.dart';
-import 'package:wathakren/pages/main_screen.dart';
 import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -162,7 +163,10 @@ class CarouselPageContent extends StatelessWidget {
                     child: CustomOutlinedButton(
                       filled: true,
                       text: "متابعة",
-                      ontap: () => pushMain(context),
+                      ontap: () {
+                        sharedPreferences!.setBool("firstRunPassed", true);
+                        pushLoad(context);
+                      },
                     ),
                   )
                 : Container(),
@@ -173,15 +177,12 @@ class CarouselPageContent extends StatelessWidget {
     );
   }
 
-  void pushMain(BuildContext context) {
+  void pushLoad(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
     Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-            builder: (_) => MainScreen(
-                  key: GlobalKey<State<MainScreen>>(),
-                )),
-        (route) => route.toString() == "/MainScreen");
+        MaterialPageRoute(builder: (_) => LoadContentScreen()),
+        (route) => route.toString() == "/LoadContentScreen");
   }
 }
