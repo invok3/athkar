@@ -1,21 +1,20 @@
 import 'package:wathakren/main.dart';
 import 'package:wathakren/pages/components/custom_button.dart';
 import 'package:wathakren/pages/components/titled_box.dart';
-import 'package:wathakren/pages/main_screen.dart';
+import 'package:wathakren/pages/edit_custom_thekr_pae.dart';
 import 'package:wathakren/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditTab extends StatefulWidget {
-  final GlobalKey<State<MainScreen>> mainKey;
-  const EditTab({Key? key, required this.mainKey}) : super(key: key);
+  const EditTab({Key? key}) : super(key: key);
 
   @override
   State<EditTab> createState() => EditTabState();
 }
 
 class EditTabState extends State<EditTab> {
-  int _selectedAthkar = 0;
+  int _selectedAthkar = 1;
 
   List<Map<String, String>>? athkarList;
   List<String>? mAthkarList;
@@ -23,8 +22,6 @@ class EditTabState extends State<EditTab> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    MainScreenState mainScreenState =
-        widget.mainKey.currentState as MainScreenState;
     return Column(
       children: [
         SizedBox(
@@ -42,7 +39,6 @@ class EditTabState extends State<EditTab> {
                       .withOpacity(_selectedAthkar == 0 ? 1 : .3),
                   text: "أذكار التطبيق",
                   ontap: () {
-                    mainScreenState.setShowFloatingActionBtn(false);
                     setState(() {
                       _selectedAthkar = 0;
                     });
@@ -57,7 +53,6 @@ class EditTabState extends State<EditTab> {
                       .withOpacity(_selectedAthkar == 1 ? 1 : .3),
                   text: "أذكاري",
                   ontap: () {
-                    mainScreenState.setShowFloatingActionBtn(true);
                     setState(() {
                       _selectedAthkar = 1;
                     });
@@ -78,29 +73,49 @@ class EditTabState extends State<EditTab> {
           ),
         ),
         Expanded(
-          child: FutureBuilder(
-            future: _getSelectedAthkar(_selectedAthkar),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) {
-                return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(),
-                    ]);
-              } else if (_selectedAthkarLength(_selectedAthkar) != 0) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: _selectedAthkar == 0
-                        ? _builtinAthkar(width: _size.width)
-                        : _customAthkar(width: _size.width),
-                  ),
-                );
-              } else {
-                return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text("لم تقم بأضافة أذكار")]);
-              }
-            },
+          child: Stack(
+            alignment: Alignment.center,
+            //fit: StackFit.expand,
+            children: [
+              FutureBuilder(
+                future: _getSelectedAthkar(_selectedAthkar),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                        ]);
+                  } else if (_selectedAthkarLength(_selectedAthkar) != 0) {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: _selectedAthkar == 0
+                            ? _builtinAthkar(width: _size.width)
+                            : _customAthkar(width: _size.width),
+                      ),
+                    );
+                  } else {
+                    return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Text("لم تقم بأضافة أذكار")]);
+                  }
+                },
+              ),
+              _selectedAthkar == 0
+                  ? SizedBox()
+                  : Align(
+                      alignment: AlignmentDirectional.bottomStart,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            addCustomAthkar();
+                          },
+                          child: Icon(Icons.add),
+                        ),
+                      ),
+                    ),
+            ],
           ),
         ),
       ],
@@ -252,28 +267,11 @@ class EditTabState extends State<EditTab> {
   }
 
   addCustomAthkar([String? thekr]) async {
-    var thisController = TextEditingController(text: thekr);
-    String? singleThekr = await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              content: TextField(
-                decoration: InputDecoration(border: OutlineInputBorder()),
-                controller: thisController,
-                maxLength: 200,
-                minLines: 3,
-                maxLines: 3,
-              ),
-              actionsAlignment: MainAxisAlignment.spaceEvenly,
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text("رجوع")),
-                TextButton(
-                    onPressed: () =>
-                        Navigator.pop(context, thisController.text),
-                    child: Text("أضافة")),
-              ],
-            ));
+    String? singleThekr = await Navigator.of(context).push(MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => EditCustomThekr(
+              text: thekr,
+            )));
     if (singleThekr != null && singleThekr.isNotEmpty) {
       mAthkarList!.removeWhere((element) => element == thekr);
       mAthkarList!.add(singleThekr);

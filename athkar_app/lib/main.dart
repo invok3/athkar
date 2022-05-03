@@ -23,7 +23,7 @@ var jsonData = jsonDecode("");
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  Stream.periodic(Duration(minutes: 2), (x) {
+  Stream.periodic(Duration(days: 2), (x) {
     InterstitialAd.load(
         adUnitId: "ca-app-pub-3940256099942544/8691691433",
         request: AdRequest(),

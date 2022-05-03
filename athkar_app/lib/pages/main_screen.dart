@@ -22,9 +22,9 @@ class MainScreen extends StatefulWidget {
 class MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  bool _canShowFloatingActBtn = false;
-
-  GlobalKey<EditTabState> editTabKey = GlobalKey<EditTabState>();
+  //final GlobalKey<State<EditTab>> editTabKey = GlobalKey<State<EditTab>>();
+  final GlobalKey<State<BottomNavigationBar>> botNavBarKey =
+      GlobalKey<State<BottomNavigationBar>>();
 
   @override
   void initState() {
@@ -35,10 +35,11 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<State<BottomNavigationBar>> botNavBarKey = GlobalKey();
+    debugPrint("Rebuilding1111");
     Size _size = MediaQuery.of(context).size;
     checkPermession();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: _selectedIndex == 3
           ? AppBar(
               systemOverlayStyle: SystemUiOverlayStyle.light,
@@ -47,22 +48,6 @@ class MainScreenState extends State<MainScreen> {
               centerTitle: false,
             )
           : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: _selectedIndex == 1 && _canShowFloatingActBtn
-          ? FloatingActionButton(
-              onPressed: () {
-                editTabKey.currentState?.addCustomAthkar();
-              },
-              child: Icon(Icons.add),
-            )
-          : _selectedIndex == 3
-              ? FloatingActionButton(
-                  onPressed: () {
-                    addToBookmark();
-                  },
-                  child: Icon(Icons.add),
-                )
-              : null,
       bottomNavigationBar: CustomNavBar(
         botNavBarKey: botNavBarKey,
         mainKey: widget.key as GlobalKey<State<MainScreen>>,
@@ -79,9 +64,9 @@ class MainScreenState extends State<MainScreen> {
   }
 
   void reAnimate(int x) {
+    debugPrint("FFFFFFFFFFFFFFFF");
     setState(() {
       _selectedIndex = x;
-      _canShowFloatingActBtn = false;
     });
   }
 
@@ -92,81 +77,17 @@ class MainScreenState extends State<MainScreen> {
   Widget pageSelector({required Size size}) {
     switch (_selectedIndex) {
       case 1:
-        return EditTab(
-          mainKey: widget.key as GlobalKey<State<MainScreen>>,
-          key: editTabKey,
-        );
+        return EditTab();
       case 2:
+        // return Container();
         return ShareTab();
       case 3:
+        // return Container();
         return BookmarkTab();
+
       default:
+        //return Container();
         return MainTab(size: size);
-    }
-  }
-
-  void setShowFloatingActionBtn(bool can) {
-    setState(() {
-      _canShowFloatingActBtn = can;
-    });
-  }
-
-  void addToBookmark() async {
-    final athkarCats = (jsonData["categories"] as List<dynamic>)
-        .where((element) => isAthkar(element["data"]["title"] ?? "NaN"))
-        .map((e) => e)
-        .toList();
-    if (athkarCats
-        .where((element) =>
-            !Provider.of<SettingsProvider>(context, listen: false)
-                .myList
-                .contains(element["data"]["title"] ?? "NaN"))
-        .isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: Text(
-            "لقد قمت بإضافة كل الأذكار مسبقاً",
-            style: TextStyle(
-                color: Colors.red[700],
-                fontFamily: "Cairo",
-                fontSize: 21,
-                fontWeight: FontWeight.bold),
-          )));
-      return;
-    }
-    String? toAdd = await showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        content: SizedBox(
-          height: MediaQuery.of(context).size.height / 2,
-          child: Scrollbar(
-            isAlwaysShown: true,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: athkarCats
-                    .where((element) =>
-                        !Provider.of<SettingsProvider>(context, listen: false)
-                            .myList
-                            .contains(element["data"]["title"]))
-                    .map((e) => ListTile(
-                          title: Text(e["data"]["title"] ?? "NaN"),
-                          onTap: () =>
-                              Navigator.pop(context, e["data"]["title"]),
-                        ))
-                    .toList(),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-    if (toAdd == null) {
-      return;
-    } else {
-      Provider.of<SettingsProvider>(context, listen: false).addToMyList(toAdd);
     }
   }
 
@@ -194,7 +115,7 @@ class MainScreenState extends State<MainScreen> {
             listener: BannerAdListener(),
             request: AdRequest()));
     mAdWidget.ad.load();
-    return Container(
+    return SizedBox(
       width: _size.width,
       height: _size.height * .1,
       child: FutureBuilder(
